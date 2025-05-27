@@ -1,0 +1,24 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Hero from "../../components/hero/hero.astro";
+import Experience from "../../components/experience/experience.astro";
+import About from "../../components/about/about.astro";
+import Header from "../../components/header/header.astro";
+import Footer from "../../components/footer/footer.astro";
+import dictionary from "../../dictionaries/en.json";
+import styles from ".././index.module.css";
+
+const lang = "en";
+---
+
+<Layout lang={lang}>
+  <Header lang={lang} />
+  <main class={styles.main}>
+    <div class={styles.content_container}>
+      <Hero dictionary={dictionary.hero} />
+      <About dictionary={dictionary.about} />
+      <Experience dictionary={dictionary.experience} />
+    </div>
+  </main>
+  <Footer dictionary={dictionary["footer"]} />
+</Layout>

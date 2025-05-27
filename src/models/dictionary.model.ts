@@ -11,7 +11,6 @@ export interface Dictionary {
     title: string;
     subtitle: string;
     location: string;
-    button: string;
   };
   nav: {
     about: string;
