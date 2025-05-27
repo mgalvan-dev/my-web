@@ -1,0 +1,44 @@
+.main_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: sticky;
+  top: 0;
+  left: 0;
+  border-bottom: 1px solid rgba(256, 256, 256, 0.2);
+  backdrop-filter: blur(3px);
+  z-index: 10;
+}
+
+.content_container {
+  width: 1024px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  padding-bottom: 6px;
+  margin: 0 24px;
+}
+
+.name_link {
+  cursor: pointer;
+  color: #c4c4c4;
+  transition: all 100ms ease-in-out;
+  text-decoration: none;
+}
+
+.name_link:hover {
+  color: #fff;
+}
+
+.name {
+  font-size: 1.5rem;
+}
+
+@media (width < 768px) {
+  .name {
+    font-size: 1.25rem;
+    display: flex;
+    align-items: center;
+  }
+}

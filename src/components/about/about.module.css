@@ -1,0 +1,36 @@
+.main_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.content_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.title {
+  font-size: 1.5rem;
+  width: 100%;
+  margin-bottom: 32px;
+  font-weight: bold;
+}
+
+.description {
+  width: 100%;
+  font-size: 1rem;
+}
+
+@media (width < 768px) {
+  .title {
+    font-size: 1.25rem;
+    margin-bottom: 24px;
+  }
+
+  .description {
+    font-size: 0.75rem;
+  }
+}

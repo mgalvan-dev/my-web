@@ -1,22 +1,100 @@
+---
+interface Props {
+  lang: string;
+}
+
+const { lang }: Props = Astro.props;
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Desarrollador full stack. Portafolio de Marco Galván con proyectos, contacto y más."
+    />
+    <meta name="author" content="Marco Galván" />
+    <meta name="robots" content="index, follow" />
+    <meta
+      property="og:title"
+      content="Marco Galván – Desarrollador Full Stack"
+    />
+    <meta
+      property="og:description"
+      content="Portafolio personal de Marco Galván con proyectos y contacto."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://mgalvan.online" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Marco Galván – Desarrollador Full Stack"
+    />
+    <meta
+      name="twitter:description"
+      content="Portafolio personal de Marco Galván con proyectos y contacto."
+    />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>
+      {
+        `Marco Galván | ${lang === "es" ? "Desarrollador Full Stack" : "Full Stack Developer"} `
+      }
+    </title>
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+  :root {
+    background-color: Canvas;
+    color: CanvasText;
+    color-scheme: dark;
+    font-family: "Inter", sans-serif;
+  }
+
+  *,
+  *::after,
+  *::before {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+  }
+
+  img,
+  video,
+  svg {
+    display: block;
+    height: auto;
+    max-width: 100%;
+  }
+
+  html,
+  body {
+    min-height: 100dvh;
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
 </style>

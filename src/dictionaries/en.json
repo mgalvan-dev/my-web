@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "title": "Hello, I'm Marco!",
+    "subtitle": "Full Stack Developer",
+    "location": "Santiago del Estero, Argentina"
+  },
+  "nav": {
+    "about": "About me",
+    "experience": "Experience"
+  },
+  "about": {
+    "title": "About me",
+    "descriptions": [
+      "👋 I'm Marco Galván, a Full Stack Developer focused on building digital products that actually work. I work with technologies like JavaScript, TypeScript, React, Next.js, React Native, and Angular, and I also have backend experience with Node.js, Express and Python.",
+      "I'm passionate about creating intuitive interfaces, writing clean code, and collaborating with others. I'm always learning, improving, and looking for better ways to build. I enjoy staying up to date with the latest trends in web development and sharing what I learn with the community.",
+      "I'm based in Santiago del Estero, Argentina, and I’m open to collaborating on challenging projects or joining a development team that’s aiming to build something great."
+    ]
+  },
+  "experience": {
+    "title": "Experience",
+    "experiences": [
+      {
+        "url": "https://helmcode.com/",
+        "title": "Helmcode",
+        "time": "February 2025 - Present",
+        "descriptions": [
+          "I developed the Andulia project, an AI agent designed to interact with cloud infrastructures, using technologies like React, Next.js, TailwindCSS, Python, and Supabase.",
+          "I also contributed to the development of a task management platform for Helmcode's clients, using React, Next.js, Python, and Supabase."
+        ],
+        "stack": "HTML - CSS - JS - TypeScript - React - Next.js - TailwindCSS - Python - FastAPI - Supabase"
+      },
+      {
+        "url": "https://potentialitygroup.com/",
+        "title": "Potentiality Group",
+        "time": "September 2022 - January 2025",
+        "descriptions": [
+          "I developed and maintained web and mobile projects, including Iúnigo’s main website, mobile applications, products using Guidewire Cloud, and insurance platforms in Argentina and Uruguay, using technologies like React, Next.js, Angular, React Native, and Firebase."
+        ],
+        "stack": "HTML - CSS - JS - TypeScript - React - React Native - Next.js - Angular - Firebase - Redux - Jest - Cypress - TailwindCSS - SCSS"
+      },
+      {
+        "url": "https://www.vippinn.com/",
+        "title": "Vippin",
+        "time": "November 2021 - September 2022",
+        "descriptions": [
+          "I developed a web app for Clínica Reina Fabiola and a mobile app for the Ministry of Tourism of Villa Carlos Paz, using React, React Native, Firebase, and Node.js."
+        ],
+        "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - Node.js - Express.js"
+      }
+    ]
+  },
+  "footer": {
+    "title": "Developed by Marco 😎",
+    "copyright": "All rights reserved."
+  }
+}

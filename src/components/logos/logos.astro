@@ -1,0 +1,39 @@
+---
+import { logos } from "../../helpers/logos";
+import styles from "./logos.module.css";
+---
+
+<div class={styles.main_container}>
+  <div class={styles.slider}>
+    {
+      logos.map(({ label, image }) => (
+        <div class={styles.logo_container}>
+          <img
+            src={image}
+            alt={label}
+            class={styles.logo}
+            width={60}
+            height={60}
+          />
+          <p class={styles.label}>{label}</p>
+        </div>
+      ))
+    }
+  </div>
+  <div class={styles.slider}>
+    {
+      logos.map(({ label, image }) => (
+        <div class={styles.logo_container}>
+          <img
+            src={image}
+            alt={label}
+            class={styles.logo}
+            width={60}
+            height={60}
+          />
+          <p class={styles.label}>{label}</p>
+        </div>
+      ))
+    }
+  </div>
+</div>

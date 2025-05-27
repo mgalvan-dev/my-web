@@ -1,0 +1,27 @@
+---
+import type { ExperienceItem } from "../../models/dictionary.model";
+import styles from "./experience-card.module.css";
+
+interface Props {
+  dictionary: ExperienceItem;
+}
+
+const { dictionary } = Astro.props;
+---
+
+<article class={styles.main_container}>
+  <a href={dictionary.url} target="_blank" class={styles.content_container}>
+    <div class={styles.info_container}>
+      <div class={styles.title_container}>
+        <p class={styles.title}>{dictionary.title}</p>
+        <p class={styles.working_period}>{dictionary.time}</p>
+      </div>
+      {
+        dictionary.descriptions.map((desc) => (
+          <p class={styles.description}>{desc}</p>
+        ))
+      }
+    </div>
+    <p class={styles.stack}>{dictionary.stack}</p>
+  </a>
+</article>

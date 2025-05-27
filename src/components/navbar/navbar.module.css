@@ -1,0 +1,42 @@
+.main_container {
+  display: flex;
+}
+
+.links_container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.links {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(1698%)
+    hue-rotate(212deg) brightness(106%) contrast(54%);
+  transition: all 0.2s ease-in-out;
+}
+
+.links:hover {
+  filter: brightness(0) saturate(100%) invert(100%) sepia(81%) saturate(47%)
+    hue-rotate(191deg) brightness(108%) contrast(101%);
+}
+
+.image {
+  width: 16px;
+  height: 16px;
+}
+
+.lang_button {
+  cursor: pointer;
+  padding: 10px;
+  font-weight: bold;
+  color: #c4c4c4;
+  font-size: 1rem;
+  text-decoration: none;
+  transition: all 0.1s;
+}
+
+.lang_button:hover {
+  color: #fff;
+}

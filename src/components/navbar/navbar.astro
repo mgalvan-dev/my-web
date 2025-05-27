@@ -1,0 +1,50 @@
+---
+import styles from "./navbar.module.css";
+
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+
+const switchLang = lang === "es" ? "en" : "es";
+---
+
+<nav class={styles.main_container}>
+  <div class={styles.links_container}>
+    <a href="https://x.com/MarcoGal4" target="_blank" class={styles.links}>
+      <img
+        src="/logos/x_dark.svg"
+        alt="x icon"
+        width={16}
+        height={16}
+        class={styles.image}
+      />
+    </a>
+    <a
+      href="https://www.linkedin.com/in/marcoagalvan/"
+      target="_blank"
+      class={styles.links}
+    >
+      <img
+        src="/logos/linkedin.svg"
+        alt="linkedin icon"
+        width={16}
+        height={16}
+        class={styles.image}
+      />
+    </a>
+    <a href="https://github.com/elmacro1" target="_blank" class={styles.links}>
+      <img
+        src="/logos/github-dark.svg"
+        alt="github icon"
+        width={16}
+        height={16}
+        class={styles.image}
+      />
+    </a>
+    <a href={`/${switchLang}`} class={styles.lang_button}>
+      {switchLang.toUpperCase()}
+    </a>
+  </div>
+</nav>

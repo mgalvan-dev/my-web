@@ -1,0 +1,35 @@
+.main_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 24px 0;
+  border-top: 1px solid rgba(256, 256, 256, 0.2);
+  gap: 16px;
+}
+
+.name_link {
+  color: #c4c4c4;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.name_link:hover {
+  color: #fff;
+}
+.main_container p {
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media (width < 768px) {
+  .main_container {
+    gap: 8px;
+  }
+
+  .name_link,
+  .main_container p {
+    font-size: 0.75rem;
+  }
+}
