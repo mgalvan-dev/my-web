@@ -9,6 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/geist-sans": "^5.2.5",
     "astro": "^5.8.0"
   }
 }
