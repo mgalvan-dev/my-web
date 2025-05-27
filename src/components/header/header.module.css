@@ -25,6 +25,7 @@
   color: #c4c4c4;
   transition: all 100ms ease-in-out;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .name_link:hover {
