@@ -15,39 +15,49 @@ const { lang }: Props = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Desarrollador full stack. Portafolio de Marco Galván con proyectos, contacto y más."
+      content="Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más."
     />
     <meta name="author" content="Marco Galván" />
     <meta name="robots" content="index, follow" />
-    <meta
-      property="og:title"
-      content="Marco Galván – Desarrollador Full Stack"
-    />
+    <meta property="og:title" content="Marco Galván – Full Stack Developer" />
     <meta
       property="og:description"
-      content="Portafolio personal de Marco Galván con proyectos y contacto."
+      content="Web personal de Marco Galván con proyectos y contacto."
     />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mgalvan.online" />
+    <meta property="og:url" content="https://mgalvan.online/es" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Marco Galván – Full Stack Developer" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta
-      name="twitter:title"
-      content="Marco Galván – Desarrollador Full Stack"
-    />
-    <meta
       name="twitter:description"
-      content="Portafolio personal de Marco Galván con proyectos y contacto."
+      content="Web personal de Marco Galván con proyectos y contacto."
     />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <title>
-      {
-        `Marco Galván | ${lang === "es" ? "Desarrollador Full Stack" : "Full Stack Developer"} `
-      }
-    </title>
+    <link rel="alternate" href="https://mgalvan.online/es" hreflang="es" />
+    <link rel="alternate" href="https://mgalvan.online/en" hreflang="en" />
+    <title>Marco Galván - Full Stack Developer</title>
   </head>
   <body>
     <slot />
   </body>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Marco Galván",
+      "url": "https://mgalvan.online",
+      "jobTitle": "Desarrollador Web y Móvil",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/in/marco-galvan-dev/",
+        "https://github.com/mgalvan-dev"
+      ]
+    }
+  </script>
 </html>
 
 <style is:global>
