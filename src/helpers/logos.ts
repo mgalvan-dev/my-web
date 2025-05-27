@@ -10,6 +10,10 @@ export const logos: Logo[] = [
     image: "/logos/javascript.svg",
   },
   {
+    label: "Astro",
+    image: "/logos/astro_dark.svg",
+  },
+  {
     label: "React",
     image: "/logos/react.svg",
   },
