@@ -6,8 +6,6 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-
-const switchLang = lang === "es" ? "en" : "es";
 ---
 
 <nav class={styles.main_container}>
@@ -43,8 +41,8 @@ const switchLang = lang === "es" ? "en" : "es";
         class={styles.image}
       />
     </a>
-    <a href={`/${switchLang}`} class={styles.lang_button}>
-      {switchLang.toUpperCase()}
+    <a href={`/${lang === "es" ? "en" : ""}`} class={styles.lang_button}>
+      {lang === "es" ? "EN" : "ES"}
     </a>
   </div>
 </nav>
