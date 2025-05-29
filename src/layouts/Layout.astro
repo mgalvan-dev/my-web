@@ -1,5 +1,4 @@
 ---
-import { Analytics } from "@vercel/analytics/next";
 import "@fontsource/geist-sans";
 
 interface Props {
@@ -43,7 +42,6 @@ const { lang }: Props = Astro.props;
   </head>
   <body>
     <slot />
-    <Analytics />
   </body>
   <script type="application/ld+json">
     {
