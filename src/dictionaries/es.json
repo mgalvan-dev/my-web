@@ -24,8 +24,8 @@
         "title": "Helmcode",
         "time": "Febrero 2025 - Actualidad",
         "descriptions": [
-          "Desarrollé el proyecto Andulia, un agente de IA para interactuar con infraestructuras de Cloud, utilizando tecnologías como React, Next.js, TailwindCSS, Python y Supabase.",
-          "También trabajé en el desarrollo de una plataforma de gestión de tareas para sus clientes, utilizando tecnologías como React, Next.js, Python y Supabase."
+          "Estoy desarrollando el proyecto Andulia, un agente de IA para interactuar con infraestructuras de Cloud, utilizando tecnologías como React, Next.js, TailwindCSS, Python y Supabase.",
+          "También estoy en el desarrollo de una plataforma de gestión de clouds para sus clientes, utilizando tecnologías como React, Next.js, Python y Supabase."
         ],
         "stack": "HTML - CSS - JS - Typescript - React - NextJS - TailwindCSS - Python - Fastapi - Supabase"
       },
