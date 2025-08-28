@@ -1,6 +1,5 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
-import Logos from "../logos/logos.astro";
 import styles from "./hero.module.css";
 
 interface Props {
@@ -31,10 +30,9 @@ const { dictionary }: Props = Astro.props;
                     class={styles.contact_button}
                     href=""
                     onclick="Calendly.initPopupWidget({url: 'https://calendly.com/elmacro11/30min'});return false;"
-                    >Agendá una llamada conmigo</a
+                    >{dictionary.cta}</a
                 >
             </div>
         </div>
-        <Logos />
     </article>
 </section>

@@ -43,6 +43,7 @@
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-decoration: none;
+    text-align: center;
 }
 
 .contact_button:hover {
@@ -54,6 +55,7 @@
 .title {
     font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
 }
 
 .subtitles {
@@ -72,15 +74,5 @@
 
     to {
         opacity: 1;
-    }
-}
-
-@media (width < 768px) {
-    .title {
-        font-size: 2rem;
-    }
-
-    .subtitles {
-        font-size: 1rem;
     }
 }
