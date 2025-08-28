@@ -52,6 +52,20 @@ const { lang }: Props = Astro.props;
             src="https://assets.calendly.com/assets/external/widget.js"
             type="text/javascript"
             async></script>
+        <!-- Google tag (gtag.js) -->
+        <script
+            async
+            src="https://www.googletagmanager.com/gtag/js?id=G-7Y7QZ4BZ5H"
+        ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+
+            gtag("config", "G-7Y7QZ4BZ5H");
+        </script>
         <title>Marco Galván - Full Stack Developer</title>
     </head>
     <body>
