@@ -1,8 +1,9 @@
 {
   "hero": {
     "title": "Hola, soy Marco!",
-    "subtitle": "Desarrollador Full Stack",
-    "location": "Santiago del Estero, Argentina"
+    "subtitle": "Te ayudo a lanzar y escalar productos digitales.",
+    "description": "Trabajo con startups y founders que quieren pasar de idea a producto real.",
+    "cta": "Agendá una llamada conmigo"
   },
   "nav": {
     "about": "Sobre mi",

@@ -1,8 +1,9 @@
 {
   "hero": {
-    "title": "Hello, I'm Marco!",
-    "subtitle": "Full Stack Developer",
-    "location": "Santiago del Estero, Argentina"
+    "title": "Hi, I'm Marco!",
+    "subtitle": "I help you launch and scale digital products.",
+    "description": "I work with startups and founders who want to turn ideas into real products.",
+    "cta": "Book a call with me"
   },
   "nav": {
     "about": "About me",

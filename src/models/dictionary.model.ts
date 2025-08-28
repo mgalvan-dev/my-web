@@ -10,7 +10,8 @@ export interface Dictionary {
   hero: {
     title: string;
     subtitle: string;
-    location: string;
+    description: string;
+    cta: string;
   };
   nav: {
     about: string;

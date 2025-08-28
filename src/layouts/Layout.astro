@@ -2,7 +2,7 @@
 import "@fontsource/geist-sans";
 
 interface Props {
-  lang: string;
+    lang: string;
 }
 
 const { lang }: Props = Astro.props;
@@ -10,100 +10,114 @@ const { lang }: Props = Astro.props;
 
 <!doctype html>
 <html lang={lang}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más."
-    />
-    <meta name="author" content="Marco Galván" />
-    <meta name="robots" content="index, follow" />
-    <meta property="og:title" content="Marco Galván - Full Stack Developer" />
-    <meta
-      property="og:description"
-      content="Web personal de Marco Galván con proyectos y contacto."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://mgalvan.online/" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Marco Galván - Full Stack Developer" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:description"
-      content="Web personal de Marco Galván con proyectos y contacto."
-    />
-    <meta name="twitter:site" content="@MarcoGal4" />
-    <meta name="twitter:creator" content="@MarcoGal4" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="alternate" href="https://mgalvan.online/" hreflang="es" />
-    <link rel="alternate" href="https://mgalvan.online/en" hreflang="en" />
-    <title>Marco Galván - Full Stack Developer</title>
-  </head>
-  <body>
-    <slot />
-  </body>
-  <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Marco Galván",
-      "url": "https://mgalvan.online",
-      "jobTitle": "Desarrollador Web y Móvil",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Freelance"
-      },
-      "sameAs": [
-        "https://www.linkedin.com/in/marcoagalvan/",
-        "https://github.com/elmacro1",
-        "https://x.com/MarcoGal4"
-      ]
-    }
-  </script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+            name="description"
+            content="Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más."
+        />
+        <meta name="author" content="Marco Galván" />
+        <meta name="robots" content="index, follow" />
+        <meta
+            property="og:title"
+            content="Marco Galván - Full Stack Developer"
+        />
+        <meta
+            property="og:description"
+            content="Web personal de Marco Galván con proyectos y contacto."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://mgalvan.online/" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:title"
+            content="Marco Galván - Full Stack Developer"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+            name="twitter:description"
+            content="Web personal de Marco Galván con proyectos y contacto."
+        />
+        <meta name="twitter:site" content="@MarcoGal4" />
+        <meta name="twitter:creator" content="@MarcoGal4" />
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link rel="alternate" href="https://mgalvan.online/" hreflang="es" />
+        <link rel="alternate" href="https://mgalvan.online/en" hreflang="en" />
+        <link
+            href="https://assets.calendly.com/assets/external/widget.css"
+            rel="stylesheet"
+        />
+        <script
+            src="https://assets.calendly.com/assets/external/widget.js"
+            type="text/javascript"
+            async></script>
+        <title>Marco Galván - Full Stack Developer</title>
+    </head>
+    <body>
+        <slot />
+    </body>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "Person",
+            "name": "Marco Galván",
+            "url": "https://mgalvan.online",
+            "jobTitle": "Desarrollador Web y Móvil",
+            "worksFor": {
+                "@type": "Organization",
+                "name": "Freelance"
+            },
+            "sameAs": [
+                "https://www.linkedin.com/in/marcoagalvan/",
+                "https://github.com/elmacro1",
+                "https://x.com/MarcoGal4"
+            ]
+        }
+    </script>
 </html>
 
 <style is:global>
-  :root {
-    background-color: Canvas;
-    color: CanvasText;
-    color-scheme: dark;
-    font-family: "Geist Sans", sans-serif;
-  }
+    :root {
+        background-color: Canvas;
+        color: CanvasText;
+        color-scheme: dark;
+        font-family: "Geist Sans", sans-serif;
+    }
 
-  *,
-  *::after,
-  *::before {
-    min-width: 0;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  }
+    *,
+    *::after,
+    *::before {
+        min-width: 0;
+        box-sizing: border-box;
+        padding: 0;
+        margin: 0;
+    }
 
-  img,
-  video,
-  svg {
-    display: block;
-    height: auto;
-    max-width: 100%;
-  }
+    img,
+    video,
+    svg {
+        display: block;
+        height: auto;
+        max-width: 100%;
+    }
 
-  html,
-  body {
-    min-height: 100dvh;
-    scroll-behavior: smooth;
-  }
+    html,
+    body {
+        min-height: 100dvh;
+        scroll-behavior: smooth;
+    }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    text-wrap: balance;
-  }
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        text-wrap: balance;
+    }
 
-  p {
-    text-wrap: pretty;
-  }
+    p {
+        text-wrap: pretty;
+    }
 </style>
