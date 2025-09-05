@@ -3,7 +3,7 @@
     "title": "Hola, soy Marco!",
     "subtitle": "Te ayudo a lanzar y escalar productos digitales.",
     "description": "Trabajo con startups y founders que quieren pasar de idea a producto real.",
-    "cta": "Agendá una llamada conmigo"
+    "cta": "Hablemos de tu proyecto"
   },
   "nav": {
     "about": "Sobre mi",
@@ -12,9 +12,11 @@
   "about": {
     "title": "Sobre mí",
     "descriptions": [
-      "👋 Soy Marco Galván, desarrollador Full Stack con foco en crear productos digitales que realmente funcionen. Trabajo con tecnologías como JavaScript, TypeScript, React, Next.js, React Native, Angular y también tengo experiencia en backend con Node.js, Express y Python.",
-      "Me apasiona construir interfaces intuitivas, mantener un código limpio y trabajar en equipo. Siempre estoy aprendiendo, mejorando y buscando nuevas formas de hacer las cosas mejor. Me gusta estar al día con lo último del desarrollo web y compartir lo que aprendo con otros.",
-      "Actualmente vivo en Santiago del Estero, Argentina, y estoy abierto a colaborar en proyectos desafiantes o ser parte de un equipo de desarrollo con ganas de hacer cosas grandes."
+      "👋 Soy Marco Galván, desarrollador full stack especializado en crear productos digitales desde cero.",
+      "Actualmente trabajo en Helmcode, donde desarrollé Andulia, un agente de IA para infraestructura. También estoy a cargo del desarrollo y mantenimiento de su landing oficial, y participo activamente en la construcción de Helmcode Cloud y Coderun, dos de las plataformas clave de la empresa.",
+      "Antes formé parte del equipo digital de San Cristóbal e Iúnigo, manteniendo y escalando productos de alto tráfico.",
+      "También trabajé en Vippin como desarrollador full stack y referente de front end, guiando al equipo en buenas prácticas y arquitectura.",
+      "Hoy, además de mi trabajo, me dedico a ayudar a founders y startups a construir, lanzar y mantener sus productos de software. Me apasiona transformar ideas en MVPs reales y escalarlos hacia productos sólidos."
     ]
   },
   "experience": {

@@ -3,7 +3,7 @@
     "title": "Hi, I'm Marco!",
     "subtitle": "I help you launch and scale digital products.",
     "description": "I work with startups and founders who want to turn ideas into real products.",
-    "cta": "Book a call with me"
+    "cta": "Let's talk about your project"
   },
   "nav": {
     "about": "About me",
@@ -12,9 +12,11 @@
   "about": {
     "title": "About me",
     "descriptions": [
-      "👋 I'm Marco Galván, a Full Stack Developer focused on building digital products that actually work. I work with technologies like JavaScript, TypeScript, React, Next.js, React Native, and Angular, and I also have backend experience with Node.js, Express and Python.",
-      "I'm passionate about creating intuitive interfaces, writing clean code, and collaborating with others. I'm always learning, improving, and looking for better ways to build. I enjoy staying up to date with the latest trends in web development and sharing what I learn with the community.",
-      "I'm based in Santiago del Estero, Argentina, and I’m open to collaborating on challenging projects or joining a development team that’s aiming to build something great."
+      "👋 I'm Marco Galván, a full-stack developer specializing in creating digital products from scratch.",
+      "I currently work at Helmcode, where I developed Andulia, an AI agent for infrastructure. I'm also responsible for the development and maintenance of its official landing page, and I'm actively involved in building Helmcode Cloud and Coderun, two of the company's key platforms.",
+      "Previously, I was part of the digital team at San Cristóbal and Iúnigo, maintaining and scaling high-traffic products.",
+      "I also worked at Vippin as a full-stack developer and front-end expert, guiding the team in best practices and architecture.",
+      "Today, in addition to my work, I'm dedicated to helping founders and startups build, launch, and maintain their software products. I'm passionate about transforming ideas into real MVPs and scaling them into robust products."
     ]
   },
   "experience": {
