@@ -10,45 +10,54 @@
     "experience": "Experience"
   },
   "about": {
-    "title": "About me",
+    "title": "About Me",
     "descriptions": [
-      "👋 I'm Marco Galván, a full-stack developer specializing in creating digital products from scratch.",
-      "I currently work at Helmcode, where I developed Andulia, an AI agent for infrastructure. I'm also responsible for the development and maintenance of its official landing page, and I'm actively involved in building Helmcode Cloud and Coderun, two of the company's key platforms.",
-      "Previously, I was part of the digital team at San Cristóbal and Iúnigo, maintaining and scaling high-traffic products.",
-      "I also worked at Vippin as a full-stack developer and front-end expert, guiding the team in best practices and architecture.",
-      "Today, in addition to my work, I'm dedicated to helping founders and startups build, launch, and maintain their software products. I'm passionate about transforming ideas into real MVPs and scaling them into robust products."
+      "👋 Hi, I’m Marco Galván, a full stack developer passionate about building digital products from scratch. I specialize in web and mobile applications, combining technology, scalable architecture, and user experience to turn ideas into real solutions.",
+      "I also help founders and startups build, launch, and scale their software products, guiding them from the idea to the MVP and beyond. I’m passionate about solving real problems through technology and creating tangible impact."
     ]
   },
   "experience": {
     "title": "Experience",
     "experiences": [
       {
+        "url": "https://www.capsulecodes.com/",
+        "title": "Capsule Codes",
+        "time": "September 2025 - Present",
+        "descriptions": [
+          "Develop web applications with Next.js and mobile apps with React Native for various clients.",
+          "Participate in the full development cycle, integrating Supabase, Docker, TypeScript, and TailwindCSS."
+        ],
+        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - TailwindCSS - Supabase - Node.js - Docker"
+      },
+      {
         "url": "https://helmcode.com/",
         "title": "Helmcode",
         "time": "February 2025 - Present",
         "descriptions": [
-          "I am developing the Andulia project, an AI agent designed to interact with cloud infrastructures, using technologies such as React, Next.js, TailwindCSS, Python, and Supabase.",
-          "I am also working on the development of a cloud management platform for clients, using technologies such as React, Next.js, Python, and Supabase."
+          "Develop Andulia, an AI agent for managing cloud infrastructures, and a cloud management platform for clients.",
+          "Work with React, Next.js, TailwindCSS, Python, FastAPI, and Supabase, ensuring scalability and performance."
         ],
-        "stack": "HTML - CSS - JS - TypeScript - React - Next.js - TailwindCSS - Python - FastAPI - Supabase"
+        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - TailwindCSS - Python - FastAPI - Supabase - Docker"
       },
       {
         "url": "https://potentialitygroup.com/",
         "title": "Potentiality Group",
         "time": "September 2022 - January 2025",
         "descriptions": [
-          "I developed and maintained web and mobile projects, including Iúnigo’s main website, mobile applications, products using Guidewire Cloud, and insurance platforms in Argentina and Uruguay, using technologies like React, Next.js, Angular, React Native, and Firebase."
+          "Developed and maintained web and mobile projects, including the main website for Iúnigo and client applications in Argentina and Uruguay.",
+          "Implemented solutions with React, Next.js, Angular, React Native, and Firebase, optimizing user experience and performance."
         ],
-        "stack": "HTML - CSS - JS - TypeScript - React - React Native - Next.js - Angular - Firebase - Redux - Jest - Cypress - TailwindCSS - SCSS"
+        "stack": "HTML - CSS - JS - TypeScript - React - React Native - NextJS - Angular - Firebase - Redux - Jest - Cypress - TailwindCSS - SCSS"
       },
       {
         "url": "https://www.vippinn.com/",
         "title": "Vippin",
         "time": "November 2021 - September 2022",
         "descriptions": [
-          "I developed a web app for Clínica Reina Fabiola and a mobile app for the Ministry of Tourism of Villa Carlos Paz, using React, React Native, Firebase, and Node.js."
+          "Developed a web app for Clínica Reina Fabiola and a mobile app for the Ministry of Tourism of Villa Carlos Paz.",
+          "Implemented integrations with React, React Native, Firebase, and Node.js, ensuring quality code and excellent user experience."
         ],
-        "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - Node.js - Express.js"
+        "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - NodeJS - Express.js"
       }
     ]
   },
