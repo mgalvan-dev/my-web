@@ -10,6 +10,6 @@
   },
   "dependencies": {
     "@fontsource/geist-sans": "^5.2.5",
-    "astro": "^5.14.5"
+    "astro": "^5.15.4"
   }
 }
