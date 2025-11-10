@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mgalvan.online/sitemap.xml
+Sitemap: https://mgalvan.dev/sitemap.xml

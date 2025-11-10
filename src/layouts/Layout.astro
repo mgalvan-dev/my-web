@@ -1,11 +1,24 @@
 ---
 import "@fontsource/geist-sans";
+import Analytics from "@vercel/analytics/astro";
 
 interface Props {
     lang: string;
+    title?: string;
+    description?: string;
+    ogImage?: string;
 }
 
-const { lang }: Props = Astro.props;
+const {
+    lang,
+    title = "Marco Galván - Full Stack Developer",
+    description = lang === "en"
+        ? "Full stack developer. Marco Galván's website with projects, contact and more."
+        : "Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más.",
+    ogImage = "https://mgalvan.dev/og-image.png",
+}: Props = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
 ---
 
 <!doctype html>
@@ -13,82 +26,87 @@ const { lang }: Props = Astro.props;
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta
-            name="description"
-            content="Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más."
-        />
+        <meta name="description" content={description} />
         <meta name="author" content="Marco Galván" />
         <meta name="robots" content="index, follow" />
-        <meta
-            property="og:title"
-            content="Marco Galván - Full Stack Developer"
-        />
-        <meta
-            property="og:description"
-            content="Web personal de Marco Galván con proyectos y contacto."
-        />
+
+        <!-- Canonical URL -->
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Open Graph -->
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://mgalvan.online/" />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
-        <meta
-            name="twitter:title"
-            content="Marco Galván - Full Stack Developer"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-            name="twitter:description"
-            content="Web personal de Marco Galván con proyectos y contacto."
-        />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={ogImage} />
         <meta name="twitter:site" content="@MarcoGal4" />
         <meta name="twitter:creator" content="@MarcoGal4" />
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="alternate" href="https://mgalvan.online/" hreflang="es" />
-        <link rel="alternate" href="https://mgalvan.online/en" hreflang="en" />
-        <link
-            href="https://assets.calendly.com/assets/external/widget.css"
-            rel="stylesheet"
-        />
-        <script
-            src="https://assets.calendly.com/assets/external/widget.js"
-            type="text/javascript"
-            async></script>
-        <!-- Google tag (gtag.js) -->
-        <script
-            async
-            src="https://www.googletagmanager.com/gtag/js?id=G-7Y7QZ4BZ5H"
-        ></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() {
-                dataLayer.push(arguments);
-            }
-            gtag("js", new Date());
 
-            gtag("config", "G-7Y7QZ4BZ5H");
-        </script>
-        <title>Marco Galván - Full Stack Developer</title>
+        <!-- Favicons -->
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/favicon-16x16.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="/favicon-96x96.png"
+        />
+
+        <!-- Alternate languages -->
+        <link rel="alternate" href="https://mgalvan.dev/" hreflang="es" />
+        <link rel="alternate" href="https://mgalvan.dev/en" hreflang="en" />
+        <link
+            rel="alternate"
+            href="https://mgalvan.dev/"
+            hreflang="x-default"
+        />
+
+        <Analytics />
+        <title>{title}</title>
     </head>
     <body>
         <slot />
-    </body>
-    <script type="application/ld+json">
-        {
+    </body><script
+        type="application/ld+json"
+        set:html={JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            "name": "Marco Galván",
-            "url": "https://mgalvan.dev/",
-            "jobTitle": "Desarrollador Web y Móvil",
-            "worksFor": {
+            name: "Marco Galván",
+            url: "https://mgalvan.dev/",
+            jobTitle:
+                lang === "en"
+                    ? "Web and Mobile Developer"
+                    : "Desarrollador Web y Móvil",
+            worksFor: {
                 "@type": "Organization",
-                "name": "Freelance"
+                name: "Freelance",
             },
-            "sameAs": [
+            sameAs: [
                 "https://www.linkedin.com/in/marcoagalvan/",
                 "https://github.com/mgalvan-dev",
-                "https://x.com/MarcoGal4"
-            ]
-        }
-    </script>
+                "https://x.com/MarcoGal4",
+            ],
+        })}
+    />
 </html>
 
 <style is:global>
