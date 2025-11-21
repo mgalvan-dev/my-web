@@ -12,7 +12,7 @@
   "about": {
     "title": "About Me",
     "descriptions": [
-      "👋 Hi! I'm Marco Galván, a full-stack developer passionate about turning ideas into real digital products — from concept to launch.",
+      "👋 Hi! I'm Marco Galván, a front-end developer passionate about turning ideas into real digital products — from concept to launch.",
       "I specialize in building modern web and mobile applications using Next.js, React, React Native, and Node.js — with a focus on clean architecture, scalability, and great user experience.",
       "I help founders and startups build, launch, and grow their software products. Whether it’s an MVP, a SaaS platform, or a mobile app, I can take your idea from wireframes to a fully functional, production-ready product.",
       "If you’re looking for someone reliable, communicative, and hands-on who can bring your product to life — let’s build something great together 🚀"
@@ -60,6 +60,65 @@
           "Implemented integrations with React, React Native, Firebase, and Node.js, ensuring quality code and excellent user experience."
         ],
         "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - NodeJS - Express.js"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Projects",
+    "projects": [
+      {
+        "url": "https://curf.com.ar/",
+        "title": "Clínica Universitaria Reina Fabiola",
+        "description": "Institutional website for Clínica Universitaria Reina Fabiola, with a responsive design and a focus on the patient experience."
+      },
+      {
+        "url": "https://www.linkedin.com/company/codeicus/",
+        "title": "Internal Project Management System (Codeicus)",
+        "description": "Internal system for managing projects, tasks, and time tracking, improving team productivity and organization."
+      },
+      {
+        "url": "https://iunigo.com.ar/",
+        "title": "Iúnigo Website",
+        "description": "Development and maintenance of Iúnigo's main website and its online quote tool for a leading insurance company in Argentina, focused on delivering an excellent user experience."
+      },
+      {
+        "title": "Iúnigo Mobile App (Not available)",
+        "description": "Mobile application for Iúnigo customers, enabling management of policies, claims, and services from iOS and Android devices."
+      },
+      {
+        "url": "https://www.sancristobal.com.ar/institucional/",
+        "title": "San Cristóbal Seguros",
+        "description": "Development and maintenance of the online quote tool and the agents' portal for Argentina and Uruguay."
+      },
+      {
+        "url": "https://helmcode.com/",
+        "title": "Helmcode Website",
+        "description": "Development of Helmcode's institutional website, a company specialized in cloud infrastructure and automation solutions."
+      },
+      {
+        "url": "https://helmcode.com/coderun",
+        "title": "Helmcode CodeRun",
+        "description": "Development of a SaaS platform for managing and automating cloud infrastructure, enabling users to deploy and monitor their resources."
+      },
+      {
+        "url": "https://www.estudialoai.ai/",
+        "title": "Estudialo AI",
+        "description": "Development of a web platform that uses artificial intelligence to help students improve their study and learning skills."
+      },
+      {
+        "url": "https://www.redsos.com.ar/",
+        "title": "Red SOS",
+        "description": "Development of Red SOS's institutional website, a company providing medical assistance and emergency services in Argentina."
+      },
+      {
+        "url": "https://amparoseguros.com/",
+        "title": "Amparo Seguros",
+        "description": "Development and maintenance of the internal app for Amparo Seguros' sales agents, facilitating client and policy management from mobile devices."
+      },
+      {
+        "url": "https://elioytalia.mgalvan.dev/",
+        "title": "Wedding Invitation",
+        "description": "Development of a personalized digital wedding invitation, with responsive design and interactive features for guests."
       }
     ]
   },

@@ -6,6 +6,12 @@ export interface ExperienceItem {
   stack: string;
 }
 
+export interface ProjectItem {
+  url?: string;
+  title: string;
+  description: string;
+}
+
 export interface Dictionary {
   hero: {
     title: string;
@@ -27,8 +33,9 @@ export interface Dictionary {
     title: string;
     experiences: ExperienceItem[];
   };
-  contact: {
+  projects: {
     title: string;
+    projects: ProjectItem[];
   };
   footer: {
     title: string;

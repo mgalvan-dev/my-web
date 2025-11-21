@@ -1,10 +1,10 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
-import ExperienceCard from "../experience-card/experience-card.astro";
-import styles from "./experience.module.css";
+import ProjectCard from "../project-card/project-card.astro";
+import styles from "./projects.module.css";
 
 interface Props {
-    dictionary: Dictionary["experience"];
+    dictionary: Dictionary["projects"];
 }
 
 const { dictionary } = Astro.props;
@@ -14,8 +14,8 @@ const { dictionary } = Astro.props;
     <h2 class={styles.title}>{dictionary.title}</h2>
     <article class={styles.content_container}>
         {
-            dictionary.experiences.map((experience) => (
-                <ExperienceCard dictionary={experience} />
+            dictionary.projects.map((project) => (
+                <ProjectCard dictionary={project} />
             ))
         }
     </article>

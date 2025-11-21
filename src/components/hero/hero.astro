@@ -3,33 +3,34 @@ import type { Dictionary } from "../../models/dictionary.model";
 import styles from "./hero.module.css";
 
 interface Props {
-  dictionary: Dictionary["hero"];
+    dictionary: Dictionary["hero"];
 }
 
 const { dictionary }: Props = Astro.props;
 ---
 
 <section class={styles.main_container} id="inicio">
-  <article class={styles.content_container}>
-    <div class={styles.image_container}>
-      <img
-        src="/profile.webp"
-        alt="Marco Galván"
-        title="Marco Galván foto"
-        class={styles.profile_photo}
-        width="200"
-        height="200"
-        loading="lazy"
-      />
-      <div class={styles.text_container}>
-        <h1 class={styles.title}>{dictionary.title}</h1>
-        <p class={styles.subtitles}>{dictionary.subtitle}</p>
-        <p class={styles.subtitles}>{dictionary.description}</p>
+    <article class={styles.content_container}>
+        <div class={styles.image_container}>
+            <img
+                src="/profile.webp"
+                alt="Marco Galván"
+                title="Marco Galván foto"
+                class={styles.profile_photo}
+                width="200"
+                height="200"
+                loading="lazy"
+            />
+            <div class={styles.text_container}>
+                <h1 class={styles.title}>{dictionary.title}</h1>
+                <p class={styles.subtitles}>{dictionary.subtitle}</p>
+                <p class={styles.subtitles}>{dictionary.description}</p>
 
-        <a class={styles.contact_button} href="mailto:elmacro11@gmail.com"
-          >{dictionary.cta}</a
-        >
-      </div>
-    </div>
-  </article>
+                <a
+                    class={styles.contact_button}
+                    href="mailto:elmacro11@gmail.com">{dictionary.cta}</a
+                >
+            </div>
+        </div>
+    </article>
 </section>

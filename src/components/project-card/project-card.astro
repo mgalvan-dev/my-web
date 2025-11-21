@@ -1,0 +1,21 @@
+---
+import type { ProjectItem } from "../../models/dictionary.model";
+import styles from "./project-card.module.css";
+
+interface Props {
+    dictionary: ProjectItem;
+}
+
+const { dictionary } = Astro.props;
+---
+
+<article class={styles.main_container}>
+    <a href={dictionary.url} target="_blank" class={styles.content_container}>
+        <div class={styles.info_container}>
+            <div class={styles.title_container}>
+                <p class={styles.title}>{dictionary.title}</p>
+            </div>
+            <p class={styles.description}>{dictionary.description}</p>
+        </div>
+    </a>
+</article>

@@ -12,7 +12,7 @@
   "about": {
     "title": "Sobre mí",
     "descriptions": [
-      "👋 ¡Hola! Soy Marco Galván, un desarrollador full-stack apasionado por transformar ideas en productos digitales reales, desde el concepto hasta el lanzamiento.",
+      "👋 ¡Hola! Soy Marco Galván, un desarrollador front-end apasionado por transformar ideas en productos digitales reales, desde el concepto hasta el lanzamiento.",
       "Me especializo en crear aplicaciones web y móviles modernas usando Next.js, React, React Native y Node.js, con foco en una arquitectura limpia, escalabilidad y una excelente experiencia de usuario.",
       "Ayudo a fundadores y startups a construir, lanzar y hacer crecer sus productos de software. Ya sea un MVP, una plataforma SaaS o una app móvil, puedo llevar tu idea desde los primeros bocetos hasta un producto funcional listo para producción.",
       "Si estás buscando a alguien confiable, comunicativo y práctico, que pueda dar vida a tu producto — construyamos algo increíble juntos 🚀"
@@ -60,6 +60,65 @@
           "Implementé integraciones con React, React Native, Firebase y Node.js, asegurando experiencia de usuario y calidad de código."
         ],
         "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - NodeJS - Express.js"
+      }
+    ]
+  },
+  "projects": {
+    "title": "Proyectos",
+    "projects": [
+      {
+        "url": "https://curf.com.ar/",
+        "title": "Clínica Universitaria Reina Fabiola",
+        "description": "Web institucional de la Clínica Universitaria Reina Fabiola, con diseño responsive y foco en la experiencia para pacientes."
+      },
+      {
+        "url": "https://www.linkedin.com/company/codeicus/",
+        "title": "Sistema de Gestión de proyectos internos (Codeicus)",
+        "description": "Sistema interno para la gestión de proyectos, tareas y tiempos, mejorando la productividad y organización del equipo."
+      },
+      {
+        "url": "https://iunigo.com.ar/",
+        "title": "Iunigo Web",
+        "description": "Desarrollo y mantenimiento de la web principal de Iúnigo y su cotizador online, una empresa de seguros líder en Argentina, enfocada en brindar una excelente experiencia al usuario."
+      },
+      {
+        "title": "Iunigo App Móvil (No disponible)",
+        "description": "Aplicación móvil para clientes de Iúnigo, permitiendo gestionar pólizas, reclamos y servicios desde dispositivos iOS y Android."
+      },
+      {
+        "url": "https://www.sancristobal.com.ar/institucional/",
+        "title": "San Cristobal Seguros",
+        "description": "Desarrollo y mantenimiento de cotizador online, portal de productores de seguros, en Argentina y Uruguay."
+      },
+      {
+        "url": "https://helmcode.com/",
+        "title": "Helmcode Web",
+        "description": "Desarrollo de la web institucional de Helmcode, una empresa especializada en soluciones de infraestructura en la nube y automatización."
+      },
+      {
+        "url": "https://helmcode.com/coderun",
+        "title": "Helmcode CodeRun",
+        "description": "Desarrollo una plataforma SaaS para la gestión y automatización de infraestructuras en la nube, facilitando a los usuarios el despliegue y monitoreo de sus recursos."
+      },
+      {
+        "url": "https://www.estudialoai.ai/",
+        "title": "Estudialo AI",
+        "description": "Desarrollo de una plataforma web que utiliza inteligencia artificial para ayudar a los estudiantes a mejorar sus habilidades de estudio y aprendizaje."
+      },
+      {
+        "url": "https://www.redsos.com.ar/",
+        "title": "Red SOS",
+        "description": "Desarrollo de la web institucional de Red SOS, una empresa dedicada a brindar servicios de asistencia y emergencias médicas en Argentina."
+      },
+      {
+        "url": "https://amparoseguros.com/",
+        "title": "Amparo Seguros",
+        "description": "Desarrollo y mantenimiento de la app interna para vendedores de Amparo Seguros, facilitando la gestión de clientes y pólizas desde dispositivos móviles."
+      },
+      {
+        "url": "https://elioytalia.mgalvan.dev/",
+        "title": "Invitación de Boda",
+        "description": "Desarrolle una invitación de boda digital personalizada, con diseño responsive y funcionalidades interactivas para los invitados."
       }
     ]
   },

@@ -3,19 +3,19 @@ import type { Dictionary } from "../../models/dictionary.model";
 import styles from "./about.module.css";
 
 interface Props {
-  dictionary: Dictionary["about"];
+    dictionary: Dictionary["about"];
 }
 
 const { dictionary } = Astro.props;
 ---
 
 <section class={styles.main_container}>
-  <h2 class={styles.title}>{dictionary.title}</h2>
-  <article class={styles.content_container}>
-    {
-      dictionary.descriptions.map((desc) => (
-        <p class={styles.description}>{desc}</p>
-      ))
-    }
-  </article>
+    <h2 class={styles.title}>{dictionary.title}</h2>
+    <article class={styles.content_container}>
+        {
+            dictionary.descriptions.map((desc) => (
+                <p class={styles.description}>{desc}</p>
+            ))
+        }
+    </article>
 </section>
