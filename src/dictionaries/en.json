@@ -22,6 +22,17 @@
     "title": "Experience",
     "experiences": [
       {
+        "url": "https://www.damsquad.com/bpo",
+        "title": "Dam Squad",
+        "time": "September 2025 - Present",
+        "descriptions": [
+          "Responsible for the maintenance and evolution of the Amparo Seguros mobile app, developed in React Native.",
+          "Maintenance and optimization of the client's web services built with Next.js, as well as APIs developed with Node.js / Express.",
+          "Development of new features and ongoing support for current projects."
+        ],
+        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - React Native - TailwindCSS - MongoDB - Node.js - Docker"
+      },
+      {
         "url": "https://www.capsulecodes.com/",
         "title": "Capsule Codes",
         "time": "September 2025 - Present",
