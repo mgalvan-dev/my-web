@@ -1,6 +1,5 @@
 ---
 import "@fontsource/geist-sans";
-import Analytics from "@vercel/analytics/astro";
 
 interface Props {
     lang: string;
@@ -80,7 +79,6 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
             hreflang="x-default"
         />
 
-        <Analytics />
         <title>{title}</title>
     </head>
     <body>
