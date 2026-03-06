@@ -38,8 +38,8 @@
     padding: 0.75rem 1.5rem;
     border-radius: 8px;
     font-weight: 600;
-    background-color: #333;
-    color: #fff;
+    background-color: #fafafa;
+    color: #333;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-decoration: none;
@@ -47,7 +47,7 @@
 }
 
 .contact_button:hover {
-    background-color: #555;
+    background-color: #c4c4c4;
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
 }

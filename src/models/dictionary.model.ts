@@ -3,7 +3,6 @@ export interface ExperienceItem {
   title: string;
   time: string;
   descriptions: string[];
-  stack: string;
 }
 
 export interface ProjectItem {

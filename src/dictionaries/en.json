@@ -1,8 +1,8 @@
 {
   "hero": {
     "title": "Hi, I'm Marco!",
-    "subtitle": "I help you launch and scale digital products.",
-    "description": "I work with startups and founders who want to turn ideas into real products.",
+    "subtitle": "Full Stack Developer specialized in the JavaScript ecosystem.",
+    "description": "I build web and mobile apps with Next.js, React Native and Node.js. I work with startups and founders to turn ideas into real products, fast and right.",
     "cta": "Let's talk about your project"
   },
   "nav": {
@@ -12,10 +12,10 @@
   "about": {
     "title": "About Me",
     "descriptions": [
-      "👋 Hi! I'm Marco Galván, a full stack developer passionate about turning ideas into real digital products — from concept to launch.",
-      "I specialize in building modern web and mobile applications using Next.js, React, React Native, and Node.js — with a focus on clean architecture, scalability, and great user experience.",
-      "I help founders and startups build, launch, and grow their software products. Whether it’s an MVP, a SaaS platform, or a mobile app, I can take your idea from wireframes to a fully functional, production-ready product.",
-      "If you’re looking for someone reliable, communicative, and hands-on who can bring your product to life — let’s build something great together 🚀"
+      "👋 Hi! I'm Marco Galván, a full stack developer from Argentina with +5 years of experience building real digital products.",
+      "I've worked on projects for insurance companies, AI startups, and development agencies — which gave me a broad view of different types of products, teams, and businesses. Today I work 100% remotely for clients in Argentina and abroad.",
+      "I'm comfortable across the entire development cycle: from designing an API to deploying a mobile app to production. I like understanding the business behind the code, not just executing tickets.",
+      "When I'm not coding, I'm probably watching a series with my family."
     ]
   },
   "experience": {
@@ -26,51 +26,49 @@
         "title": "Dam Squad",
         "time": "September 2025 - Present",
         "descriptions": [
-          "Responsible for the maintenance and evolution of the Amparo Seguros mobile app, developed in React Native.",
-          "Maintenance and optimization of the client's web services built with Next.js, as well as APIs developed with Node.js / Express.",
-          "Development of new features and ongoing support for current projects."
-        ],
-        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - React Native - TailwindCSS - MongoDB - Node.js - Docker"
+          "I'm part of the Dam Squad IT team alongside the CTO, building and maintaining custom solutions for ongoing clients",
+          "At Amparo Seguros I manage all their digital products: the sales team mobile app (React Native) for policy requests and sales management, the platform backend, and the internal certificate issuance app.",
+          "At Red SOS I handle the development and maintenance of their websites and landing pages."
+        ]
       },
       {
         "url": "https://www.capsulecodes.com/",
         "title": "Capsule Codes",
         "time": "September 2025 - Present",
         "descriptions": [
-          "Develop web applications with Next.js and mobile apps with React Native for various clients.",
-          "Participate in the full development cycle, integrating Supabase, Docker, TypeScript, and TailwindCSS."
-        ],
-        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - TailwindCSS - Supabase - Node.js - Docker"
+          "I build web and mobile applications from scratch for clients across different countries.",
+          "I'm currently working on UR POV, a mobile reviews and business listings app for the South African market, on an educational platform focused on investing and personal finance, and on the company's own SaaS product — a project management platform for development agencies featuring time tracking, invoicing, and Kanban-style ticket management."
+        ]
       },
       {
         "url": "https://helmcode.com/",
         "title": "Helmcode",
         "time": "February 2025 - November 2025",
         "descriptions": [
-          "Develop Andulia, an AI agent for managing cloud infrastructures, and a cloud management platform for clients.",
-          "Work with React, Next.js, TailwindCSS, Python, FastAPI, and Supabase, ensuring scalability and performance."
-        ],
-        "stack": "HTML - CSS - JS - TypeScript - React - NextJS - TailwindCSS - Python - FastAPI - Supabase - Docker"
+          "I worked on three products within the Helmcode ecosystem. I developed Andulia, an AI agent that connects to AWS and Kubernetes credentials to manage cloud infrastructure through natural language.",
+          "I contributed to HelmCloud, a container-based cloud platform for SMBs and startups that reduces infrastructure costs by up to 70% compared to traditional clouds.",
+          "I also worked on Coderun, a SaaS for deploying and managing containerized services with GitHub, GitLab integration and Dockerfile support — no complex configuration needed. I also built the company's institutional website."
+        ]
       },
       {
         "url": "https://potentialitygroup.com/",
         "title": "Potentiality Group",
         "time": "September 2022 - January 2025",
         "descriptions": [
-          "Developed and maintained web and mobile projects, including the main website for Iúnigo and client applications in Argentina and Uruguay.",
-          "Implemented solutions with React, Next.js, Angular, React Native, and Firebase, optimizing user experience and performance."
-        ],
-        "stack": "HTML - CSS - JS - TypeScript - React - React Native - NextJS - Angular - Firebase - Redux - Jest - Cypress - TailwindCSS - SCSS"
+          "I worked as staff augmentation assigned to the IT teams of Iúnigo and San Cristóbal Seguros.",
+          "At Iúnigo I developed and maintained the policyholder self-service mobile app — featuring policy status, roadside assistance, claims reporting, benefits, and installment payments integrated with Mercado Pago — as well as the main website with its online car insurance quoting tool and a surety bond platform for home insurance.",
+          "At San Cristóbal Seguros I was part of the Marketing IT team, where we developed and maintained the multi-product online quoting platform, the insurance broker portal with its self-management system (sales, commissions, and analytics), and the rollout of all these systems for the Uruguayan market."
+        ]
       },
       {
         "url": "https://www.vippinn.com/",
         "title": "Vippin",
         "time": "November 2021 - September 2022",
         "descriptions": [
-          "Developed a web app for Clínica Reina Fabiola and a mobile app for the Ministry of Tourism of Villa Carlos Paz.",
-          "Implemented integrations with React, React Native, Firebase, and Node.js, ensuring quality code and excellent user experience."
-        ],
-        "stack": "HTML - CSS - JS - React - React Native - Redux - Firebase - NodeJS - Express.js"
+          "I developed the institutional website for Clínica Universitaria Reina Fabiola from scratch.",
+          "I built a proxy API between Salesforce and the frontend for a Telefónica España client.",
+          "I also worked on a tourism app for the Ministry of Tourism of Villa Carlos Paz, Córdoba, featuring Google Maps integration and Beacon technology for real-time geolocation of tourist points of interest."
+        ]
       }
     ]
   },
@@ -83,18 +81,9 @@
         "description": "Institutional website for Clínica Universitaria Reina Fabiola, with a responsive design and a focus on the patient experience."
       },
       {
-        "url": "https://www.linkedin.com/company/codeicus/",
-        "title": "Internal Project Management System (Codeicus)",
-        "description": "Internal system for managing projects, tasks, and time tracking, improving team productivity and organization."
-      },
-      {
         "url": "https://iunigo.com.ar/",
         "title": "Iúnigo Website",
         "description": "Development and maintenance of Iúnigo's main website and its online quote tool for a leading insurance company in Argentina, focused on delivering an excellent user experience."
-      },
-      {
-        "title": "Iúnigo Mobile App (Not available)",
-        "description": "Mobile application for Iúnigo customers, enabling management of policies, claims, and services from iOS and Android devices."
       },
       {
         "url": "https://www.sancristobal.com.ar/institucional/",
@@ -125,11 +114,6 @@
         "url": "https://amparoseguros.com/",
         "title": "Amparo Seguros",
         "description": "Development and maintenance of the internal app for Amparo Seguros' sales agents, facilitating client and policy management from mobile devices."
-      },
-      {
-        "url": "https://elioytalia.mgalvan.dev/",
-        "title": "Wedding Invitation",
-        "description": "Development of a personalized digital wedding invitation, with responsive design and interactive features for guests."
       }
     ]
   },
