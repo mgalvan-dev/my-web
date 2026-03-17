@@ -53,12 +53,12 @@ La estructura del proyecto es la siguiente:
 
 Todos los comandos se ejecutan desde la raíz del proyecto, en la terminal:
 
-| Comando                   | Acción                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Instala las dependencias                         |
-| `npm run dev`             | Inicia el servidor de desarrollo en `localhost:4321` |
-| `npm run build`           | Construye el sitio para producción en `./dist/`  |
-| `npm run preview`         | Previsualiza el sitio construido localmente      |
+| Comando           | Acción                                               |
+| :---------------- | :--------------------------------------------------- |
+| `npm install`     | Instala las dependencias                             |
+| `npm run dev`     | Inicia el servidor de desarrollo en `localhost:4321` |
+| `npm run build`   | Construye el sitio para producción en `./dist/`      |
+| `npm run preview` | Previsualiza el sitio construido localmente          |
 
 ## 📄 Licencia
 
