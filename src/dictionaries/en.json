@@ -12,9 +12,9 @@
   "about": {
     "title": "About Me",
     "descriptions": [
-      "👋 Hi! I'm Marco Galván, a full stack developer from Argentina with +5 years of experience building real digital products.",
-      "I've worked on projects for insurance companies, AI startups, and development agencies — which gave me a broad view of different types of products, teams, and businesses. Today I work 100% remotely for clients in Argentina and abroad.",
-      "I'm comfortable across the entire development cycle: from designing an API to deploying a mobile app to production. I like understanding the business behind the code, not just executing tickets.",
+      "👋 Hi! I'm Marco Galván, a full stack developer from Argentina with 5+ years of experience building digital products end-to-end.",
+      "I've worked on projects for insurance companies, startups, and agencies — developing everything from APIs and backends to mobile apps in production. In recent years I've incorporated AI integrations (Gemini, OpenAI) into real products, not as experiments but as core functionality.",
+      "I'm comfortable across the full cycle: architecture, development, deployment, and maintenance. I like understanding the business behind the code, not just executing tickets.",
       "When I'm not coding, I'm probably watching a series with my family."
     ]
   },

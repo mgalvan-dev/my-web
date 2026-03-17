@@ -12,9 +12,9 @@
   "about": {
     "title": "Sobre mí",
     "descriptions": [
-      "👋 ¡Hola! Soy Marco Galván, desarrollador full stack de Argentina con +5 años de experiencia construyendo productos digitales reales.",
-      "Trabajé en proyectos para empresas de seguros, startups de IA y agencias de desarrollo — lo que me dio una visión amplia de distintos tipos de producto, equipo y negocio. Hoy trabajo 100% remoto para clientes en Argentina y el exterior.",
-      "Me muevo cómodo en todo el ciclo: desde el diseño de una API hasta el deploy de una app móvil en producción. Me gusta entender el negocio detrás del código, no solo ejecutar tickets.",
+      "👋 ¡Hola! Soy Marco Galván, desarrollador full stack de Argentina con +5 años de experiencia construyendo productos digitales de principio a fin.",
+      "Trabajé en proyectos para empresas de seguros, startups y agencias — desarrollando desde APIs y backends hasta apps móviles en producción. En los últimos años incorporé integraciones con IA (Gemini, OpenAI) en productos reales, no como experimento sino como funcionalidad central.",
+      "Me muevo cómodo en todo el ciclo: arquitectura, desarrollo, deploy y mantenimiento. Me gusta entender el negocio detrás del código, no solo ejecutar tickets.",
       "Cuando no estoy programando, probablemente esté viendo alguna serie con mi familia."
     ]
   },
