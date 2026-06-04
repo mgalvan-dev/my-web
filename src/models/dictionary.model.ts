@@ -11,6 +11,14 @@ export interface ProjectItem {
   description: string;
 }
 
+export interface ProductItem {
+  url?: string;
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+}
+
 export interface Dictionary {
   hero: {
     title: string;
@@ -35,6 +43,10 @@ export interface Dictionary {
   projects: {
     title: string;
     projects: ProjectItem[];
+  };
+  products: {
+    title: string;
+    products: ProductItem[];
   };
   footer: {
     title: string;

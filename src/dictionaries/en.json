@@ -117,6 +117,26 @@
       }
     ]
   },
+  "products": {
+    "title": "Own Products",
+    "products": [
+      {
+        "url": "https://invoice.mgalvan.dev/en",
+        "title": "Invoice Maker",
+        "description": "Generate PDF invoices directly from the browser. No account, no backend, and data stored locally.",
+        "category": "Side Project",
+        "tags": [
+          "Next.js",
+          "TypeScript",
+          "Tailwind CSS",
+          "shadcn/ui",
+          "localStorage",
+          "PDF generation",
+          "i18n"
+        ]
+      }
+    ]
+  },
   "footer": {
     "title": "Developed by Marco 😎",
     "copyright": "All rights reserved."
