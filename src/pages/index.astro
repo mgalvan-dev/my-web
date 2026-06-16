@@ -5,23 +5,28 @@ import Experience from "../components/experience/experience.astro";
 import About from "../components/about/about.astro";
 import Header from "../components/header/header.astro";
 import Footer from "../components/footer/footer.astro";
+import Featured from "../components/featured/featured.astro";
 import Projects from "../components/projects/projects.astro";
-import Products from "../components/products/products.astro";
-import * as dictionary from "../dictionaries/es.json";
+import ContactCta from "../components/contact-cta/contact-cta.astro";
+import dictionary from "../dictionaries/en.json";
 import styles from "./_index.module.css";
 
-const lang = "es";
+const lang = "en";
+const title = "Marco Galván | React Native & Full Stack Developer";
+const description =
+    "React Native & Full Stack Developer building scalable web and mobile applications with React, Expo, Next.js and TypeScript.";
 ---
 
-<Layout lang={lang}>
+<Layout lang={lang} title={title} description={description}>
     <Header lang={lang} />
     <main class={styles.main}>
         <div class={styles.content_container}>
             <Hero dictionary={dictionary.hero} />
             <About dictionary={dictionary.about} />
+            <Featured dictionary={dictionary.featured} />
             <Experience dictionary={dictionary.experience} />
             <Projects dictionary={dictionary.projects} />
-            <Products dictionary={dictionary.products} />
+            <ContactCta dictionary={dictionary.contact} />
         </div>
     </main>
     <Footer dictionary={dictionary["footer"]} />

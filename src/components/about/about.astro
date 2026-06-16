@@ -17,5 +17,17 @@ const { dictionary } = Astro.props;
                 <p class={styles.description}>{desc}</p>
             ))
         }
+        <div class={styles.technologies}>
+            <h3 class={styles.technologies_title}>
+                {dictionary.technologiesTitle}
+            </h3>
+            <ul class={styles.technologies_list}>
+                {
+                    dictionary.technologies.map((tech) => (
+                        <li class={styles.technology}>{tech}</li>
+                    ))
+                }
+            </ul>
+        </div>
     </article>
 </section>

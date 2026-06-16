@@ -24,6 +24,34 @@
   font-size: 1rem;
 }
 
+.technologies {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.technologies_title {
+  font-size: 1.125rem;
+  font-weight: bold;
+}
+
+.technologies_list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+}
+
+.technology {
+  font-size: 0.85rem;
+  color: #ccc;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 999px;
+  padding: 6px 12px;
+}
+
 @media (width < 768px) {
   .title {
     font-size: 1.25rem;
@@ -31,6 +59,14 @@
   }
 
   .description {
+    font-size: 0.75rem;
+  }
+
+  .technologies_title {
+    font-size: 1rem;
+  }
+
+  .technology {
     font-size: 0.75rem;
   }
 }

@@ -12,10 +12,10 @@ interface Props {
 
 const {
     lang,
-    title = "Marco Galván - Full Stack Developer",
+    title = "Marco Galván | React Native & Full Stack Developer",
     description = lang === "en"
-        ? "Full stack developer. Marco Galván's website with projects, contact and more."
-        : "Desarrollador full stack. Web de Marco Galván con proyectos, contacto y más.",
+        ? "React Native & Full Stack Developer building scalable web and mobile applications with React, Expo, Next.js and TypeScript."
+        : "Desarrollador React Native & Full Stack construyendo aplicaciones web y móviles escalables con React, Expo, Next.js y TypeScript.",
     ogImage = "https://mgalvan.dev/og-image.png",
 }: Props = Astro.props;
 
@@ -73,8 +73,8 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
         />
 
         <!-- Alternate languages -->
-        <link rel="alternate" href="https://mgalvan.dev/" hreflang="es" />
-        <link rel="alternate" href="https://mgalvan.dev/en" hreflang="en" />
+        <link rel="alternate" href="https://mgalvan.dev/" hreflang="en" />
+        <link rel="alternate" href="https://mgalvan.dev/es" hreflang="es" />
         <link
             rel="alternate"
             href="https://mgalvan.dev/"
@@ -98,8 +98,8 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
             url: "https://mgalvan.dev/",
             jobTitle:
                 lang === "en"
-                    ? "Web and Mobile Developer"
-                    : "Desarrollador Web y Móvil",
+                    ? "React Native & Full Stack Developer"
+                    : "Desarrollador React Native & Full Stack",
             worksFor: {
                 "@type": "Organization",
                 name: "Freelance",

@@ -24,29 +24,37 @@ export interface Dictionary {
     title: string;
     subtitle: string;
     description: string;
-    cta: string;
+    openToRemote: string;
+    ctaResume: string;
+    ctaContact: string;
   };
   nav: {
     about: string;
     experience: string;
-    projects: string;
-    contact: string;
   };
   about: {
     title: string;
     descriptions: string[];
+    technologiesTitle: string;
+    technologies: string[];
   };
   experience: {
     title: string;
     experiences: ExperienceItem[];
   };
+  featured: {
+    title: string;
+    items: ProductItem[];
+  };
   projects: {
     title: string;
     projects: ProjectItem[];
   };
-  products: {
+  contact: {
     title: string;
-    products: ProductItem[];
+    text: string;
+    contactLabel: string;
+    linkedinLabel: string;
   };
   footer: {
     title: string;

@@ -1,0 +1,31 @@
+---
+import type { Dictionary } from "../../models/dictionary.model";
+import styles from "./contact-cta.module.css";
+
+interface Props {
+    dictionary: Dictionary["contact"];
+}
+
+const { dictionary } = Astro.props;
+
+const linkedinUrl = "https://www.linkedin.com/in/mgalvan26/";
+const contactEmail = "mailto:elmacro11@gmail.com";
+---
+
+<section class={styles.main_container}>
+    <div class={styles.panel}>
+        <h2 class={styles.title}>{dictionary.title}</h2>
+        <p class={styles.text}>{dictionary.text}</p>
+        <div class={styles.button_group}>
+            <a class={styles.primary_button} href={contactEmail}
+                >{dictionary.contactLabel}</a
+            >
+            <a
+                class={styles.secondary_button}
+                href={linkedinUrl}
+                target="_blank"
+                rel="noopener">{dictionary.linkedinLabel}</a
+            >
+        </div>
+    </div>
+</section>

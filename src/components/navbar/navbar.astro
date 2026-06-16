@@ -41,8 +41,8 @@ const { lang } = Astro.props;
         class={styles.image}
       />
     </a>
-    <a href={`/${lang === "es" ? "en" : ""}`} class={styles.lang_button}>
-      {lang === "es" ? "EN" : "ES"}
+    <a href={lang === "en" ? "/es" : "/"} class={styles.lang_button}>
+      {lang === "en" ? "ES" : "EN"}
     </a>
   </div>
 </nav>

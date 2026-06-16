@@ -30,37 +30,90 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-}
-
-.contact_button {
-    margin-top: 1.25rem;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-weight: 600;
-    background-color: #fafafa;
-    color: #333;
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    text-decoration: none;
-    text-align: center;
-}
-
-.contact_button:hover {
-    background-color: #c4c4c4;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+    max-width: 640px;
 }
 
 .title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     font-weight: bold;
     text-align: center;
 }
 
-.subtitles {
+.subtitle {
+    font-size: 1.05rem;
+    text-align: center;
+    color: #c4c4c4;
+}
+
+.description {
     font-size: 1rem;
     text-align: center;
+    color: #aaa;
+}
+
+.availability {
+    margin-top: 0.75rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #ccc;
+    background-color: #111;
+    border: 1px solid #333;
+    border-radius: 999px;
+    padding: 6px 14px;
+}
+
+.availability_dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #4ade80;
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+    animation: pulse 2s infinite;
+}
+
+.button_group {
+    margin-top: 1.25rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.primary_button,
+.secondary_button {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+}
+
+.primary_button {
+    border: 1px solid #fafafa;
+    background-color: #fafafa;
+    color: #333;
+}
+
+.primary_button:hover {
+    background-color: #c4c4c4;
+    border-color: #c4c4c4;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.15);
+}
+
+.secondary_button {
+    border: 1px solid #333;
+    background-color: transparent;
+    color: #fafafa;
+}
+
+.secondary_button:hover {
+    border-color: #fafafa;
+    transform: translateY(-2px);
 }
 
 .profile_photo {
@@ -74,5 +127,33 @@
 
     to {
         opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+}
+
+@media (width < 768px) {
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .description {
+        font-size: 0.9rem;
     }
 }

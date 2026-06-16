@@ -1,9 +1,11 @@
 {
   "hero": {
-    "title": "Hi, I'm Marco!",
-    "subtitle": "Full Stack Developer specialized in the JavaScript ecosystem.",
-    "description": "I build web and mobile apps with Next.js, React Native and Node.js. I work with startups and founders to turn ideas into real products, fast and right.",
-    "cta": "Let's talk about your project"
+    "title": "React Native & Full Stack Developer",
+    "subtitle": "Building scalable web and mobile applications with React, Expo, Next.js and TypeScript.",
+    "description": "Full Stack Developer with 5+ years of experience building production-ready web and mobile products for startups, agencies, and companies across different industries.",
+    "openToRemote": "Open to remote opportunities.",
+    "ctaResume": "View Resume",
+    "ctaContact": "Contact Me"
   },
   "nav": {
     "about": "About me",
@@ -12,10 +14,20 @@
   "about": {
     "title": "About Me",
     "descriptions": [
-      "👋 Hi! I'm Marco Galván, a full stack developer from Argentina with 5+ years of experience building digital products end-to-end.",
-      "I've worked on projects for insurance companies, startups, and agencies — developing everything from APIs and backends to mobile apps in production. In recent years I've incorporated AI integrations (Gemini, OpenAI) into real products, not as experiments but as core functionality.",
-      "I'm comfortable across the full cycle: architecture, development, deployment, and maintenance. I like understanding the business behind the code, not just executing tickets.",
-      "When I'm not coding, I'm probably watching a series with my family."
+      "Full Stack Developer with 5+ years of experience building web and mobile applications using React, Next.js, React Native, Expo, Node.js, and TypeScript.",
+      "Throughout my career, I've worked with startups, agencies, and product teams, developing scalable applications, mobile experiences, back-office platforms, and SaaS products across different industries.",
+      "I enjoy working across the full product lifecycle, from planning and architecture to development, deployment, and continuous improvement. My experience includes building modern web applications, mobile apps, CMS-driven platforms, third-party integrations, and AI-powered features."
+    ],
+    "technologiesTitle": "Key technologies",
+    "technologies": [
+      "React & Next.js",
+      "React Native & Expo",
+      "TypeScript & JavaScript",
+      "Node.js",
+      "PostgreSQL & Supabase",
+      "Strapi & Payload CMS",
+      "REST APIs & Third-Party Integrations",
+      "AI-Powered Applications"
     ]
   },
   "experience": {
@@ -72,8 +84,34 @@
       }
     ]
   },
+  "featured": {
+    "title": "Featured Projects",
+    "items": [
+      {
+        "url": "https://invoice.mgalvan.dev/en",
+        "title": "Invoice App",
+        "category": "Side Project",
+        "description": "A simple invoice generator for freelancers, built with Next.js, TypeScript and PDF generation. Includes local invoice history and multilingual support.",
+        "tags": ["Next.js", "TypeScript", "PDF", "i18n"]
+      },
+      {
+        "url": "https://amparoseguros.com/",
+        "title": "Amparo Seguros",
+        "category": "Mobile + Backend",
+        "description": "Digital insurance ecosystem including a React Native mobile app for agents, backend services, and internal tools for certificate issuance and business operations.",
+        "tags": ["React Native", "Expo", "Next.js", "Insurance", "Backend"]
+      },
+      {
+        "url": "https://helmcode.com/",
+        "title": "Helmcode / Cloud Products",
+        "category": "Cloud / AI",
+        "description": "Contributed to AI-powered cloud infrastructure tools, container-based platforms and SaaS products for deploying and managing services.",
+        "tags": ["React", "Next.js", "AI", "AWS", "Kubernetes", "SaaS"]
+      }
+    ]
+  },
   "projects": {
-    "title": "Projects",
+    "title": "More Projects",
     "projects": [
       {
         "url": "https://curf.com.ar/",
@@ -91,16 +129,6 @@
         "description": "Development and maintenance of the online quote tool and the agents' portal for Argentina and Uruguay."
       },
       {
-        "url": "https://helmcode.com/",
-        "title": "Helmcode Website",
-        "description": "Development of Helmcode's institutional website, a company specialized in cloud infrastructure and automation solutions."
-      },
-      {
-        "url": "https://helmcode.com/coderun",
-        "title": "Helmcode CodeRun",
-        "description": "Development of a SaaS platform for managing and automating cloud infrastructure, enabling users to deploy and monitor their resources."
-      },
-      {
         "url": "https://www.estudialoai.ai/",
         "title": "Estudialo AI",
         "description": "Fullstack platform for students and teachers with a Google Gemini integration that automatically generates exams, summaries, slides, and study materials from any content."
@@ -109,33 +137,14 @@
         "url": "https://www.redsos.com.ar/",
         "title": "Red SOS",
         "description": "Development of Red SOS's institutional website, a company providing medical assistance and emergency services in Argentina."
-      },
-      {
-        "url": "https://amparoseguros.com/",
-        "title": "Amparo Seguros",
-        "description": "Development and maintenance of the internal app for Amparo Seguros' sales agents, facilitating client and policy management from mobile devices."
       }
     ]
   },
-  "products": {
-    "title": "Own Products",
-    "products": [
-      {
-        "url": "https://invoice.mgalvan.dev/en",
-        "title": "Invoice Maker",
-        "description": "Generate PDF invoices directly from the browser. No account, no backend, and data stored locally.",
-        "category": "Side Project",
-        "tags": [
-          "Next.js",
-          "TypeScript",
-          "Tailwind CSS",
-          "shadcn/ui",
-          "localStorage",
-          "PDF generation",
-          "i18n"
-        ]
-      }
-    ]
+  "contact": {
+    "title": "Interested in working together?",
+    "text": "I'm open to remote opportunities focused on React Native, Expo, Next.js and Full Stack JavaScript development.",
+    "contactLabel": "Contact Me",
+    "linkedinLabel": "View LinkedIn"
   },
   "footer": {
     "title": "Developed by Marco 😎",

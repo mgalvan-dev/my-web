@@ -1,10 +1,10 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
 import ProductCard from "../product-card/product-card.astro";
-import styles from "./products.module.css";
+import styles from "./featured.module.css";
 
 interface Props {
-    dictionary: Dictionary["products"];
+    dictionary: Dictionary["featured"];
 }
 
 const { dictionary } = Astro.props;
@@ -14,8 +14,8 @@ const { dictionary } = Astro.props;
     <h2 class={styles.title}>{dictionary.title}</h2>
     <article class={styles.content_container}>
         {
-            dictionary.products.map((product) => (
-                <ProductCard dictionary={product} />
+            dictionary.items.map((item) => (
+                <ProductCard dictionary={item} />
             ))
         }
     </article>
