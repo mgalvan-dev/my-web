@@ -9,7 +9,7 @@ importers:
   .:
     dependencies:
       '@astrojs/sitemap':
-        specifier: ^3.7.1
+        specifier: ^3.7.3
         version: 3.7.3
       '@fontsource/geist-sans':
         specifier: ^5.2.5
@@ -21,8 +21,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       astro:
-        specifier: ^6.0.6
-        version: 6.4.3(@types/node@24.12.4)(rollup@4.61.0)
+        specifier: ^6.4.8
+        version: 6.4.8(@types/node@24.12.4)(rollup@4.61.0)
 
 packages:
 
@@ -676,8 +676,8 @@ packages:
   array-iterate@2.0.1:
     resolution: {integrity: sha512-I1jXZMjAgCMmxT4qxXfPXa6SthSoE8h6gkSI9BGGNv8mP8G/v0blc+qFnZu6K42vTOiuME596QaLO0TP3Lk0xg==}
 
-  astro@6.4.3:
-    resolution: {integrity: sha512-heArIk8zLcxuoj1WgBH2zGdAD8zKSU1mEcBvS6hYMEHRPlbtvB+4Y8ri9Z27hzeryvGaFgrH32zjghEfV2y07g==}
+  astro@6.4.8:
+    resolution: {integrity: sha512-KK5lX90uU9EeVaTjINyj3sy9/NFXVa59aowaqbWBDDKLXZh4rr7GwIaCFYVetE22MJtsCNFerQXn0vlCLmpP/Q==}
     engines: {node: '>=22.12.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -1956,7 +1956,7 @@ snapshots:
 
   array-iterate@2.0.1: {}
 
-  astro@6.4.3(@types/node@24.12.4)(rollup@4.61.0):
+  astro@6.4.8(@types/node@24.12.4)(rollup@4.61.0):
     dependencies:
       '@astrojs/compiler': 4.0.0
       '@astrojs/internal-helpers': 0.10.0

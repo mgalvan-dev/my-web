@@ -25,6 +25,7 @@ export interface Dictionary {
     subtitle: string;
     description: string;
     openToRemote: string;
+    resumeUrl: string;
     ctaResume: string;
     ctaContact: string;
   };
