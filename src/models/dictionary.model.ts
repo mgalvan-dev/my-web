@@ -29,10 +29,6 @@ export interface Dictionary {
     ctaResume: string;
     ctaContact: string;
   };
-  nav: {
-    about: string;
-    experience: string;
-  };
   about: {
     title: string;
     descriptions: string[];

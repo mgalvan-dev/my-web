@@ -8,10 +8,6 @@
     "ctaResume": "View Resume",
     "ctaContact": "Contact Me"
   },
-  "nav": {
-    "about": "About me",
-    "experience": "Experience"
-  },
   "about": {
     "title": "About Me",
     "descriptions": [
