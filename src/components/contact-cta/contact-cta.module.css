@@ -43,7 +43,8 @@
     cursor: pointer;
     text-decoration: none;
     text-align: center;
-    transition: all 0.3s ease-in-out;
+    transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out,
+        transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 
 .primary_button {

@@ -3,7 +3,7 @@
     border-radius: 16px;
     background-color: #111;
     border: 1px solid #1a1a1a;
-    transition: all 200ms ease-in-out;
+    transition: background-color 200ms ease-in-out, border-color 200ms ease-in-out;
 }
 
 .main_container:hover {
