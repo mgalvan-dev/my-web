@@ -18,8 +18,9 @@ const description =
 ---
 
 <Layout lang={lang} title={title} description={description}>
+    <a href="#main" class="skip-link">Skip to content</a>
     <Header lang={lang} />
-    <main class={styles.main}>
+    <main id="main" class={styles.main}>
         <div class={styles.content_container}>
             <Hero dictionary={dictionary.hero} />
             <About dictionary={dictionary.about} />
