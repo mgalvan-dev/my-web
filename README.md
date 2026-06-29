@@ -1,10 +1,8 @@
-# Marco Galván - Full Stack Developer
+# Marco Galván — Full Stack Developer
 
-Este es el sitio web personal de Marco Galván, desarrollado con Astro. Aquí encontrarás información sobre mí, mi experiencia profesional, y las tecnologías con las que trabajo.
+Personal website built with Astro. Source at [mgalvan.dev](https://mgalvan.dev).
 
-## 🚀 Estructura del Proyecto
-
-La estructura del proyecto es la siguiente:
+## Project structure
 
 ```text
 /
@@ -12,54 +10,54 @@ La estructura del proyecto es la siguiente:
 │   ├── favicon.ico
 │   ├── profile.webp
 │   ├── robots.txt
-│   ├── sitemap.xml
-│   └── logos/
+│   ├── og-image.png
+│   ├── Marco-Galvan-CV-EN.pdf
+│   ├── Marco-Galvan-CV-ES.pdf
+│   └── logos/          (x_dark, linkedin, github-dark)
 ├── src/
-│   ├── assets/
+│   ├── consts.ts
 │   ├── components/
 │   │   ├── about/
+│   │   ├── contact-cta/
 │   │   ├── experience/
+│   │   ├── experience-card/
+│   │   ├── featured/
 │   │   ├── footer/
 │   │   ├── header/
 │   │   ├── hero/
-│   │   ├── logos/
-│   │   └── navbar/
+│   │   ├── navbar/
+│   │   ├── product-card/
+│   │   ├── project-card/
+│   │   └── projects/
 │   ├── dictionaries/
-│   ├── helpers/
+│   │   ├── en.json
+│   │   └── es.json
 │   ├── layouts/
 │   │   └── Layout.astro
 │   ├── models/
+│   │   └── dictionary.model.ts
 │   └── pages/
-│       ├── index.astro
-│       └── en/index.astro
+│       ├── index.astro       (EN)
+│       └── es/index.astro    (ES)
 └── package.json
 ```
 
-## 🛠️ Tecnologías Utilizadas
+## Tech stack
 
-- **Astro**: Framework para construir sitios web rápidos y modernos.
-- **TypeScript**: Tipado estático para JavaScript.
-- **CSS Modules**: Estilos encapsulados para los componentes.
-- **JSON**: Diccionarios para manejar contenido multilingüe.
+- **Astro** — static site framework
+- **TypeScript** — strict mode
+- **CSS Modules** — scoped component styles
+- **JSON** — i18n dictionaries (en / es)
 
-## 🌐 Funcionalidades
+## Commands
 
-- Sitio multilingüe (Español e Inglés).
-- Información sobre experiencia profesional y habilidades.
-- Animaciones y diseño responsivo.
-- SEO optimizado con `robots.txt` y `sitemap.xml`.
+| Command        | Action                                          |
+| :------------- | :---------------------------------------------- |
+| `pnpm install` | Install dependencies                            |
+| `pnpm dev`     | Start dev server at `localhost:4321`            |
+| `pnpm build`   | Build for production into `./dist/`             |
+| `pnpm preview` | Preview the production build locally            |
 
-## 🧞 Comandos
+## License
 
-Todos los comandos se ejecutan desde la raíz del proyecto, en la terminal:
-
-| Comando           | Acción                                               |
-| :---------------- | :--------------------------------------------------- |
-| `npm install`     | Instala las dependencias                             |
-| `npm run dev`     | Inicia el servidor de desarrollo en `localhost:4321` |
-| `npm run build`   | Construye el sitio para producción en `./dist/`      |
-| `npm run preview` | Previsualiza el sitio construido localmente          |
-
-## 📄 Licencia
-
-Este proyecto es de uso personal y todos los derechos están reservados.
+Personal use — all rights reserved.
