@@ -1,5 +1,6 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
+import { CONTACT_EMAIL, SOCIAL_LINKS } from "../../consts";
 import styles from "./contact-cta.module.css";
 
 interface Props {
@@ -8,8 +9,8 @@ interface Props {
 
 const { dictionary } = Astro.props;
 
-const linkedinUrl = "https://www.linkedin.com/in/mgalvan26/";
-const contactEmail = "mailto:elmacro11@gmail.com";
+const linkedinUrl = SOCIAL_LINKS.linkedin;
+const contactEmail = CONTACT_EMAIL;
 ---
 
 <section class={styles.main_container}>

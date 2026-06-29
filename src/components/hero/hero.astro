@@ -1,5 +1,6 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
+import { CONTACT_EMAIL } from "../../consts";
 import styles from "./hero.module.css";
 
 interface Props {
@@ -9,7 +10,7 @@ interface Props {
 const { dictionary }: Props = Astro.props;
 
 const resumeUrl = dictionary.resumeUrl;
-const contactEmail = "mailto:elmacro11@gmail.com";
+const contactEmail = CONTACT_EMAIL;
 ---
 
 <section class={styles.main_container} id="inicio">

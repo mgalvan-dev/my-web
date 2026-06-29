@@ -1,4 +1,5 @@
 ---
+import { SOCIAL_LINKS } from "../../consts";
 import styles from "./navbar.module.css";
 
 interface Props {
@@ -11,7 +12,7 @@ const { lang } = Astro.props;
 <nav class={styles.main_container} aria-label="Social and language">
   <div class={styles.links_container}>
     <a
-      href="https://x.com/MarcoGal4"
+      href={SOCIAL_LINKS.x}
       target="_blank"
       rel="noopener noreferrer"
       class={styles.links}
@@ -25,7 +26,7 @@ const { lang } = Astro.props;
       />
     </a>
     <a
-      href="https://www.linkedin.com/in/mgalvan26/"
+      href={SOCIAL_LINKS.linkedin}
       target="_blank"
       rel="noopener noreferrer"
       class={styles.links}
@@ -39,7 +40,7 @@ const { lang } = Astro.props;
       />
     </a>
     <a
-      href="https://github.com/mgalvan-dev"
+      href={SOCIAL_LINKS.github}
       target="_blank"
       rel="noopener noreferrer"
       class={styles.links}
