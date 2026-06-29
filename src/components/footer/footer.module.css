@@ -4,7 +4,7 @@
   align-items: center;
   flex-direction: column;
   padding: 24px 0;
-  border-top: 1px solid rgba(256, 256, 256, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   gap: 16px;
 }
 
