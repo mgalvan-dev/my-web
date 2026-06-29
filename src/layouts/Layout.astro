@@ -15,11 +15,13 @@ interface Props {
 
 const {
     lang,
-    title = "Marco Galván | React Native & Full Stack Developer",
+    title = lang === "en"
+        ? "Marco Galván | React Native & Full Stack Developer"
+        : "Marco Galván | Desarrollador React Native y Full Stack",
     description = lang === "en"
         ? "React Native & Full Stack Developer building scalable web and mobile applications with React, Expo, Next.js and TypeScript."
         : "Desarrollador React Native & Full Stack construyendo aplicaciones web y móviles escalables con React, Expo, Next.js y TypeScript.",
-    ogImage = `${SITE_URL}/og-image.png`,
+    ogImage = `${SITE_URL}/og-image.svg`,
 }: Props = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
@@ -70,22 +72,28 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
             type="application/ld+json"
             set:html={JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "Person",
-                name: "Marco Galván",
-                url: "https://mgalvan.dev/",
-                jobTitle:
-                    lang === "en"
-                        ? "React Native & Full Stack Developer"
-                        : "Desarrollador React Native & Full Stack",
-                worksFor: {
-                    "@type": "Organization",
-                    name: "Freelance",
+                "@type": "ProfilePage",
+                name: title,
+                description,
+                url: canonicalURL,
+                mainEntity: {
+                    "@type": "Person",
+                    name: "Marco Galván",
+                    url: SITE_URL,
+                    jobTitle:
+                        lang === "en"
+                            ? "React Native & Full Stack Developer"
+                            : "Desarrollador React Native y Full Stack",
+                    worksFor: {
+                        "@type": "Organization",
+                        name: "Freelance",
+                    },
+                    sameAs: [
+                        SOCIAL_LINKS.linkedin,
+                        SOCIAL_LINKS.github,
+                        SOCIAL_LINKS.x,
+                    ],
                 },
-                sameAs: [
-                    SOCIAL_LINKS.linkedin,
-                    SOCIAL_LINKS.github,
-                    SOCIAL_LINKS.x,
-                ],
             })}
         />
     </head>

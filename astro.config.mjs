@@ -16,7 +16,6 @@ export default defineConfig({
       },
       changefreq: "monthly",
       priority: 0.7,
-      lastmod: new Date(),
     }),
   ],
 });

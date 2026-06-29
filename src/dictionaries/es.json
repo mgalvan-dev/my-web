@@ -1,8 +1,8 @@
 {
   "hero": {
-    "title": "React Native & Full Stack Developer",
+    "title": "Desarrollador React Native y Full Stack",
     "subtitle": "Construyo aplicaciones web y móviles escalables con React, Expo, Next.js y TypeScript.",
-    "description": "Full Stack Developer con más de 5 años de experiencia construyendo productos web y móviles en producción para startups, agencias y empresas de distintas industrias.",
+    "description": "Desarrollador de software con más de 5 años de experiencia construyendo productos web y móviles en producción para startups, agencias y empresas de distintas industrias.",
     "openToRemote": "Abierto a oportunidades remotas.",
     "resumeUrl": "/Marco-Galvan-CV-ES.pdf",
     "ctaResume": "Ver CV",
@@ -11,9 +11,9 @@
   "about": {
     "title": "Sobre mí",
     "descriptions": [
-      "Full Stack Developer con más de 5 años de experiencia construyendo aplicaciones web y móviles con React, Next.js, React Native, Expo, Node.js y TypeScript.",
+      "Desarrollador Full Stack con más de 5 años de experiencia construyendo aplicaciones web y móviles con React, Next.js, React Native, Expo, Node.js y TypeScript.",
       "Trabajé con startups, agencias y equipos de producto, desarrollando aplicaciones escalables, experiencias móviles, backoffices y productos SaaS para distintas industrias.",
-      "Me gusta participar en todo el ciclo de vida del producto: planificación, arquitectura, desarrollo, despliegue y mejora continua. Mi experiencia incluye aplicaciones web modernas, apps móviles, plataformas administrables con CMS, integraciones con servicios externos y funcionalidades potenciadas con IA."
+      "Me gusta participar en todo el ciclo de vida del producto: planificación, arquitectura, desarrollo, despliegue y mejora continua. Mi experiencia incluye aplicaciones web modernas, apps móviles, plataformas administrables con CMS, integraciones con servicios externos y funciones potenciadas con IA."
     ],
     "technologiesTitle": "Tecnologías principales",
     "technologies": [
@@ -46,7 +46,7 @@
         "time": "Septiembre 2025 - Actualidad",
         "descriptions": [
           "Desarrollo aplicaciones web y móviles desde cero para clientes de distintos países.",
-          "Estoy trabajando en UR POV, una app móvil de reseñas y listados de negocios para el mercado sudafricano, en una plataforma educacional sobre inversiones y finanzas, y en el SaaS propio de la empresa: una plataforma de gestión para agencias de desarrollo que incluye seguimiento de proyectos, carga de horas, facturación y gestión de tickets estilo Kanban."
+          "Estoy trabajando en UR POV, una app móvil de reseñas y listados de negocios para el mercado sudafricano, en una plataforma educativa sobre inversiones y finanzas, y en el SaaS propio de la empresa: una plataforma de gestión para agencias de desarrollo que incluye seguimiento de proyectos, carga de horas, facturación y gestión de tickets estilo Kanban."
         ]
       },
       {
@@ -54,9 +54,9 @@
         "title": "Helmcode",
         "time": "Febrero 2025 - Noviembre 2025",
         "descriptions": [
-          "Trabajé en tres productos dentro del ecosistema Helmcode. Desarrollé Andulia, un agente de IA que se conecta a credenciales de AWS y Kubernetes para gestionar infraestructura cloud mediante lenguaje natural.",
-          "Contribuí al desarrollo de HelmCloud, una plataforma cloud basada en contenedores para pymes y startups que permite reducir costos de infraestructura hasta un 70% frente a clouds tradicionales.",
-          "También trabajé en Coderun, un SaaS para deployar y gestionar servicios en contenedores con integración a GitHub, GitLab y soporte para Dockerfiles, sin configuración compleja. Además desarrollé el sitio web institucional de la empresa."
+          "Trabajé en tres productos dentro del ecosistema Helmcode. Desarrollé Andulia, un agente de IA que se conecta a credenciales de AWS y Kubernetes para gestionar infraestructura en la nube mediante lenguaje natural.",
+          "Contribuí al desarrollo de HelmCloud, una plataforma en la nube basada en contenedores para pymes y startups que permite reducir costos de infraestructura hasta un 70% frente a nubes tradicionales.",
+          "También trabajé en Coderun, un SaaS para desplegar y gestionar servicios en contenedores con integración a GitHub, GitLab y soporte para Dockerfiles, sin configuración compleja. Además desarrollé el sitio web institucional de la empresa."
         ]
       },
       {
@@ -94,15 +94,15 @@
       {
         "url": "https://amparoseguros.com/",
         "title": "Amparo Seguros",
-        "category": "Mobile + Backend",
-        "description": "Ecosistema digital para una empresa de seguros, incluyendo app móvil React Native para vendedores, backend y herramientas internas para emisión de certificados y operaciones.",
+        "category": "Móvil + Backend",
+        "description": "Ecosistema digital para una empresa de seguros, incluyendo una app móvil React Native para vendedores, backend y herramientas internas para emisión de certificados y operaciones.",
         "tags": ["React Native", "Expo", "Next.js", "Seguros", "Backend"]
       },
       {
         "url": "https://helmcode.com/",
-        "title": "Helmcode / Cloud Products",
-        "category": "Cloud / IA",
-        "description": "Participación en productos cloud con IA, plataformas basadas en contenedores y SaaS para deployar y gestionar servicios.",
+        "title": "Helmcode / Productos en la nube",
+        "category": "Nube / IA",
+        "description": "Participación en productos en la nube con IA, plataformas basadas en contenedores y SaaS para desplegar y gestionar servicios.",
         "tags": ["React", "Next.js", "IA", "AWS", "Kubernetes", "SaaS"]
       }
     ]
@@ -123,12 +123,12 @@
       {
         "url": "https://www.sancristobal.com.ar/institucional/",
         "title": "San Cristóbal Seguros",
-        "description": "Desarrollo y mantenimiento de cotizador online, portal de productores de seguros, en Argentina y Uruguay."
+        "description": "Desarrollo y mantenimiento del cotizador online y del portal de productores de seguros en Argentina y Uruguay."
       },
       {
         "url": "https://www.estudialoai.ai/",
         "title": "Estudialo AI",
-        "description": "Plataforma fullstack para estudiantes y docentes con integración a Google Gemini que genera automáticamente exámenes, resúmenes, presentaciones y material de estudio a partir de cualquier contenido."
+        "description": "Plataforma full stack para estudiantes y docentes con integración a Google Gemini que genera automáticamente exámenes, resúmenes, presentaciones y material de estudio a partir de cualquier contenido."
       },
       {
         "url": "https://www.redsos.com.ar/",
@@ -139,7 +139,7 @@
   },
   "contact": {
     "title": "¿Te interesa trabajar conmigo?",
-    "text": "Estoy abierto a oportunidades remotas enfocadas en React Native, Expo, Next.js y desarrollo Full Stack JavaScript.",
+    "text": "Estoy abierto a oportunidades remotas enfocadas en React Native, Expo, Next.js y desarrollo full stack en JavaScript.",
     "contactLabel": "Contactarme",
     "linkedinLabel": "Ver LinkedIn"
   },
