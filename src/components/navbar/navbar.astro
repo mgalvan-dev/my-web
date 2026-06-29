@@ -8,12 +8,17 @@ interface Props {
 const { lang } = Astro.props;
 ---
 
-<nav class={styles.main_container}>
+<nav class={styles.main_container} aria-label="Social and language">
   <div class={styles.links_container}>
-    <a href="https://x.com/MarcoGal4" target="_blank" class={styles.links}>
+    <a
+      href="https://x.com/MarcoGal4"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={styles.links}
+    >
       <img
         src="/logos/x_dark.svg"
-        alt="x icon"
+        alt="X (Twitter)"
         width={16}
         height={16}
         class={styles.image}
@@ -22,26 +27,37 @@ const { lang } = Astro.props;
     <a
       href="https://www.linkedin.com/in/mgalvan26/"
       target="_blank"
+      rel="noopener noreferrer"
       class={styles.links}
     >
       <img
         src="/logos/linkedin.svg"
-        alt="linkedin icon"
+        alt="LinkedIn"
         width={16}
         height={16}
         class={styles.image}
       />
     </a>
-    <a href="https://github.com/mgalvan-dev" target="_blank" class={styles.links}>
+    <a
+      href="https://github.com/mgalvan-dev"
+      target="_blank"
+      rel="noopener noreferrer"
+      class={styles.links}
+    >
       <img
         src="/logos/github-dark.svg"
-        alt="github icon"
+        alt="GitHub"
         width={16}
         height={16}
         class={styles.image}
       />
     </a>
-    <a href={lang === "en" ? "/es" : "/"} class={styles.lang_button}>
+    <a
+      href={lang === "en" ? "/es" : "/"}
+      hreflang={lang === "en" ? "es" : "en"}
+      aria-label={lang === "en" ? "Cambiar a español" : "Switch to English"}
+      class={styles.lang_button}
+    >
       {lang === "en" ? "ES" : "EN"}
     </a>
   </div>
