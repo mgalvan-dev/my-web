@@ -18,11 +18,11 @@ const contactEmail = "mailto:elmacro11@gmail.com";
             <img
                 src="/profile.webp"
                 alt="Marco Galván"
-                title="Marco Galván foto"
                 class={styles.profile_photo}
                 width="200"
                 height="200"
-                loading="lazy"
+                loading="eager"
+                fetchpriority="high"
             />
             <div class={styles.text_container}>
                 <h1 class={styles.title}>{dictionary.title}</h1>
