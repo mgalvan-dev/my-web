@@ -9,7 +9,6 @@
 }
 
 .main_container:hover {
-    background-color: #111;
     border-color: #333;
 }
 
@@ -41,17 +40,8 @@
     font-weight: bold;
 }
 
-.working_period {
-    font-size: 1rem;
-}
-
 .description {
     font-size: 1rem;
-}
-
-.stack {
-    font-size: 1rem;
-    font-weight: bold;
 }
 
 @media (width < 768px) {
@@ -59,15 +49,7 @@
         font-size: 0.75rem;
     }
 
-    .working_period {
-        font-size: 0.75rem;
-    }
-
     .description {
-        font-size: 0.75rem;
-    }
-
-    .stack {
         font-size: 0.75rem;
     }
 }
