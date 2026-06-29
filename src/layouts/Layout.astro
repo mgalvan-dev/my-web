@@ -32,11 +32,10 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
         <meta name="description" content={description} />
         <meta name="author" content="Marco Galván" />
         <meta name="robots" content="index, follow" />
+        <meta name="theme-color" content="#0a0a0a" />
 
-        <!-- Canonical URL -->
         <link rel="canonical" href={canonicalURL} />
 
-        <!-- Open Graph -->
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
@@ -45,7 +44,6 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
-        <!-- Twitter Card -->
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
@@ -53,66 +51,46 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
         <meta name="twitter:site" content="@MarcoGal4" />
         <meta name="twitter:creator" content="@MarcoGal4" />
 
-        <!-- Favicons -->
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="16x16"
-            href="/favicon-16x16.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="/favicon-32x32.png"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            sizes="96x96"
-            href="/favicon-96x96.png"
-        />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
 
-        <!-- Alternate languages -->
         <link rel="alternate" href="https://mgalvan.dev/" hreflang="en" />
         <link rel="alternate" href="https://mgalvan.dev/es" hreflang="es" />
-        <link
-            rel="alternate"
-            href="https://mgalvan.dev/"
-            hreflang="x-default"
-        />
+        <link rel="alternate" href="https://mgalvan.dev/" hreflang="x-default" />
 
         <title>{title}</title>
 
         <Analytics />
-
         <SpeedInsights />
+
+        <script
+            type="application/ld+json"
+            set:html={JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Person",
+                name: "Marco Galván",
+                url: "https://mgalvan.dev/",
+                jobTitle:
+                    lang === "en"
+                        ? "React Native & Full Stack Developer"
+                        : "Desarrollador React Native & Full Stack",
+                worksFor: {
+                    "@type": "Organization",
+                    name: "Freelance",
+                },
+                sameAs: [
+                    "https://www.linkedin.com/in/mgalvan26/",
+                    "https://github.com/mgalvan-dev",
+                    "https://x.com/MarcoGal4",
+                ],
+            })}
+        />
     </head>
     <body>
         <slot />
-    </body><script
-        type="application/ld+json"
-        set:html={JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Marco Galván",
-            url: "https://mgalvan.dev/",
-            jobTitle:
-                lang === "en"
-                    ? "React Native & Full Stack Developer"
-                    : "Desarrollador React Native & Full Stack",
-            worksFor: {
-                "@type": "Organization",
-                name: "Freelance",
-            },
-            sameAs: [
-                "https://www.linkedin.com/in/mgalvan26/",
-                "https://github.com/mgalvan-dev",
-                "https://x.com/MarcoGal4",
-            ],
-        })}
-    />
+    </body>
 </html>
 
 <style is:global>
@@ -140,6 +118,10 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
         max-width: 100%;
     }
 
+    html {
+        scroll-padding-top: 80px;
+    }
+
     html,
     body {
         min-height: 100dvh;
@@ -157,5 +139,43 @@ const canonicalURL = new URL(Astro.url.pathname, "https://mgalvan.dev").href;
 
     p {
         text-wrap: pretty;
+    }
+
+    .skip-link {
+        position: absolute;
+        left: 8px;
+        top: -48px;
+        z-index: 100;
+        padding: 8px 16px;
+        background-color: #fafafa;
+        color: #111;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: top 0.15s ease-in-out;
+    }
+
+    .skip-link:focus {
+        top: 8px;
+    }
+
+    :focus-visible {
+        outline: 2px solid #fafafa;
+        outline-offset: 2px;
+        border-radius: 4px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
     }
 </style>
