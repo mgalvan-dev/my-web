@@ -47,6 +47,11 @@ const { dictionary, contextLabel, statusLabel } = Astro.props;
                     </div>
                 )
             }
+            {
+                dictionary.linkLabel && (
+                    <span class={styles.link_label}>{dictionary.linkLabel}</span>
+                )
+            }
         </a>
     ) : (
         <div class={styles.card_content}>

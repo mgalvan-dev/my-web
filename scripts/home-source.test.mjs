@@ -98,11 +98,11 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
 
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
-    ["POS for retailers", "Amparo Seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Amparo Seguros", "Helmcode Cloud Products"],
   );
   assert.deepEqual(
     spanish.selectedWork.items.map(({ name }) => name),
-    ["POS para comercios", "Amparo Seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Amparo Seguros", "Helmcode Cloud Products"],
   );
 });
 
@@ -221,7 +221,7 @@ test("Responsive navigation synchronizes its initial state with the viewport", a
   assert.match(navbar, /mobileViewport\.addEventListener\("change", syncMenuState\)/);
 });
 
-test("Selected work exposes truthful localized contexts without invented client claims", async () => {
+test("Selected work exposes Marfen as a truthful live own product", async () => {
   const [english, spanish] = await Promise.all([
     readJson("src/dictionaries/en.json"),
     readJson("src/dictionaries/es.json"),
@@ -230,19 +230,49 @@ test("Selected work exposes truthful localized contexts without invented client 
   assert.equal(english.selectedWork.title, "Selected products & professional work");
   assert.equal(spanish.selectedWork.title, "Productos y experiencia seleccionada");
   assert.deepEqual(
-    english.selectedWork.items.map(({ context, status, url }) => ({ context, status, url })),
+    english.selectedWork.items.map(({ context, status, url, linkLabel }) => ({
+      context,
+      status,
+      url,
+      linkLabel,
+    })),
     [
-      { context: "own-product", status: "in-validation", url: undefined },
-      { context: "dam-squad", status: undefined, url: undefined },
-      { context: "professional-experience", status: undefined, url: undefined },
+      {
+        context: "own-product",
+        status: "live",
+        url: "https://marfen.com.ar",
+        linkLabel: "Visit Marfen",
+      },
+      { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
+      {
+        context: "professional-experience",
+        status: undefined,
+        url: undefined,
+        linkLabel: undefined,
+      },
     ],
   );
   assert.deepEqual(
-    spanish.selectedWork.items.map(({ context, status, url }) => ({ context, status, url })),
+    spanish.selectedWork.items.map(({ context, status, url, linkLabel }) => ({
+      context,
+      status,
+      url,
+      linkLabel,
+    })),
     [
-      { context: "own-product", status: "in-validation", url: undefined },
-      { context: "dam-squad", status: undefined, url: undefined },
-      { context: "professional-experience", status: undefined, url: undefined },
+      {
+        context: "own-product",
+        status: "live",
+        url: "https://marfen.com.ar",
+        linkLabel: "Ver Marfen",
+      },
+      { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
+      {
+        context: "professional-experience",
+        status: undefined,
+        url: undefined,
+        linkLabel: undefined,
+      },
     ],
   );
   assert.deepEqual(Object.keys(english.selectedWork.labels.contexts).sort(), [
@@ -250,10 +280,39 @@ test("Selected work exposes truthful localized contexts without invented client 
     "own-product",
     "professional-experience",
   ]);
-  assert.equal(english.selectedWork.labels.statuses["in-validation"], "In validation");
-  assert.equal(spanish.selectedWork.labels.statuses["in-validation"], "En validación");
-  assert.doesNotMatch(JSON.stringify(english), /UR POV/i);
-  assert.doesNotMatch(JSON.stringify(spanish), /UR POV/i);
+  assert.equal(english.selectedWork.labels.statuses.live, "Live");
+  assert.equal(spanish.selectedWork.labels.statuses.live, "En producción");
+
+  const [englishMarfen, spanishMarfen] = [
+    english.selectedWork.items[0],
+    spanish.selectedWork.items[0],
+  ];
+  assert.equal(englishMarfen.name, "Marfen");
+  assert.equal(spanishMarfen.name, "Marfen");
+  assert.equal(
+    englishMarfen.description,
+    "Marfen is a management system for kiosks, convenience stores and small retailers. I designed and built it from scratch to centralize sales, inventory, cash management, purchases, suppliers, store credit and profitability. It is currently live and being used in a real retail operation while I continue iterating from direct user feedback.",
+  );
+  assert.equal(
+    spanishMarfen.description,
+    "Marfen es un sistema de gestión para kioscos, despensas y pequeños comercios. Lo diseñé y construí desde cero para centralizar ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Actualmente está en producción y se utiliza en una operación comercial real, mientras sigo iterándolo a partir del feedback directo de usuarios.",
+  );
+  assert.equal(
+    englishMarfen.role,
+    "Product strategy, product discovery, product design, architecture, full-stack development, and ongoing product evolution.",
+  );
+  assert.equal(
+    spanishMarfen.role,
+    "Estrategia y descubrimiento de producto, diseño de producto, arquitectura, desarrollo full-stack y evolución continua del producto.",
+  );
+
+  for (const dictionary of [english, spanish]) {
+    const serializedMarfen = JSON.stringify(dictionary.selectedWork.items[0]);
+    assert.doesNotMatch(
+      serializedMarfen,
+      /In validation|En validación|being prepared for validation|en preparación para ser validado|not yet a consolidated SaaS|Todavía no es un SaaS consolidado|marfen\.mgalvan\.dev|pos\.mgalvan\.dev/i,
+    );
+  }
 });
 
 test("Home dictionaries contain the approved localized metadata and CTA copy", async () => {
@@ -325,6 +384,8 @@ test("Selected work cards retain semantic static fallbacks", async () => {
 
   assert.match(productCard, /<article/);
   assert.doesNotMatch(productCard, /role=["']link["']/);
+  assert.match(productCard, /dictionary\.linkLabel/);
+  assert.match(productCard, /noopener noreferrer/);
   assert.match(featured, /contextLabel/);
   assert.match(featured, /statusLabel/);
 });

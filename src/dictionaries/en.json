@@ -77,18 +77,20 @@
         "professional-experience": "Professional experience"
       },
       "statuses": {
-        "in-validation": "In validation"
+        "live": "Live"
       }
     },
     "items": [
       {
-        "name": "POS for retailers",
+        "name": "Marfen",
         "category": "Product design & development",
         "context": "own-product",
-        "status": "in-validation",
-        "title": "A management system designed around the daily operation of a real store.",
-        "description": "I designed and built a multi-tenant POS to centralize sales, inventory, customers, store credit, cash management, expenses, purchases, and suppliers. It is a digital product being prepared for validation with real users in a real store operation. It is not yet a consolidated SaaS.",
-        "role": "Product strategy, discovery, MVP definition, product design, architecture, and full-stack development.",
+        "status": "live",
+        "title": "A live management system for kiosks, convenience stores and small retailers.",
+        "description": "Marfen is a management system for kiosks, convenience stores and small retailers. I designed and built it from scratch to centralize sales, inventory, cash management, purchases, suppliers, store credit and profitability. It is currently live and being used in a real retail operation while I continue iterating from direct user feedback.",
+        "role": "Product strategy, product discovery, product design, architecture, full-stack development, and ongoing product evolution.",
+        "url": "https://marfen.com.ar",
+        "linkLabel": "Visit Marfen",
         "tags": []
       },
       {

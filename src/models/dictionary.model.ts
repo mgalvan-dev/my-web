@@ -14,7 +14,7 @@ export type ProjectContext =
   | "dam-squad"
   | "professional-experience";
 
-export type ProjectStatus = "in-validation";
+export type ProjectStatus = "live";
 
 export interface SelectedWorkLabels {
   contexts: Record<ProjectContext, string>;
@@ -23,6 +23,7 @@ export interface SelectedWorkLabels {
 
 export interface SelectedWorkItem {
   url?: string;
+  linkLabel?: string;
   name: string;
   category: string;
   context: ProjectContext;

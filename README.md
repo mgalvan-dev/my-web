@@ -90,7 +90,7 @@ Do not commit generated output from `dist/`. No runtime server is required in pr
 
 ## Assets
 
-Use the assets that exist in `public/`: `profile.jpg`, `og-image.svg`, favicons, social logos, and the two linked CV PDFs. The POS project intentionally has no public URL, metrics, commercial name, or screenshots until those are available.
+Use the assets that exist in `public/`: `profile.jpg`, `og-image.svg`, favicons, social logos, and the two linked CV PDFs. Marfen is the featured own product and links to its public landing page at https://marfen.com.ar. The site does not publish metrics, customer counts, revenue, or screenshots for the product.
 
 ## License
 

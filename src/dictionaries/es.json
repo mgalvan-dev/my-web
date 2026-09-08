@@ -77,18 +77,20 @@
         "professional-experience": "Experiencia profesional"
       },
       "statuses": {
-        "in-validation": "En validación"
+        "live": "En producción"
       }
     },
     "items": [
       {
-        "name": "POS para comercios",
+        "name": "Marfen",
         "category": "Diseño y desarrollo de producto",
         "context": "own-product",
-        "status": "in-validation",
-        "title": "Un sistema de gestión pensado desde la operación diaria de un comercio real.",
-        "description": "Diseñé y construí un POS multi-tenant para centralizar ventas, stock, clientes, cuentas corrientes, caja, egresos, compras y proveedores. Es un producto digital en preparación para ser validado con usuarios reales en una operación comercial real. Todavía no es un SaaS consolidado.",
-        "role": "Estrategia y descubrimiento de producto, definición del MVP, diseño de producto, arquitectura y desarrollo full-stack.",
+        "status": "live",
+        "title": "Un sistema de gestión en producción para kioscos, despensas y pequeños comercios.",
+        "description": "Marfen es un sistema de gestión para kioscos, despensas y pequeños comercios. Lo diseñé y construí desde cero para centralizar ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Actualmente está en producción y se utiliza en una operación comercial real, mientras sigo iterándolo a partir del feedback directo de usuarios.",
+        "role": "Estrategia y descubrimiento de producto, diseño de producto, arquitectura, desarrollo full-stack y evolución continua del producto.",
+        "url": "https://marfen.com.ar",
+        "linkLabel": "Ver Marfen",
         "tags": []
       },
       {
