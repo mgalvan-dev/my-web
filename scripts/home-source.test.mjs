@@ -384,8 +384,12 @@ test("Selected work cards retain semantic static fallbacks", async () => {
 
   assert.match(productCard, /<article/);
   assert.doesNotMatch(productCard, /role=["']link["']/);
-  assert.match(productCard, /dictionary\.linkLabel/);
-  assert.match(productCard, /noopener noreferrer/);
+  assert.equal((productCard.match(/<a\b/g) ?? []).length, 1);
+  assert.match(productCard, /target=["']_blank["']/);
+  assert.match(productCard, /rel=["']noopener noreferrer["']/);
+  const [linkedBranch, staticBranch] = productCard.split(") : (");
+  assert.match(linkedBranch, /<a[\s\S]*dictionary\.linkLabel[\s\S]*<\/a>/);
+  assert.doesNotMatch(staticBranch, /<a\b|dictionary\.linkLabel/);
   assert.match(featured, /contextLabel/);
   assert.match(featured, /statusLabel/);
 });
