@@ -3,6 +3,8 @@ dist/
 
 .vscode
 
+.worktrees/
+
 # generated types
 .astro/
 
