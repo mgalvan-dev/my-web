@@ -24,7 +24,6 @@ test("Home routes use the Services V1 section order", async () => {
       "ProblemSection",
       "Capabilities",
       "Featured",
-      "MarfenCase",
       "ProfessionalCase",
       "Process",
       "ExperienceSummary",
@@ -41,7 +40,6 @@ test("Home routes use the Services V1 section order", async () => {
       "<ProblemSection",
       "<Capabilities",
       "<Featured",
-      "<MarfenCase",
       "<ProfessionalCase",
       "<Process",
       "<ExperienceSummary",
@@ -394,6 +392,8 @@ test("Selected work cards retain semantic static fallbacks", async () => {
   assert.doesNotMatch(staticBranch, /<a\b|dictionary\.linkLabel/);
   assert.match(featured, /contextLabel/);
   assert.match(featured, /statusLabel/);
+  assert.match(featured, /import\s+MarfenCase\s+from\s+["'][^"']*marfen-case[^"']*["']/);
+  assert.match(featured, /<MarfenCase\b/);
 });
 
 test("Home pages consume localized metadata and preserve page-family alternates", async () => {

@@ -21,6 +21,25 @@ const listFiles = async (directory) => {
   }));
   return nested.flat();
 };
+const sourceFiles = async (directory) => (await listFiles(directory)).filter((path) => /\.(?:astro|[cm]?[jt]sx?)$/.test(path));
+const readSources = async (paths) => Promise.all(paths.map(async (path) => [path, await readSource(path)]));
+const callArguments = (source, name) => {
+  const calls = [];
+  const matcher = new RegExp(`\\b${name}\\s*\\(`, "g");
+  for (const match of source.matchAll(matcher)) {
+    const start = source.indexOf("(", match.index);
+    let depth = 0;
+    for (let index = start; index < source.length; index += 1) {
+      if (source[index] === "(") depth += 1;
+      if (source[index] === ")") depth -= 1;
+      if (depth === 0) {
+        calls.push(source.slice(start + 1, index));
+        break;
+      }
+    }
+  }
+  return calls;
+};
 const submitHandler = (source) => {
   const listener = /addEventListener\s*\(\s*["']submit["']\s*,/.exec(source);
   assert.ok(listener, "ContactCta must register a submit handler");
@@ -53,6 +72,12 @@ const homeComponents = [
   "src/components/marfen-case/marfen-case.astro",
   "src/components/professional-case/professional-case.astro",
   "src/components/fit/fit.astro",
+];
+const homeSourcePaths = [
+  ...homeComponents,
+  "src/components/analytics/analytics-events.astro",
+  "src/components/product-card/product-card.astro",
+  "src/layouts/Layout.astro",
 ];
 
 test("Services V1 dictionaries contain exact Spanish commercial copy", async () => {
@@ -102,7 +127,7 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   for (const routePath of homeRoutes) {
     const route = await readSource(routePath);
     assert.match(route, /<Layout\b/);
-    for (const component of ["Header", "Hero", "ProblemSection", "Capabilities", "Featured", "MarfenCase", "ProfessionalCase", "Process", "ExperienceSummary", "Fit", "ContactCta", "Footer"]) assert.match(route, new RegExp(`<${component}\\b`));
+    for (const component of ["Header", "Hero", "ProblemSection", "Capabilities", "Featured", "ProfessionalCase", "Process", "ExperienceSummary", "Fit", "ContactCta", "Footer"]) assert.match(route, new RegExp(`<${component}\\b`));
     const source = [route, ...sharedSources].join("\n");
     for (const id of ["services", "work", "process", "about", "fit", "contact"]) assert.match(source, new RegExp(`id=["']${id}["']`));
     assert.doesNotMatch(route, /\/servicios\/|\/blog\/|\/sector\/|\/diagnostico\//);
@@ -117,6 +142,9 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   for (const source of nonHeroSources) assert.doesNotMatch(source, /<h1\b/);
   const structuralSources = await Promise.all(homeComponents.slice(5).map(readSource));
   for (const source of structuralSources) assert.match(source, /<section\b/);
+  const featured = await readSource("src/components/featured/featured.astro");
+  assert.match(featured, /import\s+MarfenCase\s+from\s+["'][^"']*marfen-case[^"']*["']/);
+  assert.match(featured, /<MarfenCase\b/);
 });
 
 test("Services V1 professional case is anonymized and uses the non-numeric result fallback", async () => {
@@ -154,7 +182,15 @@ test("Services V1 analytics maps conversion events to owning components", async 
   }
   const analytics = await readSource("src/components/analytics/analytics-events.astro");
   assert.equal((analytics.match(/document\.addEventListener/g) ?? []).length, 1);
+  assert.match(analytics, /document\.addEventListener\(\s*["']click["']/);
+  assert.match(analytics, /closest(?:<HTMLElement>)?\(\s*["']\[data-analytics-event\]["']\s*\)/);
+  assert.match(analytics, /track\s*\(\s*eventName\s*\)/);
   assert.doesNotMatch(analytics, /preventDefault/);
+  for (const argumentsSource of callArguments(analytics, "track")) {
+    assert.doesNotMatch(argumentsSource, /\b(?:name|company|contact|process|currentSolution|tools|context)\b/i);
+  }
+  const otherHomeSources = await readSources(homeSourcePaths.filter((path) => path !== "src/components/analytics/analytics-events.astro"));
+  for (const [path, source] of otherHomeSources) assert.doesNotMatch(source, /document\.addEventListener\(\s*["']click["']/, path);
   for (const source of [navbar, footer, experience, analytics]) assert.doesNotMatch(source, /signup_completed/);
 });
 
@@ -189,6 +225,11 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(action, /RESEND_API_KEY/);
   assert.match(action, /RESEND_FROM_EMAIL/);
   assert.match(action, /CONTACT_EMAIL_ADDRESS/);
+  assert.match(action, /resend\.emails\.send\s*\(\s*\{[\s\S]*?\bfrom\s*:[\s\S]*?\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b[\s\S]*?\bhtml\s*:[\s\S]*?\btext\s*:/);
+  assert.match(action, /\bescapeHtml\s*\(/);
+  assert.match(action, /\bhtml\s*:\s*\w*(?:html|email)\w*\s*\(/i);
+  assert.match(action, /\btext\s*:\s*\w*(?:text|plain)\w*\s*\(/i);
+  assert.ok((action.match(/throw\s+new\s+ActionError\s*\(/g) ?? []).length >= 2);
   assert.doesNotMatch(action, /https?:\/\/.*resend|api\/contact\.ts|PUBLIC_|fetch\(|axios|sendgrid|mailgun/i);
 });
 
@@ -239,9 +280,23 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.match(cvEnglish, /cvData/); assert.match(cvSpanish, /cvData/); assert.match(cvLayout, /metadata/);
 });
 
-test("Services V1 does not add service-detail or excluded content route families", async () => {
+test("Services V1 rejects excluded route families and manual API routes", async () => {
   const pageFiles = await listFiles("src/pages");
   for (const pageFile of pageFiles) {
     assert.doesNotMatch(pageFile, /(?:^|[\/_.-])(?:servicios?|services?|blogs?|sectors?|diagn[oó]sticos?|diagnostics?)(?=$|[\/_.-])/i);
+    assert.doesNotMatch(pageFile, /(?:^|\/)api(?:\/|$)/i);
+  }
+  for (const [path, source] of await readSources(pageFiles)) assert.doesNotMatch(source, /\/?api\/contact\b/i, path);
+});
+
+test("Services V1 keeps Resend transport and static rendering out of Home sources", async () => {
+  const sources = await readSources(await sourceFiles("src"));
+  for (const [path, source] of sources) {
+    if (path !== "src/actions/index.ts") {
+      assert.doesNotMatch(source, /https?:\/\/(?:api\.)?resend\.com|\bfetch\s*\(/i, path);
+    }
+  }
+  for (const [path, source] of await readSources(homeSourcePaths)) {
+    assert.doesNotMatch(source, /\bServerIsland\b|server\s*:\s*defer/i, path);
   }
 });
