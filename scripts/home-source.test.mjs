@@ -17,6 +17,7 @@ test("Home routes use the Services V1 section order", async () => {
   ]);
 
   for (const route of routes) {
+    assert.match(route, /<Layout\b/);
     for (const component of [
       "Header",
       "Hero",

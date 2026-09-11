@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import test from "node:test";
 
 const root = new URL("..", import.meta.url);
@@ -13,6 +13,28 @@ const readSource = async (path) => {
   }
 };
 const readJson = async (path) => JSON.parse(await readFile(file(path), "utf8"));
+const listFiles = async (directory) => {
+  const entries = await readdir(file(directory), { withFileTypes: true });
+  const nested = await Promise.all(entries.map((entry) => {
+    const relative = `${directory}/${entry.name}`;
+    return entry.isDirectory() ? listFiles(relative) : [relative];
+  }));
+  return nested.flat();
+};
+const submitHandler = (source) => {
+  const listener = /addEventListener\s*\(\s*["']submit["']\s*,/.exec(source);
+  assert.ok(listener, "ContactCta must register a submit handler");
+  const bodyStart = source.indexOf("{", listener.index);
+  assert.ok(bodyStart >= 0, "ContactCta submit handler must have a body");
+
+  let depth = 0;
+  for (let index = bodyStart; index < source.length; index += 1) {
+    if (source[index] === "{") depth += 1;
+    if (source[index] === "}") depth -= 1;
+    if (depth === 0) return source.slice(bodyStart + 1, index);
+  }
+  assert.fail("ContactCta submit handler body is not closed");
+};
 
 const homeRoutes = ["src/pages/index.astro", "src/pages/es/index.astro"];
 const homeComponents = [
@@ -79,6 +101,7 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   const sharedSources = await Promise.all(homeComponents.slice(2).map(readSource));
   for (const routePath of homeRoutes) {
     const route = await readSource(routePath);
+    assert.match(route, /<Layout\b/);
     for (const component of ["Header", "Hero", "ProblemSection", "Capabilities", "Featured", "MarfenCase", "ProfessionalCase", "Process", "ExperienceSummary", "Fit", "ContactCta", "Footer"]) assert.match(route, new RegExp(`<${component}\\b`));
     const source = [route, ...sharedSources].join("\n");
     for (const id of ["services", "work", "process", "about", "fit", "contact"]) assert.match(source, new RegExp(`id=["']${id}["']`));
@@ -87,31 +110,52 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   }
   const sources = await Promise.all(homeComponents.map(readSource));
   for (const source of sources) assert.doesNotMatch(source, /\/servicios\/|\/blog\/|\/sector\/|\/diagnostico\//);
-  for (const routePath of homeRoutes) {
-    const route = await readSource(routePath);
-    assert.equal((route.match(/<h1\b/g) ?? []).length, 1);
-  }
-  const structuralSources = await Promise.all(homeComponents.slice(-4).map(readSource));
+  const heroPath = "src/components/hero/hero.astro";
+  const hero = await readSource(heroPath);
+  assert.equal((hero.match(/<h1\b/g) ?? []).length, 1);
+  const nonHeroSources = await Promise.all(homeComponents.filter((path) => path !== heroPath).map(readSource));
+  for (const source of nonHeroSources) assert.doesNotMatch(source, /<h1\b/);
+  const structuralSources = await Promise.all(homeComponents.slice(5).map(readSource));
   for (const source of structuralSources) assert.match(source, /<section\b/);
 });
 
 test("Services V1 professional case is anonymized and uses the non-numeric result fallback", async () => {
-  const spanish = await readJson("src/dictionaries/es.json");
-  const professionalCase = spanish.professionalCase ?? {};
-  const serialized = JSON.stringify(professionalCase);
-  assert.match(serialized, /cuestión de horas|cuestion de horas/i);
-  assert.doesNotMatch(serialized, /cinco|5|dos|2|seis|6|client(?:e|Name)?|company|empresa|private|identif|email|phone|telefono|teléfono/i);
+  const [english, spanish] = await Promise.all([readJson("src/dictionaries/en.json"), readJson("src/dictionaries/es.json")]);
+  assert.equal(spanish.professionalCase.result, "Un proceso que requería varios días pasó a completarse en cuestión de horas.");
+  assert.equal(english.professionalCase.result, "A process that took several days was completed in a matter of hours.");
+  for (const professionalCase of [english.professionalCase, spanish.professionalCase]) {
+    const serialized = JSON.stringify(professionalCase);
+    assert.doesNotMatch(serialized, /\d|client(?:e|Name)?|company|empresa|private|identif|email|phone|telefono|teléfono/i);
+  }
 });
 
-test("Services V1 analytics maps seven conversion events and preserves delegated analytics", async () => {
-  const sources = await Promise.all(homeComponents.map(readSource));
+test("Services V1 analytics maps conversion events to owning components", async () => {
+  const owners = new Map([
+    ["services_cta_clicked", "src/components/capabilities/capabilities.astro"],
+    ["case_clicked", "src/components/featured/featured.astro"],
+    ["marfen_clicked", "src/components/marfen-case/marfen-case.astro"],
+    ["contact_cta_clicked", "src/components/contact-cta/contact-cta.astro"],
+    ["whatsapp_clicked", "src/components/contact-cta/contact-cta.astro"],
+    ["form_started", "src/components/contact-cta/contact-cta.astro"],
+    ["form_submitted", "src/components/contact-cta/contact-cta.astro"],
+  ]);
+  for (const [eventName, owner] of owners) {
+    const source = await readSource(owner);
+    assert.match(source, new RegExp(`data-analytics-event=["']${eventName}["']`), `${eventName} owner: ${owner}`);
+  }
+  const [navbar, footer, experience] = await Promise.all([
+    readSource("src/components/navbar/navbar.astro"),
+    readSource("src/components/footer/footer.astro"),
+    readSource("src/components/experience-summary/experience-summary.astro"),
+  ]);
+  assert.match(navbar, /data-analytics-event=["']language_changed["']/);
+  for (const [eventName, source] of [["email_clicked", footer], ["linkedin_clicked", footer], ["github_clicked", footer], ["x_clicked", footer], ["linkedin_clicked", experience]]) {
+    assert.match(source, new RegExp(`data-analytics-event=["']${eventName}["']`));
+  }
   const analytics = await readSource("src/components/analytics/analytics-events.astro");
-  const combined = sources.join("\n");
-  for (const eventName of ["services_cta_clicked", "case_clicked", "marfen_clicked", "contact_cta_clicked", "whatsapp_clicked", "form_started", "form_submitted"]) assert.match(combined, new RegExp(eventName));
-  assert.match(combined, /language_changed/);
   assert.equal((analytics.match(/document\.addEventListener/g) ?? []).length, 1);
   assert.doesNotMatch(analytics, /preventDefault/);
-  assert.doesNotMatch(combined, /signup_completed/);
+  for (const source of [navbar, footer, experience, analytics]) assert.doesNotMatch(source, /signup_completed/);
 });
 
 test("Services V1 contact form exposes only the approved fields and requiredness", async () => {
@@ -126,18 +170,19 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   assert.match(contact, /new FormData\(form\)/);
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
-  assert.match(contact, /event\.preventDefault\(\)/);
-  assert.match(contact, /if \(form\.checkValidity\(\)/);
   for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) assert.match(contact, new RegExp(`<label[^>]*for=["']${field}["']`));
-  assert.match(contact, /submit[\s\S]*form\.checkValidity\(\)[\s\S]*event\.preventDefault\(\)/);
+  const handler = submitHandler(contact);
+  const validIndex = handler.indexOf("checkValidity");
+  const preventDefaultIndex = handler.indexOf("preventDefault");
+  const actionIndex = handler.indexOf("actions.contact");
+  assert.ok(validIndex >= 0 && preventDefaultIndex > validIndex && actionIndex > preventDefaultIndex);
+  assert.equal((contact.match(/preventDefault/g) ?? []).length, 1);
   assert.doesNotMatch(contact, /window\.location|location\.href|navigate\(/);
 });
 
 test("Services V1 contact action uses the approved Astro Action and Resend contract", async () => {
   const action = await readSource("src/actions/index.ts");
-  assert.match(action, /server\.contact\s*=\s*defineAction\(\{\s*accept:\s*["']form["']/s);
-  assert.match(action, /input[\s,}]/);
-  assert.match(action, /handler/);
+  assert.match(action, /export\s+const\s+server\s*=\s*\{[\s\S]*?\bcontact\s*:\s*defineAction\(\s*\{[\s\S]*?\baccept\s*:\s*["']form["'][\s\S]*?\binput\s*:[\s\S]*?\bhandler\s*:/);
   assert.match(action, /import \{ z \} from ["']astro\/zod["']/);
   assert.match(action, /import \{ ActionError \} from ["']astro:actions["']/);
   assert.match(action, /import \{ Resend \} from ["']resend["']/);
@@ -148,14 +193,17 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
 });
 
 test("Services V1 uses the approved WhatsApp destination and prefilled message", async () => {
-  const sources = await Promise.all(homeComponents.map(readSource));
-  const source = sources.join("\n");
+  const contact = await readSource("src/components/contact-cta/contact-cta.astro");
+  const source = contact;
   const message = "Hola Marco, estoy buscando mejorar un proceso de mi empresa. Actualmente lo resolvemos de esta manera:";
   assert.match(source, /5493855205726/);
   assert.match(source, /wa\.me\/5493855205726/);
   assert.match(source, new RegExp(`encodeURIComponent\\(["']${message.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}["']\\)`));
   assert.match(source, /whatsapp_clicked/);
   assert.doesNotMatch(source, /wa\.me\/(?!5493855205726)/);
+  const marfen = await readSource("src/components/marfen-case/marfen-case.astro");
+  assert.match(marfen, /https:\/\/marfen\.com\.ar/);
+  assert.match(marfen, /data-analytics-event=["']marfen_clicked["']/);
 });
 
 test("Services V1 preserves static Astro and page-family SEO contracts", async () => {
@@ -165,6 +213,7 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.match(config, /output:\s*["']static["']/);
   assert.match(config, /import\s+vercel\s+from\s+["']@astrojs\/vercel["']/);
   assert.match(config, /adapter:\s*vercel\(\)/);
+  assert.match(config, /redirects:\s*\{[\s\S]*["']\/en["']\s*:\s*["']\/["']/);
   assert.doesNotMatch(config, /output:\s*["']server["']|server:\s*\{?\s*defer|ServerIsland|api\//);
   for (const [source, canonical] of [[english, "/"], [spanish, "/es/"]]) {
     assert.match(source, /metadata:\s*dictionary\.metadata/);
@@ -173,6 +222,10 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
     for (const lang of ["en", "es", "x-default"]) assert.match(source, new RegExp(`lang:\s*["']${lang}["']`));
     assert.match(source, canonical === "/" ? /\{ lang: "es", href: "\/es\/" \}/ : /\{ lang: "en", href: "\/" \}/);
   }
+  const layout = await readSource("src/layouts/Layout.astro");
+  assert.match(english, /<Layout\b/);
+  assert.match(spanish, /<Layout\b/);
+  assert.match(layout, /AnalyticsEvents/);
   const action = await readSource("src/actions/index.ts");
   const nonActionSources = await Promise.all([
     readSource("src/components/contact-cta/contact-cta.astro"),
@@ -184,4 +237,11 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.match(action, /RESEND_API_KEY|RESEND_FROM_EMAIL/);
   assert.match(cvEnglish, /<CVLayout\b/); assert.match(cvSpanish, /<CVLayout\b/);
   assert.match(cvEnglish, /cvData/); assert.match(cvSpanish, /cvData/); assert.match(cvLayout, /metadata/);
+});
+
+test("Services V1 does not add service-detail or excluded content route families", async () => {
+  const pageFiles = await listFiles("src/pages");
+  for (const pageFile of pageFiles) {
+    assert.doesNotMatch(pageFile, /(?:^|[\/_.-])(?:servicios?|services?|blogs?|sectors?|diagn[oó]sticos?|diagnostics?)(?=$|[\/_.-])/i);
+  }
 });
