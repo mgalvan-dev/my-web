@@ -40,6 +40,16 @@ const callArguments = (source, name) => {
   }
   return calls;
 };
+const delimitedEnd = (source, start, open, close) => {
+  let depth = 0;
+  for (let index = start; index < source.length; index += 1) {
+    if (source[index] === open) depth += 1;
+    if (source[index] === close) depth -= 1;
+    if (depth === 0) return index;
+  }
+  assert.fail(`Expected a closed ${open}${close} block`);
+};
+const callArgumentsAt = (source, openParen) => source.slice(openParen + 1, delimitedEnd(source, openParen, "(", ")"));
 const blockBody = (source, bodyStart) => {
   let depth = 0;
   for (let index = bodyStart; index < source.length; index += 1) {
@@ -49,9 +59,17 @@ const blockBody = (source, bodyStart) => {
   }
   assert.fail("Expected a closed block");
 };
-const actionHandler = (source) => {
-  const definition = callArguments(source, "defineAction").find((candidate) => /\bhandler\s*:/.test(candidate));
-  assert.ok(definition, "contact must define an Action handler");
+const contactAction = (source) => {
+  const server = /export\s+const\s+server\s*=\s*\{/.exec(source);
+  assert.ok(server, "Actions must use export const server");
+  const serverStart = server.index + server[0].lastIndexOf("{");
+  const serverBody = source.slice(serverStart + 1, delimitedEnd(source, serverStart, "{", "}"));
+  const contact = /\bcontact\s*:\s*defineAction\s*\(/.exec(serverBody);
+  assert.ok(contact, "server.contact must define the contact Action");
+  const openParen = serverBody.indexOf("(", contact.index);
+  return callArgumentsAt(serverBody, openParen);
+};
+const actionHandler = (definition) => {
   const handler = /\bhandler\s*:\s*(?:async\s*)?(?:\([^)]*\)|\w+)\s*=>\s*\{/.exec(definition);
   assert.ok(handler, "contact Action handler must be inline");
   return blockBody(definition, handler.index + handler[0].lastIndexOf("{"));
@@ -213,11 +231,13 @@ test("Services V1 analytics maps conversion events to owning components", async 
 test("Services V1 contact form exposes only the approved fields and requiredness", async () => {
   const contact = await readSource("src/components/contact-cta/contact-cta.astro");
   const controls = contact.match(/<(?:input|textarea)\b[^>]*>/g) ?? [];
+  const labels = contact.match(/<label\b[^>]*>/g) ?? [];
   const controlFor = (field) => {
     const matches = controls.filter((tag) => new RegExp(`\\bname\\s*=\\s*["']${field}["']`).test(tag));
     assert.equal(matches.length, 1, `${field} must have exactly one form control`);
     return matches[0];
   };
+  const attribute = (tag, name) => new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`).exec(tag)?.[1];
   assert.match(contact, /<form\b/);
   for (const field of ["name", "company", "contact", "process", "currentSolution"]) assert.match(controlFor(field), /\brequired\b/);
   for (const field of ["tools", "context"]) assert.doesNotMatch(controlFor(field), /\brequired\b/);
@@ -227,7 +247,11 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   assert.match(contact, /new FormData\(form\)/);
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) assert.match(contact, new RegExp(`<label[^>]*for=["']${field}["']`));
+  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+    const matchingLabels = labels.filter((tag) => attribute(tag, "for") === field);
+    assert.equal(matchingLabels.length, 1, `${field} must have one visible label`);
+    assert.equal(attribute(controlFor(field), "id"), attribute(matchingLabels[0], "for"), `${field} label must target its control`);
+  }
   const handler = submitHandler(contact);
   const validIndex = handler.indexOf("checkValidity");
   const preventDefaultIndex = handler.indexOf("preventDefault");
@@ -239,8 +263,11 @@ test("Services V1 contact form exposes only the approved fields and requiredness
 
 test("Services V1 contact action uses the approved Astro Action and Resend contract", async () => {
   const action = await readSource("src/actions/index.ts");
-  const handler = actionHandler(action);
-  assert.match(action, /export\s+const\s+server\s*=\s*\{[\s\S]*?\bcontact\s*:\s*defineAction\(\s*\{[\s\S]*?\baccept\s*:\s*["']form["'][\s\S]*?\binput\s*:[\s\S]*?\bhandler\s*:/);
+  const definition = contactAction(action);
+  const handler = actionHandler(definition);
+  assert.match(definition, /\baccept\s*:\s*["']form["']/);
+  assert.match(definition, /\binput\s*:/);
+  assert.match(definition, /\bhandler\s*:/);
   assert.match(action, /import \{ z \} from ["']astro\/zod["']/);
   assert.match(action, /import \{ ActionError \} from ["']astro:actions["']/);
   assert.match(action, /import \{ Resend \} from ["']resend["']/);
@@ -249,7 +276,7 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(action, /CONTACT_EMAIL_ADDRESS/);
   const [email] = callArguments(handler, "resend\\.emails\\.send");
   assert.ok(email, "the Action handler must send the email");
-  assert.match(email, /\bfrom\s*:/);
+  assert.match(email, /\bfrom\s*:\s*RESEND_FROM_EMAIL\b/);
   assert.match(email, /\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b/);
   const htmlBuilder = /\bhtml\s*:\s*(\w*(?:html|email)\w*)\s*\(/i.exec(email)?.[1];
   assert.ok(htmlBuilder, "the email payload must use an HTML builder");
