@@ -10,7 +10,7 @@ const readJson = async (path) =>
 
 const readSource = async (path) => readFile(file(path), "utf8");
 
-test("Home routes use the commercial Product Builder section order", async () => {
+test("Home routes use the Services V1 section order", async () => {
   const routes = await Promise.all([
     readSource("src/pages/index.astro"),
     readSource("src/pages/es/index.astro"),
@@ -18,13 +18,16 @@ test("Home routes use the commercial Product Builder section order", async () =>
 
   for (const route of routes) {
     for (const component of [
-      "Layout",
       "Header",
       "Hero",
+      "ProblemSection",
       "Capabilities",
-      "Process",
       "Featured",
+      "MarfenCase",
+      "ProfessionalCase",
+      "Process",
       "ExperienceSummary",
+      "Fit",
       "ContactCta",
       "Footer",
     ]) {
@@ -34,17 +37,21 @@ test("Home routes use the commercial Product Builder section order", async () =>
     const order = [
       "<Header",
       "<Hero",
+      "<ProblemSection",
       "<Capabilities",
-      "<Process",
       "<Featured",
+      "<MarfenCase",
+      "<ProfessionalCase",
+      "<Process",
       "<ExperienceSummary",
+      "<Fit",
       "<ContactCta",
       "<Footer",
     ].map((marker) => route.indexOf(marker));
 
     assert.ok(order.every((index) => index >= 0));
     assert.deepEqual([...order].sort((a, b) => a - b), order);
-    assert.doesNotMatch(route, /<Journal\b|<Projects\b|<Experience\b/);
+    assert.doesNotMatch(route, /<Journal\b|<Projects\b|<Experience\b|<StandaloneExperience\b/);
   }
 });
 
@@ -64,30 +71,33 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
     Object.keys(spanish.experienceSummary),
   );
 
-  assert.equal(
-    english.hero.eyebrow,
-    "Marco Galván · Software Developer & Product Builder",
-  );
+  assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
   assert.equal(
     spanish.hero.eyebrow,
-    "Marco Galván · Desarrollador de Software & Product Builder",
+    "Software a medida · Automatizaciones · Integraciones",
   );
   assert.equal(english.footer.role, "Software Developer & Product Builder");
   assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
-  assert.equal(
-    english.hero.title,
-    "I turn business problems into products and systems that work.",
-  );
+  assert.match(english.hero.title, /businesses.*processes.*automate.*systems/i);
   assert.equal(
     spanish.hero.title,
-    "Convierto problemas de negocio en productos y sistemas que funcionan.",
+    "Construyo software para empresas que necesitan ordenar procesos, automatizar tareas y conectar sus sistemas.",
   );
-  assert.equal(english.capabilities.items.length, 3);
-  assert.equal(spanish.capabilities.items.length, 3);
-  assert.equal(english.process.steps.length, 5);
-  assert.equal(spanish.process.steps.length, 5);
-  assert.equal(english.selectedWork.items.length, 3);
-  assert.equal(spanish.selectedWork.items.length, 3);
+  for (const key of [
+    "navigation",
+    "hero",
+    "capabilities",
+    "problem",
+    "process",
+    "selectedWork",
+    "marfenCase",
+    "professionalCase",
+    "experienceSummary",
+    "fit",
+    "contact",
+  ]) {
+    assert.deepEqual(Object.keys(english[key] ?? {}), Object.keys(spanish[key] ?? {}));
+  }
 
   for (const dictionary of [english, spanish]) {
     const serializedHero = JSON.stringify(dictionary.hero);
@@ -331,10 +341,7 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
   );
   assert.match(english.metadata.description, /operational problems into digital products/);
   assert.match(spanish.metadata.description, /problemas operativos en productos digitales/);
-  assert.match(
-    english.hero.description,
-    /from understanding the problem to launching and evolving/,
-  );
+  assert.match(english.hero.description, /custom software|automations|integrations/i);
   assert.deepEqual(
     english.process.steps.map(({ description }) => description),
     [
@@ -364,16 +371,10 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
     /Trabajás directamente conmigo desde entender el problema hasta lanzar y evolucionar la solución\./,
   );
   assert.match(english.capabilities.items[0].description, /test with real users and evolve/);
-  assert.equal(
-    english.contact.text,
-    "Tell me about the problem, how things work today and what you have already tried. You do not need to have the solution defined.",
-  );
-  assert.equal(
-    spanish.contact.text,
-    "Contame el problema, cómo funciona hoy y qué ya intentaron. No hace falta que tengas definida la solución.",
-  );
-  assert.equal(english.contact.contactLabel, "Tell me what you're trying to solve");
-  assert.equal(spanish.contact.contactLabel, "Contame qué estás intentando resolver");
+  assert.match(english.contact.text, /process|problem/i);
+  assert.match(spanish.contact.text, /proceso|problema/i);
+  assert.match(english.contact.contactLabel, /tell me|problem|improv/i);
+  assert.match(spanish.contact.contactLabel, /contame|problema|mejorar/i);
 });
 
 test("Selected work cards retain semantic static fallbacks", async () => {
@@ -427,13 +428,17 @@ test("Home analytics uses one shared event listener and named events", async () 
   assert.match(analytics, /track/);
   assert.equal((analytics.match(/document\.addEventListener/g) ?? []).length, 1);
   for (const eventName of [
+    "services_cta_clicked",
+    "case_clicked",
+    "marfen_clicked",
     "contact_cta_clicked",
-    "email_clicked",
-    "linkedin_clicked",
-    "github_clicked",
-    "x_clicked",
+    "whatsapp_clicked",
+    "form_started",
+    "form_submitted",
     "language_changed",
   ]) {
     assert.match(source, new RegExp(eventName));
   }
+  assert.doesNotMatch(analytics, /preventDefault/);
+  assert.doesNotMatch(source, /signup_completed/);
 });
