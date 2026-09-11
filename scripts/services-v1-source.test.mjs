@@ -40,19 +40,35 @@ const callArguments = (source, name) => {
   }
   return calls;
 };
-const submitHandler = (source) => {
-  const listener = /addEventListener\s*\(\s*["']submit["']\s*,/.exec(source);
-  assert.ok(listener, "ContactCta must register a submit handler");
-  const bodyStart = source.indexOf("{", listener.index);
-  assert.ok(bodyStart >= 0, "ContactCta submit handler must have a body");
-
+const blockBody = (source, bodyStart) => {
   let depth = 0;
   for (let index = bodyStart; index < source.length; index += 1) {
     if (source[index] === "{") depth += 1;
     if (source[index] === "}") depth -= 1;
     if (depth === 0) return source.slice(bodyStart + 1, index);
   }
-  assert.fail("ContactCta submit handler body is not closed");
+  assert.fail("Expected a closed block");
+};
+const actionHandler = (source) => {
+  const definition = callArguments(source, "defineAction").find((candidate) => /\bhandler\s*:/.test(candidate));
+  assert.ok(definition, "contact must define an Action handler");
+  const handler = /\bhandler\s*:\s*(?:async\s*)?(?:\([^)]*\)|\w+)\s*=>\s*\{/.exec(definition);
+  assert.ok(handler, "contact Action handler must be inline");
+  return blockBody(definition, handler.index + handler[0].lastIndexOf("{"));
+};
+const functionBody = (source, name) => {
+  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const definition = new RegExp(`(?:function\\s+${escapedName}\\s*\\([^)]*\\)|(?:const|let)\\s+${escapedName}\\s*=\\s*(?:async\\s*)?\\([^)]*\\)\\s*=>)\\s*\\{`).exec(source);
+  assert.ok(definition, `${name} must be an HTML builder with a body`);
+  return blockBody(source, definition.index + definition[0].lastIndexOf("{"));
+};
+const submitHandler = (source) => {
+  const listener = /addEventListener\s*\(\s*["']submit["']\s*,/.exec(source);
+  assert.ok(listener, "ContactCta must register a submit handler");
+  const bodyStart = source.indexOf("{", listener.index);
+  assert.ok(bodyStart >= 0, "ContactCta submit handler must have a body");
+
+  return blockBody(source, bodyStart);
 };
 
 const homeRoutes = ["src/pages/index.astro", "src/pages/es/index.astro"];
@@ -196,10 +212,15 @@ test("Services V1 analytics maps conversion events to owning components", async 
 
 test("Services V1 contact form exposes only the approved fields and requiredness", async () => {
   const contact = await readSource("src/components/contact-cta/contact-cta.astro");
+  const controls = contact.match(/<(?:input|textarea)\b[^>]*>/g) ?? [];
+  const controlFor = (field) => {
+    const matches = controls.filter((tag) => new RegExp(`\\bname\\s*=\\s*["']${field}["']`).test(tag));
+    assert.equal(matches.length, 1, `${field} must have exactly one form control`);
+    return matches[0];
+  };
   assert.match(contact, /<form\b/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) assert.match(contact, new RegExp(`name=["']${field}["']`));
-  for (const field of ["name", "company", "contact", "process", "currentSolution"]) assert.match(contact, new RegExp(`name=["']${field}["'][^>]*\\brequired\\b`));
-  for (const field of ["tools", "context"]) assert.doesNotMatch(contact, new RegExp(`name=["']${field}["'][^>]*\\brequired\\b`));
+  for (const field of ["name", "company", "contact", "process", "currentSolution"]) assert.match(controlFor(field), /\brequired\b/);
+  for (const field of ["tools", "context"]) assert.doesNotMatch(controlFor(field), /\brequired\b/);
   for (const field of ["budget", "employees", "deadline", "requirements", "brief"]) assert.doesNotMatch(contact, new RegExp(`name=["']${field}["']`));
   assert.doesNotMatch(contact, /action=\{actions\.contact\}|CONTACT_FORM_ACTION|\/api\/contact/);
   assert.match(contact, /import \{ actions \} from ["']astro:actions["']/);
@@ -218,6 +239,7 @@ test("Services V1 contact form exposes only the approved fields and requiredness
 
 test("Services V1 contact action uses the approved Astro Action and Resend contract", async () => {
   const action = await readSource("src/actions/index.ts");
+  const handler = actionHandler(action);
   assert.match(action, /export\s+const\s+server\s*=\s*\{[\s\S]*?\bcontact\s*:\s*defineAction\(\s*\{[\s\S]*?\baccept\s*:\s*["']form["'][\s\S]*?\binput\s*:[\s\S]*?\bhandler\s*:/);
   assert.match(action, /import \{ z \} from ["']astro\/zod["']/);
   assert.match(action, /import \{ ActionError \} from ["']astro:actions["']/);
@@ -225,11 +247,18 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(action, /RESEND_API_KEY/);
   assert.match(action, /RESEND_FROM_EMAIL/);
   assert.match(action, /CONTACT_EMAIL_ADDRESS/);
-  assert.match(action, /resend\.emails\.send\s*\(\s*\{[\s\S]*?\bfrom\s*:[\s\S]*?\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b[\s\S]*?\bhtml\s*:[\s\S]*?\btext\s*:/);
-  assert.match(action, /\bescapeHtml\s*\(/);
-  assert.match(action, /\bhtml\s*:\s*\w*(?:html|email)\w*\s*\(/i);
-  assert.match(action, /\btext\s*:\s*\w*(?:text|plain)\w*\s*\(/i);
-  assert.ok((action.match(/throw\s+new\s+ActionError\s*\(/g) ?? []).length >= 2);
+  const [email] = callArguments(handler, "resend\\.emails\\.send");
+  assert.ok(email, "the Action handler must send the email");
+  assert.match(email, /\bfrom\s*:/);
+  assert.match(email, /\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b/);
+  const htmlBuilder = /\bhtml\s*:\s*(\w*(?:html|email)\w*)\s*\(/i.exec(email)?.[1];
+  assert.ok(htmlBuilder, "the email payload must use an HTML builder");
+  assert.match(email, /\btext\s*:\s*\w*(?:text|plain)\w*\s*\(/i);
+  const html = functionBody(action, htmlBuilder);
+  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+    assert.match(html, new RegExp(`escapeHtml\\s*\\(\\s*(?:\\w+\\.)?${field}\\b`), field);
+  }
+  assert.ok((handler.match(/throw\s+new\s+ActionError\s*\(/g) ?? []).length >= 2);
   assert.doesNotMatch(action, /https?:\/\/.*resend|api\/contact\.ts|PUBLIC_|fetch\(|axios|sendgrid|mailgun/i);
 });
 
@@ -267,15 +296,6 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.match(english, /<Layout\b/);
   assert.match(spanish, /<Layout\b/);
   assert.match(layout, /AnalyticsEvents/);
-  const action = await readSource("src/actions/index.ts");
-  const nonActionSources = await Promise.all([
-    readSource("src/components/contact-cta/contact-cta.astro"),
-    readSource("src/layouts/Layout.astro"),
-    readSource("src/pages/index.astro"),
-    readSource("src/pages/es/index.astro"),
-  ]);
-  for (const source of nonActionSources) assert.doesNotMatch(source, /RESEND_API_KEY|RESEND_FROM_EMAIL/);
-  assert.match(action, /RESEND_API_KEY|RESEND_FROM_EMAIL/);
   assert.match(cvEnglish, /<CVLayout\b/); assert.match(cvSpanish, /<CVLayout\b/);
   assert.match(cvEnglish, /cvData/); assert.match(cvSpanish, /cvData/); assert.match(cvLayout, /metadata/);
 });
@@ -289,14 +309,13 @@ test("Services V1 rejects excluded route families and manual API routes", async 
   for (const [path, source] of await readSources(pageFiles)) assert.doesNotMatch(source, /\/?api\/contact\b/i, path);
 });
 
-test("Services V1 keeps Resend transport and static rendering out of Home sources", async () => {
+test("Services V1 keeps Resend transport, credentials, and static rendering scoped", async () => {
   const sources = await readSources(await sourceFiles("src"));
   for (const [path, source] of sources) {
     if (path !== "src/actions/index.ts") {
       assert.doesNotMatch(source, /https?:\/\/(?:api\.)?resend\.com|\bfetch\s*\(/i, path);
+      assert.doesNotMatch(source, /RESEND_API_KEY|RESEND_FROM_EMAIL/, path);
     }
-  }
-  for (const [path, source] of await readSources(homeSourcePaths)) {
     assert.doesNotMatch(source, /\bServerIsland\b|server\s*:\s*defer/i, path);
   }
 });
