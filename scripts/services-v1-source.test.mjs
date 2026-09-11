@@ -274,6 +274,15 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(action, /RESEND_API_KEY/);
   assert.match(action, /RESEND_FROM_EMAIL/);
   assert.match(action, /CONTACT_EMAIL_ADDRESS/);
+  const resendClient = /\b(?:const|let)\s+resend\s*=\s*new\s+Resend\s*\(\s*([\w.]+)\s*\)/.exec(handler);
+  assert.ok(resendClient, "the Action handler must construct the Resend client");
+  const apiKey = resendClient[1];
+  assert.ok(
+    apiKey === "RESEND_API_KEY" ||
+      /(?:process\.env|import\.meta\.env)\.RESEND_API_KEY/.test(apiKey) ||
+      new RegExp(`\\b(?:const|let)\\s+${apiKey}\\s*=\\s*(?:(?:process\\.env|import\\.meta\\.env)\\.)?RESEND_API_KEY\\b`).test(handler),
+    "the handler's Resend client must use RESEND_API_KEY",
+  );
   const [email] = callArguments(handler, "resend\\.emails\\.send");
   assert.ok(email, "the Action handler must send the email");
   assert.match(email, /\bfrom\s*:\s*RESEND_FROM_EMAIL\b/);
