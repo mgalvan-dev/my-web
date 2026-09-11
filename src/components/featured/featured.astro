@@ -1,13 +1,16 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
+import MarfenCase from "../marfen-case/marfen-case.astro";
 import ProductCard from "../product-card/product-card.astro";
 import styles from "./featured.module.css";
 
 interface Props {
     dictionary: Dictionary["selectedWork"];
+    marfenCase?: Dictionary["marfenCase"];
 }
 
-const { dictionary } = Astro.props;
+const { dictionary, marfenCase } = Astro.props;
+const [marfen, ...secondaryWork] = dictionary.items;
 ---
 
 <section id="work" class={styles.main_container} aria-labelledby="work-title">
@@ -16,9 +19,15 @@ const { dictionary } = Astro.props;
         <h2 id="work-title" class={styles.title}>{dictionary.title}</h2>
     </div>
 
-    <div class={styles.content_container}>
+    {
+        marfen && marfenCase && (
+            <MarfenCase item={marfen} content={marfenCase} />
+        )
+    }
+
+    <div class={styles.secondary_work}>
         {
-            dictionary.items.map((item) => (
+            secondaryWork.map((item) => (
                 <ProductCard
                     dictionary={item}
                     contextLabel={dictionary.labels.contexts[item.context]}

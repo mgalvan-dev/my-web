@@ -1,0 +1,43 @@
+---
+import type { ProfessionalCaseContent } from "../../models/dictionary.model";
+import styles from "./professional-case.module.css";
+
+interface Props {
+    dictionary: ProfessionalCaseContent;
+}
+
+const { dictionary } = Astro.props;
+const isSpanish = dictionary.eyebrow === "Automatización operativa";
+const labels = isSpanish
+    ? ["Problema", "Decisión y rediseño", "Solución", "Resultado"]
+    : ["Problem", "Decision and redesign", "Solution", "Result"];
+---
+
+<section class={styles.section} aria-labelledby="professional-case-title">
+    <article class={styles.case}>
+        <p class={styles.eyebrow}>{dictionary.eyebrow}</p>
+        <h2 id="professional-case-title" class={styles.title}>{dictionary.title}</h2>
+
+        <div class={styles.narrative}>
+            <div>
+                <h3>{labels[0]}</h3>
+                <p>{dictionary.problem}</p>
+            </div>
+            <div>
+                <h3>{labels[1]}</h3>
+                <div class={styles.solution}>
+                    <h4>{labels[2]}</h4>
+                    <p>{dictionary.solution}</p>
+                </div>
+            </div>
+            <div>
+                <h3>{labels[3]}</h3>
+                <p>{dictionary.result}</p>
+            </div>
+        </div>
+
+        <a class={styles.cta} href="#contact-form" data-analytics-event="case_clicked">
+            {dictionary.cta}
+        </a>
+    </article>
+</section>

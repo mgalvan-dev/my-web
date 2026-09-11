@@ -1,0 +1,43 @@
+---
+import type {
+    MarfenCaseContent,
+    SelectedWorkItem,
+} from "../../models/dictionary.model";
+import styles from "./marfen-case.module.css";
+
+interface Props {
+    item: SelectedWorkItem;
+    content: MarfenCaseContent;
+}
+
+const { item, content } = Astro.props;
+---
+
+<article class={styles.case} aria-labelledby="marfen-case-title">
+    <div class={styles.narrative}>
+        <p class={styles.eyebrow}>{content.eyebrow}</p>
+        <h2 id="marfen-case-title" class={styles.title}>{content.title}</h2>
+        <p class={styles.product_name}>{item.name}</p>
+        {content.body.map((paragraph) => <p class={styles.body}>{paragraph}</p>)}
+        {
+            item.url && (
+                <a
+                    class={styles.cta}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-analytics-event="marfen_clicked"
+                >
+                    {content.cta}
+                </a>
+            )
+        }
+    </div>
+
+    <div class={styles.proof}>
+        <p class={styles.proof_label}>Proof</p>
+        <ul>
+            {content.proof.map((capability) => <li>{capability}</li>)}
+        </ul>
+    </div>
+</article>
