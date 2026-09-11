@@ -15,8 +15,9 @@ const { dictionary } = Astro.props;
     aria-labelledby="services-title"
 >
     <div class={styles.heading}>
-        <p class={styles.kicker}>01</p>
+        <p class={styles.kicker}>02</p>
         <h2 id="services-title" class={styles.title}>{dictionary.title}</h2>
+        <p class={styles.intro}>{dictionary.intro}</p>
     </div>
 
     <div class={styles.grid}>
@@ -28,8 +29,13 @@ const { dictionary } = Astro.props;
                     </span>
                     <h3 class={styles.card_title}>{item.title}</h3>
                     <p class={styles.description}>{item.description}</p>
+                    <a class={styles.cta} href="#contact-form" data-analytics-event="services_cta_clicked">
+                        {item.cta}
+                    </a>
                 </article>
             ))
         }
     </div>
+
+    <p class={styles.ia_note}>{dictionary.iaNote}</p>
 </section>

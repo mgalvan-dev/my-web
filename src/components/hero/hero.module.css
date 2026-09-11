@@ -1,14 +1,14 @@
 .main_container {
     display: grid;
     align-items: center;
-    min-height: min(720px, calc(100dvh - 80px));
-    padding-block: clamp(5rem, 12vw, 10rem);
+    min-height: min(680px, calc(100dvh - 4.5rem));
+    padding-block: clamp(4rem, 8vw, 7rem);
 }
 
 .content_container {
     display: grid;
     gap: 1.5rem;
-    max-width: 58rem;
+    max-width: 62rem;
 }
 
 .eyebrow,
@@ -21,10 +21,10 @@
 }
 
 .title {
-    max-width: 13ch;
-    font-size: clamp(3.2rem, 9vw, 7.5rem);
-    line-height: 0.92;
-    letter-spacing: -0.08em;
+    max-width: 25ch;
+    font-size: clamp(3.1rem, 4.3vw, 3.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
 }
 
 .description {
@@ -39,6 +39,13 @@
     flex-wrap: wrap;
     gap: 0.75rem;
     margin-top: 0.75rem;
+}
+
+.proof {
+    max-width: 50rem;
+    color: var(--site-text-muted);
+    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
 .primary_button,
@@ -78,11 +85,12 @@
 @media (width <= 560px) {
     .main_container {
         min-height: auto;
-        padding-block: 5rem 2rem;
+        padding-block: 3.5rem 2rem;
     }
 
     .title {
-        font-size: clamp(3rem, 16vw, 5rem);
+        font-size: clamp(2.5rem, 10.7vw, 2.75rem);
+        line-height: 1;
     }
 
     .button_group {

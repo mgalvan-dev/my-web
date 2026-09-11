@@ -16,12 +16,13 @@ const { dictionary } = Astro.props;
         <p class={styles.description}>{dictionary.description}</p>
 
         <div class={styles.button_group}>
-            <a class={styles.primary_button} href="#contact" data-analytics-event="contact_cta_clicked">
+            <a class={styles.primary_button} href="#contact-form" data-analytics-event="contact_cta_clicked">
                 {dictionary.primaryCta}
             </a>
             <a class={styles.secondary_button} href="#work">
                 {dictionary.secondaryCta}
             </a>
         </div>
+        <p class={styles.proof}>{dictionary.proof}</p>
     </article>
 </section>
