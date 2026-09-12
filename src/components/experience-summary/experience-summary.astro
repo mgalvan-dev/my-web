@@ -25,11 +25,7 @@ const { dictionary } = Astro.props;
     <div class={styles.content}>
         <p class={styles.kicker}>04</p>
         <h2 id="about-title" class={styles.title}>{dictionary.title}</h2>
-        {
-            dictionary.paragraphs.map((paragraph) => (
-                <p class={styles.description}>{paragraph}</p>
-            ))
-        }
+        <p class={styles.description}>{dictionary.text}</p>
 
         <div class={styles.actions}>
             <a
