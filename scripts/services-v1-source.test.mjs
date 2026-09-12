@@ -191,6 +191,33 @@ test("Services V1 professional case is anonymized and uses the non-numeric resul
   }
 });
 
+test("Services V1 professional case exposes four localized narrative siblings", async () => {
+  const source = await readSource("src/components/professional-case/professional-case.astro");
+  assert.match(source, /locale:\s*["']en["']\s*\|\s*["']es["']/);
+  assert.doesNotMatch(source, /dictionary\.eyebrow\s*===/);
+  assert.match(source, /const narrativeBlocks\s*=\s*\[/);
+  const narrativeStart = source.indexOf("const narrativeBlocks = [");
+  const narrativeEnd = source.indexOf("];", narrativeStart);
+  assert.ok(narrativeStart >= 0 && narrativeEnd > narrativeStart, "narrativeBlocks must be a closed ordered list");
+  const narrative = source.slice(narrativeStart, narrativeEnd);
+  const order = ["dictionary.problem", "narrativeCopy.decision", "dictionary.solution", "dictionary.result"];
+  let previousIndex = -1;
+  for (const value of order) {
+    const currentIndex = narrative.indexOf(value);
+    assert.ok(currentIndex > previousIndex, `${value} must preserve Problem → Decision and redesign → Solution → Result order`);
+    previousIndex = currentIndex;
+  }
+  assert.match(source, /narrativeBlocks\.map/);
+  assert.doesNotMatch(source, /styles\.solution/);
+});
+
+test("Services V1 Marfen proof list does not hard-code an English visible label", async () => {
+  const source = await readSource("src/components/marfen-case/marfen-case.astro");
+  assert.doesNotMatch(source, />\s*Proof\s*<\/p>/);
+  assert.doesNotMatch(source, /proof_label/);
+  assert.match(source, /<ul\b[\s\S]*content\.proof\.map/);
+});
+
 test("Services V1 analytics maps conversion events to owning components", async () => {
   const owners = new Map([
     ["services_cta_clicked", "src/components/capabilities/capabilities.astro"],

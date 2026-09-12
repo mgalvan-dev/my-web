@@ -35,8 +35,7 @@ const { item, content } = Astro.props;
     </div>
 
     <div class={styles.proof}>
-        <p class={styles.proof_label}>Proof</p>
-        <ul>
+        <ul aria-labelledby="marfen-case-title">
             {content.proof.map((capability) => <li>{capability}</li>)}
         </ul>
     </div>
