@@ -26,6 +26,7 @@ export interface ProfessionalCaseContent {
   eyebrow: string;
   title: string;
   problem: string;
+  decision: string;
   solution: string;
   result: string;
   cta: string;

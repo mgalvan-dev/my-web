@@ -10,30 +10,24 @@ interface Props {
 const { dictionary, locale } = Astro.props;
 const narrativeCopy = {
     en: {
-        labels: {
-            problem: "Problem",
-            decision: "Decision and redesign",
-            solution: "Solution",
-            result: "Result",
-        },
-        decision: "The flow was redesigned.",
+        problem: "Problem",
+        decision: "Decision and redesign",
+        solution: "Solution",
+        result: "Result",
     },
     es: {
-        labels: {
-            problem: "Problema",
-            decision: "Decisión y rediseño",
-            solution: "Solución",
-            result: "Resultado",
-        },
-        decision: "Se rediseñó el flujo.",
+        problem: "Problema",
+        decision: "Decisión y rediseño",
+        solution: "Solución",
+        result: "Resultado",
     },
 }[locale];
 
 const narrativeBlocks = [
-    { label: narrativeCopy.labels.problem, copy: dictionary.problem },
-    { label: narrativeCopy.labels.decision, copy: narrativeCopy.decision },
-    { label: narrativeCopy.labels.solution, copy: dictionary.solution },
-    { label: narrativeCopy.labels.result, copy: dictionary.result },
+    { label: narrativeCopy.problem, copy: dictionary.problem },
+    { label: narrativeCopy.decision, copy: dictionary.decision },
+    { label: narrativeCopy.solution, copy: dictionary.solution },
+    { label: narrativeCopy.result, copy: dictionary.result },
 ];
 ---
 

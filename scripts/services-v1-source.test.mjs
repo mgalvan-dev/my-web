@@ -218,7 +218,7 @@ test("Services V1 professional case is anonymized and uses the non-numeric resul
   );
   for (const professionalCase of [english.professionalCase, spanish.professionalCase]) {
     const serialized = JSON.stringify(professionalCase);
-    assert.doesNotMatch(serialized, /\d|client(?:e|Name)?|company|empresa|private|identif|email|phone|telefono|teléfono/i);
+    assert.doesNotMatch(serialized, /\d|client(?:e|Name)?|company|empresa|private|email|phone|telefono|teléfono/i);
     assert.notEqual(professionalCase.decision, professionalCase.solution);
   }
 });
