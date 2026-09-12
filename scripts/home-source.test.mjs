@@ -117,12 +117,15 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
 
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Amparo Seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
   );
   assert.deepEqual(
     spanish.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Amparo Seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"],
   );
+  for (const dictionary of [english, spanish]) {
+    assert.doesNotMatch(JSON.stringify(dictionary.selectedWork), /Amparo Seguros/i);
+  }
 });
 
 test("Home keeps CV routes available without Home navigation links", async () => {
@@ -238,6 +241,34 @@ test("Responsive navigation synchronizes its initial state with the viewport", a
   assert.match(navbar, /matchMedia\("\(width <= 880px\)"\)/);
   assert.match(navbar, /menu\.open = !mobileViewport\.matches/);
   assert.match(navbar, /mobileViewport\.addEventListener\("change", syncMenuState\)/);
+});
+
+test("Home navigation closes its mobile details menu on internal anchors", async () => {
+  const navbar = await readSource("src/components/navbar/navbar.astro");
+
+  assert.match(navbar, /data-navigation-links/);
+  assert.match(navbar, /linksContainer\.addEventListener\(\s*["']click["']/);
+  assert.match(navbar, /closest\(\s*["']a\[href\^=["']#["']\]["']\s*\)/);
+  assert.match(navbar, /mobileViewport\.matches/);
+  assert.match(navbar, /menu\.open\s*=\s*false/);
+  assert.doesNotMatch(navbar, /preventDefault/);
+});
+
+test("Home section kickers use one ordered sequence in both locales", async () => {
+  const numberedSections = [
+    ["src/components/problem/problem.astro", "01"],
+    ["src/components/capabilities/capabilities.astro", "02"],
+    ["src/components/featured/featured.astro", "03"],
+    ["src/components/process/process.astro", "04"],
+    ["src/components/experience-summary/experience-summary.astro", "05"],
+    ["src/components/fit/fit.astro", "06"],
+    ["src/components/contact-cta/contact-cta.astro", "07"],
+  ];
+
+  for (const [path, number] of numberedSections) {
+    const source = await readSource(path);
+    assert.match(source, new RegExp("<p\\s+class=\\{styles\\.kicker\\}>" + number + "<\\/p>"), path);
+  }
 });
 
 test("Selected work exposes Marfen as a truthful live own product", async () => {

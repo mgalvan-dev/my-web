@@ -154,6 +154,14 @@ test("Services V1 dictionaries have bilingual matching shapes and semantic Engli
   assert.match(english.process.title, /problem.*production/i);
   assert.match(english.fit.title, /probably.*help/i);
   assert.match(english.contact.formTitle, /tell me.*improve/i);
+  assert.deepEqual(
+    english.selectedWork.items.map(({ name }) => name),
+    ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
+  );
+  assert.deepEqual(
+    spanish.selectedWork.items.map(({ name }) => name),
+    ["Marfen", "Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"],
+  );
 });
 
 test("Services V1 Home routes expose the required anchors and semantic future components", async () => {
@@ -192,9 +200,26 @@ test("Services V1 professional case is anonymized and uses the non-numeric resul
   const [english, spanish] = await Promise.all([readJson("src/dictionaries/en.json"), readJson("src/dictionaries/es.json")]);
   assert.equal(spanish.professionalCase.result, "Un proceso que requería varios días pasó a completarse en cuestión de horas.");
   assert.equal(english.professionalCase.result, "A process that took several days was completed in a matter of hours.");
+  assert.equal(
+    spanish.professionalCase.decision,
+    "Se mapeó el proceso de punta a punta para detectar cuellos de botella, aclarar los traspasos y eliminar pasos que no aportaban control ni valor.",
+  );
+  assert.equal(
+    english.professionalCase.decision,
+    "The process was mapped end to end to identify bottlenecks, clarify handoffs, and remove steps that did not add control or value.",
+  );
+  assert.equal(
+    spanish.professionalCase.solution,
+    "Se incorporaron automatizaciones, transformaciones de datos y validaciones para reducir el trabajo manual y hacer más trazable cada etapa.",
+  );
+  assert.equal(
+    english.professionalCase.solution,
+    "Automations, data transformations, and validations were added to reduce manual work and make each step easier to trace.",
+  );
   for (const professionalCase of [english.professionalCase, spanish.professionalCase]) {
     const serialized = JSON.stringify(professionalCase);
     assert.doesNotMatch(serialized, /\d|client(?:e|Name)?|company|empresa|private|identif|email|phone|telefono|teléfono/i);
+    assert.notEqual(professionalCase.decision, professionalCase.solution);
   }
 });
 
@@ -203,11 +228,12 @@ test("Services V1 professional case exposes four localized narrative siblings", 
   assert.match(source, /locale:\s*["']en["']\s*\|\s*["']es["']/);
   assert.doesNotMatch(source, /dictionary\.eyebrow\s*===/);
   assert.match(source, /const narrativeBlocks\s*=\s*\[/);
+  assert.match(source, /dictionary\.decision/);
   const narrativeStart = source.indexOf("const narrativeBlocks = [");
   const narrativeEnd = source.indexOf("];", narrativeStart);
   assert.ok(narrativeStart >= 0 && narrativeEnd > narrativeStart, "narrativeBlocks must be a closed ordered list");
   const narrative = source.slice(narrativeStart, narrativeEnd);
-  const order = ["dictionary.problem", "narrativeCopy.decision", "dictionary.solution", "dictionary.result"];
+  const order = ["dictionary.problem", "dictionary.decision", "dictionary.solution", "dictionary.result"];
   let previousIndex = -1;
   for (const value of order) {
     const currentIndex = narrative.indexOf(value);
@@ -391,6 +417,7 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.match(config, /import\s+vercel\s+from\s+["']@astrojs\/vercel["']/);
   assert.match(config, /adapter:\s*vercel\(\)/);
   assert.match(config, /redirects:\s*\{[\s\S]*["']\/en["']\s*:\s*["']\/["']/);
+  assert.match(config, /["']\/en\/["']\s*:\s*["']\/["']/);
   assert.doesNotMatch(config, /output:\s*["']server["']|server:\s*\{?\s*defer|ServerIsland|api\//);
   for (const [source, canonical] of [[english, "/"], [spanish, "/es/"]]) {
     assert.match(source, /metadata:\s*dictionary\.metadata/);
