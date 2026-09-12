@@ -10,7 +10,6 @@ export default defineConfig({
   site: "https://mgalvan.dev",
   trailingSlash: "always",
   redirects: {
-    "/en": "/",
     "/en/": "/",
   },
   integrations: [

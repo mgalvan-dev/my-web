@@ -420,8 +420,8 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
     { source: "/en", destination: "/", permanent: true },
     { source: "/en/", destination: "/", permanent: true },
   ]);
-  assert.match(config, /redirects:\s*\{[\s\S]*["']\/en["']\s*:\s*["']\/["']/);
-  assert.match(config, /["']\/en\/["']\s*:\s*["']\/["']/);
+  assert.match(config, /redirects:\s*\{\s*["']\/en\/["']\s*:\s*["']\/["']\s*,?\s*\}/);
+  assert.doesNotMatch(config, /["']\/en["']\s*:/);
   assert.doesNotMatch(config, /output:\s*["']server["']|server:\s*\{?\s*defer|ServerIsland|api\//);
   for (const [source, canonical] of [[english, "/"], [spanish, "/es/"]]) {
     assert.match(source, /metadata:\s*dictionary\.metadata/);
