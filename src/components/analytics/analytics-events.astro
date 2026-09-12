@@ -4,6 +4,14 @@
 <script>
     import { track } from "@vercel/analytics";
 
+    const sendEvent = (eventName: string) => {
+        try {
+            void Promise.resolve(track(eventName)).catch(() => undefined);
+        } catch {
+            // Analytics failures must never interrupt the interaction being tracked.
+        }
+    };
+
     document.addEventListener("click", (event) => {
         if (!(event.target instanceof Element)) return;
 
@@ -12,6 +20,30 @@
         );
         const eventName = trigger?.dataset.analyticsEvent;
 
-        if (eventName) void track(eventName);
+        if (eventName) sendEvent(eventName);
+    });
+
+    const contactForm = document.querySelector<HTMLFormElement>(
+        '[data-analytics-form="contact"]',
+    );
+    let formStarted = false;
+    let formSubmitted = false;
+
+    contactForm?.addEventListener("focusin", (event) => {
+        const target = event.target;
+        const isRealField =
+            target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement;
+
+        if (formStarted || !isRealField || target.name === "website") return;
+
+        formStarted = true;
+        sendEvent("form_started");
+    });
+
+    contactForm?.addEventListener("submit", () => {
+        if (formSubmitted || !contactForm.checkValidity()) return;
+
+        formSubmitted = true;
+        sendEvent("form_submitted");
     });
 </script>

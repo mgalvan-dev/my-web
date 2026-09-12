@@ -219,24 +219,32 @@ test("Services V1 Marfen proof list does not hard-code an English visible label"
 });
 
 test("Services V1 analytics maps conversion events to owning components", async () => {
-  const owners = new Map([
-    ["services_cta_clicked", "src/components/capabilities/capabilities.astro"],
-    ["case_clicked", "src/components/featured/featured.astro"],
-    ["marfen_clicked", "src/components/marfen-case/marfen-case.astro"],
-    ["contact_cta_clicked", "src/components/contact-cta/contact-cta.astro"],
-    ["whatsapp_clicked", "src/components/contact-cta/contact-cta.astro"],
-    ["form_started", "src/components/contact-cta/contact-cta.astro"],
-    ["form_submitted", "src/components/contact-cta/contact-cta.astro"],
-  ]);
-  for (const [eventName, owner] of owners) {
-    const source = await readSource(owner);
-    assert.match(source, new RegExp(`data-analytics-event=["']${eventName}["']`), `${eventName} owner: ${owner}`);
-  }
-  const [navbar, footer, experience] = await Promise.all([
+  const [navbar, hero, capabilities, featured, marfen, professional, contact, footer, experience] = await Promise.all([
     readSource("src/components/navbar/navbar.astro"),
+    readSource("src/components/hero/hero.astro"),
+    readSource("src/components/capabilities/capabilities.astro"),
+    readSource("src/components/featured/featured.astro"),
+    readSource("src/components/marfen-case/marfen-case.astro"),
+    readSource("src/components/professional-case/professional-case.astro"),
+    readSource("src/components/contact-cta/contact-cta.astro"),
     readSource("src/components/footer/footer.astro"),
     readSource("src/components/experience-summary/experience-summary.astro"),
   ]);
+
+  const eventCount = (source, eventName) =>
+    (source.match(new RegExp(`data-analytics-event\\s*=\\s*["']${eventName}["']`, "g")) ?? []).length;
+
+  assert.equal(eventCount(navbar, "contact_cta_clicked"), 1, "header CTA must emit contact_cta_clicked");
+  assert.equal(eventCount(hero, "contact_cta_clicked"), 1, "hero CTA must emit contact_cta_clicked");
+  assert.equal(eventCount(contact, "contact_cta_clicked"), 1, "final CTA must emit contact_cta_clicked");
+  assert.equal(eventCount(capabilities, "services_cta_clicked"), 1, "the mapped service CTA template must emit services_cta_clicked");
+  assert.match(capabilities, /dictionary\.items\.map[\s\S]*data-analytics-event=["']services_cta_clicked["']/);
+  assert.equal(eventCount(professional, "case_clicked"), 1, "ProfessionalCase must emit case_clicked");
+  assert.equal(eventCount(featured, "case_clicked"), 0, "Featured must not own case_clicked");
+  assert.equal(eventCount(marfen, "marfen_clicked"), 1, "Marfen must emit marfen_clicked");
+  assert.equal(eventCount(contact, "whatsapp_clicked"), 1, "ContactCta/final CTA must emit whatsapp_clicked");
+  assert.match(contact, /data-analytics-form=["']contact["']/);
+
   assert.match(navbar, /data-analytics-event=["']language_changed["']/);
   for (const [eventName, source] of [["email_clicked", footer], ["linkedin_clicked", footer], ["github_clicked", footer], ["x_clicked", footer], ["linkedin_clicked", experience]]) {
     assert.match(source, new RegExp(`data-analytics-event=["']${eventName}["']`));
@@ -244,15 +252,40 @@ test("Services V1 analytics maps conversion events to owning components", async 
   const analytics = await readSource("src/components/analytics/analytics-events.astro");
   assert.equal((analytics.match(/document\.addEventListener/g) ?? []).length, 1);
   assert.match(analytics, /document\.addEventListener\(\s*["']click["']/);
-  assert.match(analytics, /closest(?:<HTMLElement>)?\(\s*["']\[data-analytics-event\]["']\s*\)/);
+  assert.match(analytics, /closest(?:<HTMLElement>)?\(\s*["']\[data-analytics-event\]["']\s*,?\s*\)/);
   assert.match(analytics, /track\s*\(\s*eventName\s*\)/);
+  assert.match(analytics, /\.catch\(/);
+  assert.match(analytics, /addEventListener\(\s*["']focusin["']/);
+  assert.match(analytics, /addEventListener\(\s*["']submit["']/);
+  assert.match(analytics, /formStarted\s*=\s*false/);
+  assert.match(analytics, /formSubmitted\s*=\s*false/);
+  assert.match(analytics, /checkValidity\(\)/);
+  assert.match(analytics, /website/);
   assert.doesNotMatch(analytics, /preventDefault/);
+  assert.doesNotMatch(analytics, /stopPropagation/);
+  assert.doesNotMatch(analytics, /data-analytics-location/);
   for (const argumentsSource of callArguments(analytics, "track")) {
-    assert.doesNotMatch(argumentsSource, /\b(?:name|company|contact|process|currentSolution|tools|context)\b/i);
+    assert.equal(argumentsSource.trim(), "eventName", "Analytics must call track with the event name only");
   }
   const otherHomeSources = await readSources(homeSourcePaths.filter((path) => path !== "src/components/analytics/analytics-events.astro"));
   for (const [path, source] of otherHomeSources) assert.doesNotMatch(source, /document\.addEventListener\(\s*["']click["']/, path);
   for (const source of [navbar, footer, experience, analytics]) assert.doesNotMatch(source, /signup_completed/);
+
+  const allHomeSource = (await readSources(homeSourcePaths)).map(([, source]) => source).join("\n");
+  const approvedEvents = new Set([
+    "services_cta_clicked",
+    "case_clicked",
+    "marfen_clicked",
+    "contact_cta_clicked",
+    "whatsapp_clicked",
+    "language_changed",
+    "email_clicked",
+    "linkedin_clicked",
+    "github_clicked",
+    "x_clicked",
+  ]);
+  const eventNames = [...allHomeSource.matchAll(/data-analytics-event\s*=\s*["']([^"']+)["']/g)].map(([, name]) => name);
+  assert.ok(eventNames.every((eventName) => approvedEvents.has(eventName)), "no event outside the approved taxonomy may be instrumented");
 });
 
 test("Services V1 contact form exposes only the approved fields and requiredness", async () => {

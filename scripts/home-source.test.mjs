@@ -420,6 +420,9 @@ test("Home analytics uses one shared event listener and named events", async () 
     readSource("src/components/footer/footer.astro"),
     readSource("src/components/experience-summary/experience-summary.astro"),
     readSource("src/components/hero/hero.astro"),
+    readSource("src/components/capabilities/capabilities.astro"),
+    readSource("src/components/marfen-case/marfen-case.astro"),
+    readSource("src/components/professional-case/professional-case.astro"),
   ]);
   const [layout, ...components] = sources;
   const source = components.join("\n");
@@ -428,6 +431,7 @@ test("Home analytics uses one shared event listener and named events", async () 
   assert.match(layout, /AnalyticsEvents/);
   assert.match(analytics, /track/);
   assert.equal((analytics.match(/document\.addEventListener/g) ?? []).length, 1);
+  const clickEventSource = `${source}\n${analytics}`;
   for (const eventName of [
     "services_cta_clicked",
     "case_clicked",
@@ -438,8 +442,14 @@ test("Home analytics uses one shared event listener and named events", async () 
     "form_submitted",
     "language_changed",
   ]) {
-    assert.match(source, new RegExp(eventName));
+    assert.match(clickEventSource, new RegExp(eventName));
   }
   assert.doesNotMatch(analytics, /preventDefault/);
+  assert.doesNotMatch(analytics, /stopPropagation/);
+  assert.match(analytics, /addEventListener\(\s*["']focusin["']/);
+  assert.match(analytics, /addEventListener\(\s*["']submit["']/);
+  assert.match(analytics, /formStarted/);
+  assert.match(analytics, /formSubmitted/);
+  assert.match(analytics, /\.catch\(/);
   assert.doesNotMatch(source, /signup_completed/);
 });
