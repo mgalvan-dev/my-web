@@ -199,6 +199,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
         if (generalError) generalError.hidden = true;
 
         let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
+        let hasRecognizedField = false;
 
         for (const [fieldName, messages] of Object.entries(fields ?? {})) {
             if (!fieldNames.includes(fieldName)) continue;
@@ -207,11 +208,20 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
             const fieldError = currentForm.querySelector<HTMLElement>(`[data-field-error="${fieldName}"]`);
             if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
 
+            hasRecognizedField = true;
             const message = Array.isArray(messages) ? messages.join(" ") : String(messages ?? "");
             fieldError.textContent = message;
             control.setAttribute("aria-invalid", "true");
             control.setAttribute("aria-describedby", fieldError.id);
             firstInvalid ??= control;
+        }
+
+        if (!hasRecognizedField) {
+            if (generalError) {
+                generalError.hidden = false;
+                generalError.focus();
+            }
+            return;
         }
 
         firstInvalid?.focus();

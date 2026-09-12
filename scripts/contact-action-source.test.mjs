@@ -166,6 +166,17 @@ test("ContactCta submits through the Astro Action with inline accessible states"
   assert.ok(handler.indexOf("actions.contact") < handler.indexOf("form.reset"));
 });
 
+test("ContactCta falls back to the general status for unrecognized Action fields", async () => {
+  const source = await readSource("src/components/contact-cta/contact-cta.astro");
+  const helperStart = source.indexOf("const showActionFieldErrors");
+  const helperEnd = source.indexOf("const showGeneralError");
+  assert.ok(helperStart >= 0 && helperEnd > helperStart, "field error helper must be present");
+  const helper = source.slice(helperStart, helperEnd);
+
+  assert.match(helper, /hasRecognizedField/);
+  assert.match(helper, /if\s*\(\s*!hasRecognizedField\s*\)[\s\S]*generalError\.hidden\s*=\s*false[\s\S]*generalError\.focus\(\s*\)[\s\S]*return/);
+});
+
 test("Astro keeps static pages while exposing only the adapter runtime boundary", async () => {
   const [config, packageJson] = await Promise.all([
     readSource("astro.config.mjs"),
