@@ -75,8 +75,139 @@
     border-color: var(--site-accent);
 }
 
+.form_shell {
+    display: grid;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 52rem;
+    padding-top: 1rem;
+}
+
+.form_title {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    letter-spacing: -0.04em;
+}
+
+.form_intro {
+    max-width: 42rem;
+    color: var(--site-text-muted);
+    line-height: 1.55;
+}
+
+#contact-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.field_grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.field,
+.field_full {
+    display: grid;
+    align-content: start;
+    gap: 0.4rem;
+}
+
+.field_full {
+    grid-column: 1 / -1;
+}
+
+.label {
+    color: var(--site-text);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.input,
+.textarea {
+    width: 100%;
+    border: 1px solid var(--site-border-strong);
+    border-radius: 0.65rem;
+    color: var(--site-text);
+    background: var(--site-bg);
+    font: inherit;
+}
+
+.input {
+    min-height: 3rem;
+    padding: 0.75rem 0.85rem;
+}
+
+.textarea {
+    min-height: 7rem;
+    padding: 0.8rem 0.85rem;
+    resize: vertical;
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.primary_button:focus-visible,
+.secondary_button:focus-visible {
+    outline: 2px solid var(--site-accent);
+    outline-offset: 3px;
+}
+
+.field_error {
+    min-height: 0;
+    margin: 0;
+    color: var(--site-accent);
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.field_error:not(:empty) {
+    margin-top: 0.1rem;
+}
+
+.form_actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.submit_button {
+    border: 0;
+    cursor: pointer;
+}
+
+.submit_button:disabled {
+    cursor: wait;
+    opacity: 0.65;
+    transform: none;
+}
+
+.form_status {
+    max-width: 42rem;
+    margin: 0;
+    color: var(--site-text-muted);
+    line-height: 1.55;
+}
+
+.form_status[data-form-success] {
+    color: var(--site-text);
+}
+
+.form_status[data-form-error] {
+    color: var(--site-accent);
+}
+
+@media (width <= 700px) {
+    .field_grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field_full {
+        grid-column: auto;
+    }
+}
+
 @media (width <= 560px) {
-    .button_group {
+    .button_group,
+    .form_actions {
         align-items: stretch;
         flex-direction: column;
         width: 100%;

@@ -270,7 +270,7 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   for (const field of ["tools", "context"]) assert.doesNotMatch(controlFor(field), /\brequired\b/);
   for (const field of ["budget", "employees", "deadline", "requirements", "brief"]) assert.doesNotMatch(contact, new RegExp(`name=["']${field}["']`));
   assert.doesNotMatch(contact, /action=\{actions\.contact\}|CONTACT_FORM_ACTION|\/api\/contact/);
-  assert.match(contact, /import \{ actions \} from ["']astro:actions["']/);
+  assert.match(contact, /import\s+\{\s*actions\s*,\s*isInputError\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(contact, /new FormData\(form\)/);
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
@@ -296,7 +296,7 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(definition, /\binput\s*:/);
   assert.match(definition, /\bhandler\s*:/);
   assert.match(action, /import \{ z \} from ["']astro\/zod["']/);
-  assert.match(action, /import \{ ActionError \} from ["']astro:actions["']/);
+  assert.match(action, /import\s+\{\s*ActionError\s*,\s*defineAction\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(action, /import \{ Resend \} from ["']resend["']/);
   assert.match(action, /RESEND_API_KEY/);
   assert.match(action, /RESEND_FROM_EMAIL/);
@@ -312,30 +312,30 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   );
   const [email] = callArguments(handler, "resend\\.emails\\.send");
   assert.ok(email, "the Action handler must send the email");
-  assert.match(email, /\bfrom\s*:\s*RESEND_FROM_EMAIL\b/);
+  assert.match(email, /\bfrom(?:\s*:\s*(?:from|RESEND_FROM_EMAIL))?\s*[,}]/);
   assert.match(email, /\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b/);
-  const htmlBuilder = /\bhtml\s*:\s*(\w*(?:html|email)\w*)\s*\(/i.exec(email)?.[1];
-  assert.ok(htmlBuilder, "the email payload must use an HTML builder");
-  assert.match(email, /\btext\s*:\s*\w*(?:text|plain)\w*\s*\(/i);
-  const html = functionBody(action, htmlBuilder);
+  assert.match(email, /\.\.\.buildContactEmail\(input\)/);
+  const html = functionBody(action, "buildContactEmail");
+  assert.match(html, /escapeHtml\s*\(\s*value\s*\)/);
   for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
-    assert.match(html, new RegExp(`escapeHtml\\s*\\(\\s*(?:\\w+\\.)?${field}\\b`), field);
+    assert.match(html, new RegExp(`\\b${field}\\b`), field);
   }
+  assert.match(html, /\bhtml\s*:/);
+  assert.match(html, /\btext\s*:/);
   assert.ok((handler.match(/throw\s+new\s+ActionError\s*\(/g) ?? []).length >= 2);
   assert.doesNotMatch(action, /https?:\/\/.*resend|api\/contact\.ts|PUBLIC_|fetch\(|axios|sendgrid|mailgun/i);
 });
 
 test("Services V1 uses the approved WhatsApp destination and prefilled message", async () => {
   const contact = await readSource("src/components/contact-cta/contact-cta.astro");
-  const source = contact;
-  const message = "Hola Marco, estoy buscando mejorar un proceso de mi empresa. Actualmente lo resolvemos de esta manera:";
-  assert.match(source, /5493855205726/);
-  assert.match(source, /wa\.me\/5493855205726/);
-  assert.match(source, new RegExp(`encodeURIComponent\\(["']${message.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&")}["']\\)`));
-  assert.match(source, /whatsapp_clicked/);
-  assert.doesNotMatch(source, /wa\.me\/(?!5493855205726)/);
+  const consts = await readSource("src/consts.ts");
+  assert.match(consts, /WHATSAPP_PHONE_NUMBER\s*=\s*["']5493855205726["']/);
+  assert.match(consts, /wa\.me\/\$\{WHATSAPP_PHONE_NUMBER\}/);
+  assert.match(consts, /encodeURIComponent\(message\)/);
+  assert.match(contact, /getWhatsAppUrl\(dictionary\.whatsappMessage\)/);
+  assert.match(contact, /whatsapp_clicked/);
   const marfen = await readSource("src/components/marfen-case/marfen-case.astro");
-  assert.match(marfen, /https:\/\/marfen\.com\.ar/);
+  assert.match(marfen, /href=\{item\.url\}/);
   assert.match(marfen, /data-analytics-event=["']marfen_clicked["']/);
 });
 

@@ -1,6 +1,6 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
-import { CONTACT_EMAIL, SOCIAL_LINKS } from "../../consts";
+import { getWhatsAppUrl } from "../../consts";
 import styles from "./contact-cta.module.css";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const { dictionary } = Astro.props;
-const contactHref = `${CONTACT_EMAIL}?subject=${encodeURIComponent(dictionary.emailSubject)}`;
+const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
 ---
 
 <section id="contact" class={styles.main_container} aria-labelledby="contact-title">
@@ -17,18 +17,255 @@ const contactHref = `${CONTACT_EMAIL}?subject=${encodeURIComponent(dictionary.em
         <h2 id="contact-title" class={styles.title}>{dictionary.title}</h2>
         <p class={styles.text}>{dictionary.text}</p>
         <div class={styles.button_group}>
-            <a class={styles.primary_button} href={contactHref} data-analytics-event="contact_cta_clicked">
+            <a class={styles.primary_button} href="#contact-form" data-analytics-event="contact_cta_clicked">
                 {dictionary.contactLabel}
             </a>
             <a
                 class={styles.secondary_button}
-                href={SOCIAL_LINKS.linkedin}
+                href={whatsappHref}
                 target="_blank"
-                data-analytics-event="linkedin_clicked"
+                data-analytics-event="whatsapp_clicked"
                 rel="noopener noreferrer"
             >
-                {dictionary.linkedinLabel}
+                {dictionary.whatsappLabel}
             </a>
+        </div>
+
+        <div class={styles.form_shell}>
+            <h3 id="contact-form-title" class={styles.form_title}>{dictionary.form.title}</h3>
+
+            <form
+                id="contact-form"
+                data-analytics-form="contact"
+                data-state="idle"
+                aria-labelledby="contact-form-title"
+            >
+                <p class={styles.form_intro} data-form-idle>{dictionary.form.intro}</p>
+                <div class={styles.field_grid}>
+                    <div class={styles.field}>
+                        <label class={styles.label} for="name">{dictionary.form.nameLabel}</label>
+                        <input
+                            class={styles.input}
+                            id="name"
+                            name="name"
+                            type="text"
+                            required
+                            maxlength="120"
+                            autocomplete="name"
+                        />
+                        <p id="name-error" class={styles.field_error} data-field-error="name" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field}>
+                        <label class={styles.label} for="company">{dictionary.form.companyLabel}</label>
+                        <input
+                            class={styles.input}
+                            id="company"
+                            name="company"
+                            type="text"
+                            required
+                            maxlength="120"
+                            autocomplete="organization"
+                        />
+                        <p id="company-error" class={styles.field_error} data-field-error="company" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
+                        <label class={styles.label} for="contact">{dictionary.form.contactLabel}</label>
+                        <input
+                            class={styles.input}
+                            id="contact"
+                            name="contact"
+                            type="text"
+                            required
+                            maxlength="240"
+                        />
+                        <p id="contact-error" class={styles.field_error} data-field-error="contact" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
+                        <label class={styles.label} for="process">{dictionary.form.processLabel}</label>
+                        <textarea
+                            class={styles.textarea}
+                            id="process"
+                            name="process"
+                            required
+                            maxlength="1600"
+                            rows="5"
+                        ></textarea>
+                        <p id="process-error" class={styles.field_error} data-field-error="process" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
+                        <label class={styles.label} for="currentSolution">{dictionary.form.currentSolutionLabel}</label>
+                        <textarea
+                            class={styles.textarea}
+                            id="currentSolution"
+                            name="currentSolution"
+                            required
+                            maxlength="1600"
+                            rows="5"
+                        ></textarea>
+                        <p id="currentSolution-error" class={styles.field_error} data-field-error="currentSolution" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
+                        <label class={styles.label} for="tools">{dictionary.form.toolsLabel}</label>
+                        <textarea
+                            class={styles.textarea}
+                            id="tools"
+                            name="tools"
+                            maxlength="1200"
+                            rows="3"
+                        ></textarea>
+                        <p id="tools-error" class={styles.field_error} data-field-error="tools" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
+                        <label class={styles.label} for="context">{dictionary.form.contextLabel}</label>
+                        <textarea
+                            class={styles.textarea}
+                            id="context"
+                            name="context"
+                            maxlength="1600"
+                            rows="4"
+                        ></textarea>
+                        <p id="context-error" class={styles.field_error} data-field-error="context" aria-live="polite"></p>
+                    </div>
+                </div>
+
+                <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabindex="-1"
+                    autocomplete="off"
+                    aria-hidden="true"
+                    hidden
+                />
+
+                <div class={styles.form_actions}>
+                    <button class={`${styles.primary_button} ${styles.submit_button}`} type="submit">
+                        {dictionary.form.submitLabel}
+                    </button>
+                </div>
+
+                <p class={styles.form_status} data-form-sending aria-live="polite" hidden>{dictionary.form.submitLabel}…</p>
+                <p class={styles.form_status} data-form-success aria-live="polite" tabindex="-1" hidden>{dictionary.form.successMessage}</p>
+                <p class={styles.form_status} data-form-error aria-live="assertive" role="alert" tabindex="-1" hidden>{dictionary.form.errorMessage}</p>
+            </form>
         </div>
     </div>
 </section>
+
+<script>
+    import { actions, isInputError } from "astro:actions";
+
+    const form = document.querySelector<HTMLFormElement>("#contact-form");
+    const submit = form?.querySelector<HTMLButtonElement>("button[type=submit]");
+    const fieldNames = ["name", "company", "contact", "process", "currentSolution", "tools", "context"];
+
+    const setState = (state: "idle" | "sending" | "error" | "success") => {
+        if (!form) return;
+
+        form.dataset.state = state;
+        const idle = form.querySelector<HTMLElement>("[data-form-idle]");
+        const sending = form.querySelector<HTMLElement>("[data-form-sending]");
+        const success = form.querySelector<HTMLElement>("[data-form-success]");
+        const error = form.querySelector<HTMLElement>("[data-form-error]");
+
+        if (idle) idle.hidden = state !== "idle";
+        if (sending) sending.hidden = state !== "sending";
+        if (success) success.hidden = state !== "success";
+        if (error) error.hidden = state !== "error";
+    };
+
+    const clearActionErrors = (currentForm: HTMLFormElement) => {
+        for (const fieldName of fieldNames) {
+            const control = currentForm.elements.namedItem(fieldName);
+            const fieldError = currentForm.querySelector<HTMLElement>(`[data-field-error="${fieldName}"]`);
+
+            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
+
+            fieldError.textContent = "";
+            control.removeAttribute("aria-invalid");
+            control.removeAttribute("aria-describedby");
+        }
+    };
+
+    const showActionFieldErrors = (currentForm: HTMLFormElement, fields: Record<string, unknown>) => {
+        setState("error");
+        const generalError = currentForm.querySelector<HTMLElement>("[data-form-error]");
+        if (generalError) generalError.hidden = true;
+
+        let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
+
+        for (const [fieldName, messages] of Object.entries(fields ?? {})) {
+            if (!fieldNames.includes(fieldName)) continue;
+
+            const control = currentForm.elements.namedItem(fieldName);
+            const fieldError = currentForm.querySelector<HTMLElement>(`[data-field-error="${fieldName}"]`);
+            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
+
+            const message = Array.isArray(messages) ? messages.join(" ") : String(messages ?? "");
+            fieldError.textContent = message;
+            control.setAttribute("aria-invalid", "true");
+            control.setAttribute("aria-describedby", fieldError.id);
+            firstInvalid ??= control;
+        }
+
+        firstInvalid?.focus();
+    };
+
+    const showGeneralError = (currentForm: HTMLFormElement) => {
+        setState("error");
+        const generalError = currentForm.querySelector<HTMLElement>("[data-form-error]");
+        generalError?.focus();
+    };
+
+    const showSuccess = (currentForm: HTMLFormElement) => {
+        setState("success");
+        currentForm.querySelector<HTMLElement>("[data-form-success]")?.focus();
+    };
+
+    form?.addEventListener("submit", async (event) => {
+        if (!form.checkValidity()) return;
+
+        event.preventDefault();
+        if (!submit || submit.disabled) return;
+
+        submit.disabled = true;
+        form.setAttribute("aria-busy", "true");
+        setState("sending");
+        clearActionErrors(form);
+
+        const formData = new FormData(form);
+        let error: unknown;
+
+        try {
+            const result = await actions.contact(formData);
+            error = result.error;
+        } catch {
+            showGeneralError(form);
+            submit.disabled = false;
+            form.removeAttribute("aria-busy");
+            return;
+        }
+
+        if (error) {
+            if (isInputError(error)) {
+                showActionFieldErrors(form, error.fields);
+            } else {
+                showGeneralError(form);
+            }
+            submit.disabled = false;
+            form.removeAttribute("aria-busy");
+            return;
+        }
+
+        form.reset();
+        showSuccess(form);
+        submit.disabled = false;
+        form.removeAttribute("aria-busy");
+    });
+</script>
