@@ -16,7 +16,7 @@ const language = lang === "en" ? "es" : "en";
 <nav class={styles.main_container} aria-label={dictionary.menuLabel}>
     <details class={styles.menu} data-navigation-menu open>
         <summary class={styles.menu_toggle}>{dictionary.menuLabel}</summary>
-        <div class={styles.links_container}>
+        <div class={styles.links_container} data-navigation-links>
             <a class={styles.link} href="#services">{dictionary.services}</a>
             <a class={styles.link} href="#work">{dictionary.work}</a>
             <a class={styles.link} href="#about">{dictionary.about}</a>
@@ -46,5 +46,19 @@ const language = lang === "en" ? "es" : "en";
 
         syncMenuState();
         mobileViewport.addEventListener("change", syncMenuState);
+
+        const linksContainer = menu.querySelector("[data-navigation-links]");
+
+        if (linksContainer instanceof HTMLElement) {
+            linksContainer.addEventListener("click", (event) => {
+                const target = event.target;
+                if (!(target instanceof Element)) return;
+
+                const link = target.closest('a[href^="#"]');
+                if (!(link instanceof HTMLAnchorElement)) return;
+
+                if (mobileViewport.matches) menu.open = false;
+            });
+        }
     }
 </script>
