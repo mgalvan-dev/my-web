@@ -1,12 +1,15 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import Hero from "../../components/hero/hero.astro";
+import ProblemSection from "../../components/problem/problem.astro";
 import Capabilities from "../../components/capabilities/capabilities.astro";
+import ProfessionalCase from "../../components/professional-case/professional-case.astro";
 import Process from "../../components/process/process.astro";
 import Header from "../../components/header/header.astro";
 import Footer from "../../components/footer/footer.astro";
 import Featured from "../../components/featured/featured.astro";
 import ExperienceSummary from "../../components/experience-summary/experience-summary.astro";
+import Fit from "../../components/fit/fit.astro";
 import ContactCta from "../../components/contact-cta/contact-cta.astro";
 import dictionaryJson from "../../dictionaries/es.json";
 import type { Dictionary } from "../../models/dictionary.model";
@@ -33,10 +36,13 @@ const config = {
     <main id="main" class={styles.main}>
         <div class={styles.content_container}>
             <Hero dictionary={dictionary.hero} />
+            <ProblemSection dictionary={dictionary.problem} />
             <Capabilities dictionary={dictionary.capabilities} />
-            <Featured dictionary={dictionary.selectedWork} />
+            <Featured dictionary={dictionary.selectedWork} marfenCase={dictionary.marfenCase} />
+            <ProfessionalCase dictionary={dictionary.professionalCase} locale={config.lang} />
             <Process dictionary={dictionary.process} />
             <ExperienceSummary dictionary={dictionary.experienceSummary} />
+            <Fit dictionary={dictionary.fit} />
             <ContactCta dictionary={dictionary.contact} />
         </div>
     </main>

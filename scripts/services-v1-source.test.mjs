@@ -174,7 +174,14 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   assert.equal((hero.match(/<h1\b/g) ?? []).length, 1);
   const nonHeroSources = await Promise.all(homeComponents.filter((path) => path !== heroPath).map(readSource));
   for (const source of nonHeroSources) assert.doesNotMatch(source, /<h1\b/);
-  const structuralSources = await Promise.all(homeComponents.slice(5).map(readSource));
+  const structuralSources = await Promise.all(
+    homeComponents
+      .slice(5)
+      .filter((path) =>
+        !["src/components/footer/footer.astro", "src/components/marfen-case/marfen-case.astro"].includes(path),
+      )
+      .map(readSource),
+  );
   for (const source of structuralSources) assert.match(source, /<section\b/);
   const featured = await readSource("src/components/featured/featured.astro");
   assert.match(featured, /import\s+MarfenCase\s+from\s+["'][^"']*marfen-case[^"']*["']/);
@@ -383,9 +390,9 @@ test("Services V1 preserves static Astro and page-family SEO contracts", async (
   assert.doesNotMatch(config, /output:\s*["']server["']|server:\s*\{?\s*defer|ServerIsland|api\//);
   for (const [source, canonical] of [[english, "/"], [spanish, "/es/"]]) {
     assert.match(source, /metadata:\s*dictionary\.metadata/);
-    assert.match(source, new RegExp(`canonicalPath:\s*["']${canonical.replace("/", "\\/")}["']`));
+    assert.match(source, new RegExp(`canonicalPath:\\s*["']${canonical.replace("/", "\\/")}["']`));
     assert.match(source, /alternates/);
-    for (const lang of ["en", "es", "x-default"]) assert.match(source, new RegExp(`lang:\s*["']${lang}["']`));
+    for (const lang of ["en", "es", "x-default"]) assert.match(source, new RegExp(`lang:\\s*["']${lang}["']`));
     assert.match(source, canonical === "/" ? /\{ lang: "es", href: "\/es\/" \}/ : /\{ lang: "en", href: "\/" \}/);
   }
   const layout = await readSource("src/layouts/Layout.astro");

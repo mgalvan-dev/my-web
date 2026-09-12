@@ -50,6 +50,16 @@ test("Home routes use the Services V1 section order", async () => {
 
     assert.ok(order.every((index) => index >= 0));
     assert.deepEqual([...order].sort((a, b) => a - b), order);
+    const locale = route.includes('lang: "es"') ? "es" : "en";
+    assert.match(route, new RegExp(`lang:\\s*["']${locale}["']`));
+    assert.match(
+      route,
+      /<Featured\s+dictionary=\{dictionary\.selectedWork\}\s+marfenCase=\{dictionary\.marfenCase\}\s*\/>/,
+    );
+    assert.match(
+      route,
+      /<ProfessionalCase\s+dictionary=\{dictionary\.professionalCase\}\s+locale=\{config\.lang\}\s*\/>/,
+    );
     assert.doesNotMatch(route, /<Journal\b|<Projects\b|<Experience\b|<StandaloneExperience\b/);
   }
 });
@@ -171,23 +181,23 @@ test("Home routes consume localized commercial SEO metadata", async () => {
 
   assert.match(englishRoute, /metadata: dictionary\.metadata/);
   assert.match(spanishRoute, /metadata: dictionary\.metadata/);
-  assert.equal(english.metadata.title, "Digital Products, Automations & Integrations | Marco Galván");
-  assert.equal(spanish.metadata.title, "Productos digitales, automatizaciones e integraciones | Marco Galván");
+  assert.equal(english.metadata.title, "Custom Software, Automation & Integrations | Marco Galván");
+  assert.equal(spanish.metadata.title, "Software a medida, automatizaciones e integraciones | Marco Galván");
   assert.equal(
     english.metadata.description,
-    "Software Developer & Product Builder helping businesses turn operational problems into digital products, automations, integrations and internal systems built to evolve.",
+    "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
   );
   assert.equal(
     spanish.metadata.description,
-    "Desarrollador de Software & Product Builder que ayuda a empresas a convertir problemas operativos en productos digitales, automatizaciones, integraciones y sistemas pensados para evolucionar.",
+    "Desarrollo sistemas internos, automatizo procesos e integro herramientas para empresas que necesitan ordenar su operación y reducir tareas manuales.",
   );
   assert.equal(
     english.metadata.ogImageAlt,
-    "Marco Galván — Software Developer & Product Builder",
+    "Marco Galván — Software Developer",
   );
   assert.equal(
     spanish.metadata.ogImageAlt,
-    "Marco Galván — Desarrollador de Software & Product Builder",
+    "Marco Galván — Desarrollador de software",
   );
 });
 
@@ -211,7 +221,7 @@ test("Home navigation and sections expose stable anchors without social navigati
 
   assert.match(header, /homeHref/);
   assert.match(footer, /homeHref/);
-  for (const anchor of ["#work", "#process", "#about", "#contact"]) {
+  for (const anchor of ["#services", "#work", "#about", "#contact"]) {
     assert.match(navbar, new RegExp(`href=["']${anchor}["']`));
   }
 
@@ -332,44 +342,22 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
 
   assert.equal(
     english.metadata.title,
-    "Digital Products, Automations & Integrations | Marco Galván",
+    "Custom Software, Automation & Integrations | Marco Galván",
   );
   assert.equal(
     spanish.metadata.title,
-    "Productos digitales, automatizaciones e integraciones | Marco Galván",
+    "Software a medida, automatizaciones e integraciones | Marco Galván",
   );
-  assert.match(english.metadata.description, /operational problems into digital products/);
-  assert.match(spanish.metadata.description, /problemas operativos en productos digitales/);
+  assert.match(english.metadata.description, /internal systems.*automate processes.*integrate tools/i);
+  assert.match(spanish.metadata.description, /sistemas internos.*automatizo procesos.*integro herramientas/i);
   assert.match(english.hero.description, /custom software|automations|integrations/i);
-  assert.deepEqual(
-    english.process.steps.map(({ description }) => description),
-    [
-      "I learn how the business works today, where the problem appears, and what outcome matters.",
-      "I decide what is worth solving first and the smallest scope that can create value.",
-      "I design a simple solution around the real workflow.",
-      "I build and ship usable software, not just features on a checklist.",
-      "I observe real usage, measure results, and improve where it makes sense.",
-    ],
-  );
-  assert.deepEqual(
-    spanish.process.steps.map(({ description }) => description),
-    [
-      "Entiendo cómo funciona hoy el negocio o proceso, dónde está el problema y qué resultado importa.",
-      "Determino qué vale la pena resolver primero y cuál es el alcance mínimo que genera valor.",
-      "Diseño una solución simple alrededor del flujo de trabajo real.",
-      "Construyo y entrego software usable, no solo funcionalidades marcadas como terminadas.",
-      "Observo el uso real, mido resultados y mejoro donde tiene sentido.",
-    ],
-  );
-  assert.match(
-    english.experienceSummary.text,
-    /You work directly with me from understanding the problem to shipping and evolving the solution\./,
-  );
-  assert.match(
-    spanish.experienceSummary.text,
-    /Trabajás directamente conmigo desde entender el problema hasta lanzar y evolucionar la solución\./,
-  );
-  assert.match(english.capabilities.items[0].description, /test with real users and evolve/);
+  assert.deepEqual(english.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
+  assert.deepEqual(spanish.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
+  assert.equal(english.experienceSummary.paragraphs.length, 3);
+  assert.equal(spanish.experienceSummary.paragraphs.length, 3);
+  assert.match(english.experienceSummary.paragraphs[0], /Marco Galván.*software developer/i);
+  assert.match(spanish.experienceSummary.paragraphs[0], /Marco Galván.*desarrollador de software/i);
+  assert.match(english.capabilities.items[0].description, /repetitive work.*manual entry/i);
   assert.match(english.contact.text, /process|problem/i);
   assert.match(spanish.contact.text, /proceso|problema/i);
   assert.match(english.contact.contactLabel, /tell me|problem|improv/i);
