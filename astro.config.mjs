@@ -11,6 +11,7 @@ export default defineConfig({
   trailingSlash: "always",
   redirects: {
     "/en": "/",
+    "/en/": "/",
   },
   integrations: [
     sitemap({
