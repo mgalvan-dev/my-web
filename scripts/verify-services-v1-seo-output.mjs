@@ -297,7 +297,12 @@ async function verifyPage(staticRoot, route, page, { home = false } = {}) {
   const jsonLdTypes = new Set();
   const visit = (value) => {
     if (!value || typeof value !== "object") return;
-    if (typeof value["@type"] === "string") jsonLdTypes.add(value["@type"]);
+    const types = Array.isArray(value["@type"])
+      ? value["@type"]
+      : [value["@type"]];
+    for (const type of types) {
+      if (typeof type === "string") jsonLdTypes.add(type);
+    }
     for (const child of Object.values(value)) visit(child);
   };
   visit(structuredData);
@@ -341,10 +346,13 @@ async function verifySitemapAndRobots(staticRoot) {
     check(sitemapUrls.includes(url), `${relative(ROOT, staticRoot)}: sitemap is missing ${url}`);
   }
   const allowedSitemapRoutes = new Set(requiredSitemapUrls.map((url) => new URL(url).pathname));
-  for (const url of sitemapUrls) {
+  for (const location of sitemapUrls) {
     let pathname;
+    let url;
     try {
-      pathname = new URL(url).pathname;
+      url = new URL(location);
+      check(url.origin === SITE_ORIGIN, "sitemap URL has an unexpected origin");
+      pathname = url.pathname;
     } catch {
       check(false, `${relative(ROOT, staticRoot)}: sitemap contains an invalid URL`);
       continue;
