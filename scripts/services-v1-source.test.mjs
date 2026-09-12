@@ -410,12 +410,16 @@ test("Services V1 uses the approved WhatsApp destination and prefilled message",
 });
 
 test("Services V1 preserves static Astro and page-family SEO contracts", async () => {
-  const [config, english, spanish, cvEnglish, cvSpanish, cvLayout] = await Promise.all([
-    readSource("astro.config.mjs"), readSource("src/pages/index.astro"), readSource("src/pages/es/index.astro"), readSource("src/pages/cv/en.astro"), readSource("src/pages/cv/es.astro"), readSource("src/layouts/CVLayout.astro"),
+  const [config, vercelConfig, english, spanish, cvEnglish, cvSpanish, cvLayout] = await Promise.all([
+    readSource("astro.config.mjs"), readJson("vercel.json"), readSource("src/pages/index.astro"), readSource("src/pages/es/index.astro"), readSource("src/pages/cv/en.astro"), readSource("src/pages/cv/es.astro"), readSource("src/layouts/CVLayout.astro"),
   ]);
   assert.match(config, /output:\s*["']static["']/);
   assert.match(config, /import\s+vercel\s+from\s+["']@astrojs\/vercel["']/);
   assert.match(config, /adapter:\s*vercel\(\)/);
+  assert.deepEqual(vercelConfig.redirects, [
+    { source: "/en", destination: "/", permanent: true },
+    { source: "/en/", destination: "/", permanent: true },
+  ]);
   assert.match(config, /redirects:\s*\{[\s\S]*["']\/en["']\s*:\s*["']\/["']/);
   assert.match(config, /["']\/en\/["']\s*:\s*["']\/["']/);
   assert.doesNotMatch(config, /output:\s*["']server["']|server:\s*\{?\s*defer|ServerIsland|api\//);
