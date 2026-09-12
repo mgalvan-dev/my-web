@@ -17,6 +17,7 @@
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0.65rem;
+    min-height: 44px;
     color: inherit;
     text-decoration: none;
 }
@@ -45,6 +46,11 @@
 
 .navigation a,
 .links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     color: var(--site-text-muted);
     font-size: 0.82rem;
     text-decoration: none;

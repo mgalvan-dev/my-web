@@ -22,6 +22,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: 0.65rem;
+    min-height: 44px;
     color: inherit;
     text-decoration: none;
 }
