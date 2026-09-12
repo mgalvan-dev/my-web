@@ -89,10 +89,27 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
 
   for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
     const control = formControl(source, field);
-    const label = labelFor(source, field);
-    assert.match(control, new RegExp(`\\bid=["']${field}["']`));
-    assert.match(label, new RegExp(`\\bfor=["']${field}["']`));
+    const controlId = {
+      contact: "contact-detail",
+      process: "process-detail",
+    }[field] ?? field;
+    const label = labelFor(source, controlId);
+    assert.match(control, new RegExp(`\\bid=["']${controlId}["']`));
+    assert.match(label, new RegExp(`\\bfor=["']${controlId}["']`));
     assert.match(source, new RegExp(`data-field-error=["']${field}["']`));
+  }
+
+  for (const [field, controlId] of Object.entries({
+    contact: "contact-detail",
+    process: "process-detail",
+  })) {
+    const expectedAnchorCount = field === "contact" ? 1 : 0;
+    assert.equal(
+      (source.match(new RegExp(`\\bid=["']${field}["']`, "g")) ?? []).length,
+      expectedAnchorCount,
+    );
+    assert.match(source, new RegExp(`\\bname=["']${field}["']`));
+    assert.match(formControl(source, field), new RegExp(`\\bid=["']${controlId}["']`));
   }
 
   for (const field of ["name", "company", "contact", "process", "currentSolution"]) {

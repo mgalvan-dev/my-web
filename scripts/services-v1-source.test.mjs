@@ -315,7 +315,11 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
   for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
-    const matchingLabels = labels.filter((tag) => attribute(tag, "for") === field);
+    const controlId = {
+      contact: "contact-detail",
+      process: "process-detail",
+    }[field] ?? field;
+    const matchingLabels = labels.filter((tag) => attribute(tag, "for") === controlId);
     assert.equal(matchingLabels.length, 1, `${field} must have one visible label`);
     assert.equal(attribute(controlFor(field), "id"), attribute(matchingLabels[0], "for"), `${field} label must target its control`);
   }
