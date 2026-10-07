@@ -29,7 +29,7 @@ const HOME_PAGES = {
     description:
       "Soluciones digitales para empresas: desde landing pages y sitios web comerciales hasta software a medida y productos digitales.",
     ogImageAlt: "Marco Galván — Desarrollador de software",
-    role: "Desarrollador de Software & Product Builder",
+    role: "Desarrollador de Software y Creador de Productos",
     canonical: `${SITE_ORIGIN}/es/`,
     alternates: {
       en: `${SITE_ORIGIN}/`,

@@ -86,7 +86,7 @@ test("Home dictionaries contain bilingual broad digital-solutions positioning", 
     "Sitios web · Software a medida · Productos digitales",
   );
   assert.equal(english.footer.role, "Software Developer & Product Builder");
-  assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
+  assert.equal(spanish.footer.role, "Desarrollador de Software y Creador de Productos");
   assert.match(english.hero.title, /digital solutions for businesses.*websites.*software products/i);
   assert.equal(
     spanish.hero.title,
@@ -341,11 +341,11 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
   assert.equal(spanishMarfen.name, "Marfen");
   assert.equal(
     englishMarfen.description,
-    "Marfen is a commerce management and point-of-sale system for kiosks, convenience stores, and small retailers. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product around retail workflows.",
+    "Marfen is a commerce management and point-of-sale system for businesses. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product to support day-to-day commerce management.",
   );
   assert.equal(
     spanishMarfen.description,
-    "Marfen es un sistema de gestión comercial y punto de venta para kioscos, despensas y pequeños comercios. Lo diseñé y construí para reunir ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Sigo evolucionando el producto alrededor de los flujos de trabajo del comercio.",
+    "Marfen es un sistema de gestión y punto de venta para comercios. Lo diseñé y construí para reunir ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Sigo evolucionando el producto para acompañar la gestión diaria del comercio.",
   );
   assert.equal(
     englishMarfen.role,

@@ -76,11 +76,22 @@ test("Marfen is described as commerce management and point of sale without unsup
     assert.match(marfen, /inventory|stock/);
     assert.doesNotMatch(marfen, /arca|e.invoicing|facturaci[oó]n electr[oó]nica|customers|clientes/);
     assert.doesNotMatch(marfen, /validation.only|early experiment|solo validaci[oó]n|experimento temprano/);
+    assert.doesNotMatch(marfen, /kiosks?|convenience stores?|small retailers?|kioscos?|despensas?|pequeños comercios?/i);
     assert.equal(dictionary.selectedWork.items[0].url, "https://marfen.com.ar");
     assert.equal(dictionary.selectedWork.items[0].status, "live");
+    assert.match(dictionary.marfenCase.eyebrow, /own product.*in production|producto propio.*en producción/i);
+    assert.match(JSON.stringify(dictionary.marfenCase.proof), /real users|usuarios reales/i);
   }
+  assert.equal(spanish.marfenCase.body[0], "Marfen es un sistema de gestión y punto de venta para comercios.");
+  assert.ok(spanish.selectedWork.items[0].description.startsWith("Marfen es un sistema de gestión y punto de venta para comercios."));
+  assert.match(english.marfenCase.body[0], /commerce management and point.of.sale system for businesses/i);
   assert.equal(english.selectedWork.items[0].linkLabel, "Visit Marfen");
   assert.equal(spanish.selectedWork.items[0].linkLabel, "Ver Marfen");
+});
+
+test("Spanish footer role is localized without changing its English equivalent", () => {
+  assert.equal(spanish.footer.role, "Desarrollador de Software y Creador de Productos");
+  assert.equal(english.footer.role, "Software Developer & Product Builder");
 });
 
 test("direct WhatsApp contact and the anonymized case stay within existing scope", async () => {

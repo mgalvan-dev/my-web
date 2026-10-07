@@ -7,12 +7,9 @@ import { CONTACT_EMAIL_ADDRESS } from "../consts";
 const contactInput = z
   .object({
     name: z.string().trim().min(1).max(120),
-    company: z.string().trim().min(1).max(120),
+    company: z.string().trim().max(120).optional(),
     contact: z.string().trim().min(1).max(240),
-    process: z.string().trim().min(1).max(1600),
-    currentSolution: z.string().trim().min(1).max(1600),
-    tools: z.string().trim().max(1200).nullable().optional(),
-    context: z.string().trim().max(1600).nullable().optional(),
+    request: z.string().trim().min(1).max(1600),
     website: z.string().trim().max(120).nullable().optional(),
   })
   .strict();
@@ -36,10 +33,7 @@ function buildContactEmail(input: z.infer<typeof contactInput>) {
     ["Name", input.name],
     ["Company", input.company],
     ["Contact", input.contact],
-    ["Process", input.process],
-    ["Current solution", input.currentSolution],
-    ["Tools", input.tools],
-    ["Context", input.context],
+    ["Request", input.request],
   ] as const;
 
   return {
