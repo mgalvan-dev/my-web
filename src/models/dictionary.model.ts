@@ -48,6 +48,7 @@ export interface ContactFormContent {
   submitLabel: string;
   successMessage: string;
   errorMessage: string;
+  validationMessage: string;
 }
 
 export interface ProcessStep {

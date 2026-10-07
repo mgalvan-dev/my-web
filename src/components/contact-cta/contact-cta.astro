@@ -53,7 +53,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                             maxlength="120"
                             autocomplete="name"
                         />
-                        <p id="name-error" class={styles.field_error} data-field-error="name" aria-live="polite"></p>
+                        <p id="name-error" class={styles.field_error} data-field-error="name" data-validation-message={dictionary.form.validationMessage} aria-live="polite"></p>
                     </div>
 
                     <div class={styles.field}>
@@ -66,7 +66,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                             maxlength="120"
                             autocomplete="organization"
                         />
-                        <p id="company-error" class={styles.field_error} data-field-error="company" aria-live="polite"></p>
+                        <p id="company-error" class={styles.field_error} data-field-error="company" data-validation-message={dictionary.form.validationMessage} aria-live="polite"></p>
                     </div>
 
                     <div class={styles.field_full}>
@@ -79,7 +79,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                             required
                             maxlength="240"
                         />
-                        <p id="contact-error" class={styles.field_error} data-field-error="contact" aria-live="polite"></p>
+                        <p id="contact-error" class={styles.field_error} data-field-error="contact" data-validation-message={dictionary.form.validationMessage} aria-live="polite"></p>
                     </div>
 
                     <div class={styles.field_full}>
@@ -92,7 +92,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                             maxlength="1600"
                             rows="5"
                         ></textarea>
-                        <p id="request-error" class={styles.field_error} data-field-error="request" aria-live="polite"></p>
+                        <p id="request-error" class={styles.field_error} data-field-error="request" data-validation-message={dictionary.form.validationMessage} aria-live="polite"></p>
                     </div>
                 </div>
 
@@ -163,7 +163,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
         let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
         let hasRecognizedField = false;
 
-        for (const [fieldName, messages] of Object.entries(fields ?? {})) {
+        for (const fieldName of Object.keys(fields ?? {})) {
             if (!fieldNames.includes(fieldName)) continue;
 
             const control = currentForm.elements.namedItem(fieldName);
@@ -171,8 +171,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
             if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
 
             hasRecognizedField = true;
-            const message = Array.isArray(messages) ? messages.join(" ") : String(messages ?? "");
-            fieldError.textContent = message;
+            fieldError.textContent = fieldError.dataset.validationMessage ?? "";
             control.setAttribute("aria-invalid", "true");
             control.setAttribute("aria-describedby", fieldError.id);
             firstInvalid ??= control;

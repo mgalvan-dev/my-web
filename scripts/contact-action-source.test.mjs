@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import ts from "typescript";
 
 const root = new URL("..", import.meta.url);
 const file = (path) => new URL(path, root);
@@ -213,6 +214,60 @@ test("ContactCta falls back to the general status for unrecognized Action fields
 
   assert.match(helper, /hasRecognizedField/);
   assert.match(helper, /if\s*\(\s*!hasRecognizedField\s*\)[\s\S]*generalError\.hidden\s*=\s*false[\s\S]*generalError\.focus\(\s*\)[\s\S]*return/);
+});
+
+test("ContactCta localizes server field errors without losing accessible field focus", async () => {
+  const source = await readSource("src/components/contact-cta/contact-cta.astro");
+  const helper = source.slice(source.indexOf("const showActionFieldErrors"), source.indexOf("const showGeneralError"));
+  const fieldNames = ["name", "company", "contact", "request"];
+
+  class Control {
+    attributes = {};
+    focused = false;
+    setAttribute(name, value) { this.attributes[name] = value; }
+    focus() { this.focused = true; }
+  }
+
+  for (const [language, message] of [["es", "Revisá este campo."], ["en", "Please check this field."]]) {
+    const controls = Object.fromEntries(fieldNames.map((name) => [name, new Control()]));
+    const errors = Object.fromEntries(fieldNames.map((name) => [name, {
+      id: `${name}-error`,
+      dataset: { validationMessage: message },
+      textContent: "",
+    }]));
+    const generalError = { hidden: false };
+    let state;
+    const currentForm = {
+      elements: { namedItem: (name) => controls[name] },
+      querySelector: (selector) => selector === "[data-form-error]"
+        ? generalError
+        : errors[selector.match(/data-field-error="([^"]+)"/)[1]],
+    };
+    const showErrors = new Function(
+      "fieldNames", "setState", "HTMLInputElement", "HTMLTextAreaElement",
+      `${ts.transpile(helper)}; return showActionFieldErrors;`,
+    )(fieldNames, (value) => { state = value; }, Control, Control);
+
+    showErrors(currentForm, {
+      name: ["Too small: expected string to have >=1 characters"],
+      company: ["Too big: expected string to have <=120 characters"],
+      contact: ["Too small: expected string to have >=1 characters"],
+      request: ["Too small: expected string to have >=1 characters"],
+    });
+
+    for (const name of fieldNames) {
+      assert.equal(errors[name].textContent, message, `${language} ${name} must not expose Zod's English messages`);
+      assert.equal(controls[name].attributes["aria-invalid"], "true");
+      assert.equal(controls[name].attributes["aria-describedby"], `${name}-error`);
+      assert.equal(controls[name].focused, name === "name");
+    }
+    assert.equal(state, "error");
+    assert.equal(generalError.hidden, true);
+    const dictionary = JSON.parse(await readSource(`src/dictionaries/${language}.json`));
+    assert.equal(dictionary.contact.form.validationMessage, message);
+  }
+
+  assert.equal((source.match(/data-validation-message=\{dictionary\.form\.validationMessage\}/g) ?? []).length, 4);
 });
 
 test("Astro keeps static pages while exposing only the adapter runtime boundary", async () => {
