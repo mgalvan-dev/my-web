@@ -114,30 +114,31 @@ const homeSourcePaths = [
   "src/layouts/Layout.astro",
 ];
 
-test("Services V1 dictionaries contain exact Spanish commercial copy", async () => {
+test("Commercial dictionaries contain the approved Spanish positioning", async () => {
   const spanish = await readJson("src/dictionaries/es.json");
   const required = [
-    ["hero.eyebrow", "Software a medida · Automatizaciones · Integraciones"],
-    ["hero.title", "Construyo software para empresas que necesitan ordenar procesos, automatizar tareas y conectar sus sistemas."],
-    ["problem.title", "Cuando la operación crece, las herramientas improvisadas empiezan a costar tiempo."],
-    ["capabilities.title", "Qué puedo resolver"],
+    ["hero.eyebrow", "Sitios web · Software a medida · Productos digitales"],
+    ["hero.title", "Soluciones digitales para empresas, desde sitios web hasta productos de software a medida."],
+    ["problem.title", "La solución digital adecuada empieza por el objetivo del negocio."],
+    ["capabilities.title", "Soluciones digitales según lo que necesitás"],
     ["marfenCase.eyebrow", "Producto propio · En producción"],
-    ["marfenCase.title", "Convertir una operación comercial real en software"],
+    ["marfenCase.title", "Gestión comercial y punto de venta para comercios"],
     ["professionalCase.eyebrow", "Automatización operativa"],
     ["professionalCase.title", "De un proceso de varios días a ejecutarlo en horas"],
     ["process.title", "Del problema a producción"],
-    ["fit.title", "Probablemente pueda ayudarte si…"],
-    ["contact.title", "¿Qué parte de tu operación te está haciendo perder tiempo?"],
-    ["contact.formTitle", "Contame qué querés mejorar"],
-    ["contact.whatsappLabel", "Escribirme por WhatsApp"],
+    ["fit.title", "Puedo ayudarte a hacerlo realidad si…"],
+    ["contact.title", "¿Qué necesitás construir?"],
+    ["contact.form.title", "Contame qué necesitás"],
+    ["contact.whatsappLabel", "Escribime directamente por WhatsApp"],
   ];
   for (const [path, value] of required) {
     const actual = path.split(".").reduce((object, key) => object?.[key], spanish);
     assert.equal(actual, value, path);
   }
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "automation").cta, "Contame qué tarea se repite");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "internal-systems").cta, "Contame qué necesitás organizar");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "integrations").cta, "Mostrame qué sistemas necesitás conectar");
+  assert.deepEqual(spanish.capabilities.items.map((item) => item.id), ["web-presence", "business-software", "digital-products"]);
+  assert.equal(spanish.capabilities.items[0].cta, "Hablemos de un sitio web");
+  assert.equal(spanish.capabilities.items[1].cta, "Hablemos de software");
+  assert.equal(spanish.capabilities.items[2].cta, "Hablemos de tu producto");
 });
 
 test("Services V1 dictionaries have bilingual matching shapes and semantic English entries", async () => {
@@ -146,14 +147,14 @@ test("Services V1 dictionaries have bilingual matching shapes and semantic Engli
   for (const key of ["navigation", "hero", "capabilities", "problem", "process", "selectedWork", "marfenCase", "professionalCase", "experienceSummary", "fit", "contact"]) {
     assert.deepEqual(Object.keys(english[key] ?? {}), Object.keys(spanish[key] ?? {}), key);
   }
-  assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
-  assert.match(english.hero.title, /businesses.*processes.*automate.*systems/i);
-  assert.match(english.capabilities.title, /what I can solve/i);
+  assert.match(english.hero.eyebrow, /websites.*custom software.*digital products/i);
+  assert.match(english.hero.title, /digital solutions for businesses.*websites.*software products/i);
+  assert.match(english.capabilities.title, /digital work.*needs/i);
   assert.match(english.marfenCase.eyebrow, /own product.*production/i);
   assert.match(english.professionalCase.title, /days.*hours/i);
   assert.match(english.process.title, /problem.*production/i);
-  assert.match(english.fit.title, /probably.*help/i);
-  assert.match(english.contact.formTitle, /tell me.*improve/i);
+  assert.match(english.fit.title, /help.*bring this to life/i);
+  assert.match(english.contact.form.title, /tell me what you need/i);
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
     ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
@@ -332,18 +333,18 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   };
   const attribute = (tag, name) => new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`).exec(tag)?.[1];
   assert.match(contact, /<form\b/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution"]) assert.match(controlFor(field), /\brequired\b/);
-  for (const field of ["tools", "context"]) assert.doesNotMatch(controlFor(field), /\brequired\b/);
+  for (const field of ["name", "contact", "request"]) assert.match(controlFor(field), /\brequired\b/);
+  assert.doesNotMatch(controlFor("company"), /\brequired\b/);
   for (const field of ["budget", "employees", "deadline", "requirements", "brief"]) assert.doesNotMatch(contact, new RegExp(`name=["']${field}["']`));
   assert.doesNotMatch(contact, /action=\{actions\.contact\}|CONTACT_FORM_ACTION|\/api\/contact/);
   assert.match(contact, /import\s+\{\s*actions\s*,\s*isInputError\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(contact, /new FormData\(form\)/);
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "company", "contact", "request"]) {
     const controlId = {
       contact: "contact-detail",
-      process: "process-detail",
+      request: "request-detail",
     }[field] ?? field;
     const matchingLabels = labels.filter((tag) => attribute(tag, "for") === controlId);
     assert.equal(matchingLabels.length, 1, `${field} must have one visible label`);
@@ -387,7 +388,7 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(email, /\.\.\.buildContactEmail\(input\)/);
   const html = functionBody(action, "buildContactEmail");
   assert.match(html, /escapeHtml\s*\(\s*value\s*\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "company", "contact", "request"]) {
     assert.match(html, new RegExp(`\\b${field}\\b`), field);
   }
   assert.match(html, /\bhtml\s*:/);

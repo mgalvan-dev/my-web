@@ -84,7 +84,7 @@ test("Home sections omit decorative indexes while retaining process step numbers
   assert.match(process, /<span class={styles\.number} aria-hidden="true">\{step\.number\}<\/span>/);
 });
 
-test("Home dictionaries contain bilingual Software Developer & Product Builder positioning", async () => {
+test("Home dictionaries contain bilingual broad digital-solutions positioning", async () => {
   const [english, spanish] = await Promise.all([
     readJson("src/dictionaries/en.json"),
     readJson("src/dictionaries/es.json"),
@@ -100,17 +100,17 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
     Object.keys(spanish.experienceSummary),
   );
 
-  assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
+  assert.match(english.hero.eyebrow, /websites.*custom software.*digital products/i);
   assert.equal(
     spanish.hero.eyebrow,
-    "Software a medida · Automatizaciones · Integraciones",
+    "Sitios web · Software a medida · Productos digitales",
   );
   assert.equal(english.footer.role, "Software Developer & Product Builder");
-  assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
-  assert.match(english.hero.title, /businesses.*processes.*automate.*systems/i);
+  assert.equal(spanish.footer.role, "Desarrollador de Software y Creador de Productos");
+  assert.match(english.hero.title, /digital solutions for businesses.*websites.*software products/i);
   assert.equal(
     spanish.hero.title,
-    "Construyo software para empresas que necesitan ordenar procesos, automatizar tareas y conectar sus sistemas.",
+    "Soluciones digitales para empresas, desde sitios web hasta productos de software a medida.",
   );
   for (const key of [
     "navigation",
@@ -204,15 +204,15 @@ test("Home routes consume localized commercial SEO metadata", async () => {
 
   assert.match(englishRoute, /metadata: dictionary\.metadata/);
   assert.match(spanishRoute, /metadata: dictionary\.metadata/);
-  assert.equal(english.metadata.title, "Custom Software, Automation & Integrations | Marco Galván");
-  assert.equal(spanish.metadata.title, "Software a medida, automatizaciones e integraciones | Marco Galván");
+  assert.equal(english.metadata.title, "Websites & Custom Software for Businesses | Marco Galván");
+  assert.equal(spanish.metadata.title, "Sitios web y software a medida para empresas | Marco Galván");
   assert.equal(
     english.metadata.description,
-    "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
+    "Digital solutions for businesses, from landing pages and commercial websites to custom software and digital products.",
   );
   assert.equal(
     spanish.metadata.description,
-    "Desarrollo sistemas internos, automatizo procesos e integro herramientas para empresas que necesitan ordenar su operación y reducir tareas manuales.",
+    "Soluciones digitales para empresas: desde landing pages y sitios web comerciales hasta software a medida y productos digitales.",
   );
   assert.equal(
     english.metadata.ogImageAlt,
@@ -296,7 +296,7 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
         url: "https://marfen.com.ar",
         linkLabel: "Visit Marfen",
       },
-      { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
+    { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
       {
         context: "professional-experience",
         status: undefined,
@@ -344,19 +344,19 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
   assert.equal(spanishMarfen.name, "Marfen");
   assert.equal(
     englishMarfen.description,
-    "Marfen is a management system for kiosks, convenience stores and small retailers. I designed and built it from scratch to centralize sales, inventory, cash management, purchases, suppliers, store credit and profitability. It is currently live and being used in a real retail operation while I continue iterating from direct user feedback.",
+    "Marfen is a commerce management and point-of-sale system for businesses. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product to support day-to-day commerce management.",
   );
   assert.equal(
     spanishMarfen.description,
-    "Marfen es un sistema de gestión para kioscos, despensas y pequeños comercios. Lo diseñé y construí desde cero para centralizar ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Actualmente está en producción y se utiliza en una operación comercial real, mientras sigo iterándolo a partir del feedback directo de usuarios.",
+    "Marfen es un sistema de gestión y punto de venta para comercios. Lo diseñé y construí para reunir ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Sigo evolucionando el producto para acompañar la gestión diaria del comercio.",
   );
   assert.equal(
     englishMarfen.role,
-    "Product strategy, product discovery, product design, architecture, full-stack development, and ongoing product evolution.",
+    "Product strategy, discovery, design, architecture, full-stack development, and ongoing product evolution.",
   );
   assert.equal(
     spanishMarfen.role,
-    "Estrategia y descubrimiento de producto, diseño de producto, arquitectura, desarrollo full-stack y evolución continua del producto.",
+    "Estrategia y descubrimiento de producto, diseño, arquitectura, desarrollo full-stack y evolución continua.",
   );
 
   for (const dictionary of [english, spanish]) {
@@ -376,26 +376,26 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
 
   assert.equal(
     english.metadata.title,
-    "Custom Software, Automation & Integrations | Marco Galván",
+    "Websites & Custom Software for Businesses | Marco Galván",
   );
   assert.equal(
     spanish.metadata.title,
-    "Software a medida, automatizaciones e integraciones | Marco Galván",
+    "Sitios web y software a medida para empresas | Marco Galván",
   );
-  assert.match(english.metadata.description, /internal systems.*automate processes.*integrate tools/i);
-  assert.match(spanish.metadata.description, /sistemas internos.*automatizo procesos.*integro herramientas/i);
-  assert.match(english.hero.description, /custom software|automations|integrations/i);
+  assert.match(english.metadata.description, /landing pages.*commercial websites.*custom software.*digital products/i);
+  assert.match(spanish.metadata.description, /landing pages.*sitios web comerciales.*software a medida.*productos digitales/i);
+  assert.match(english.hero.description, /landing pages.*commercial websites.*business systems.*digital products/i);
   assert.deepEqual(english.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
   assert.deepEqual(spanish.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
   assert.equal(english.experienceSummary.paragraphs.length, 3);
   assert.equal(spanish.experienceSummary.paragraphs.length, 3);
   assert.match(english.experienceSummary.paragraphs[0], /Marco Galván.*software developer/i);
   assert.match(spanish.experienceSummary.paragraphs[0], /Marco Galván.*desarrollador de software/i);
-  assert.match(english.capabilities.items[0].description, /repetitive work.*manual entry/i);
-  assert.match(english.contact.text, /process|problem/i);
-  assert.match(spanish.contact.text, /proceso|problema/i);
-  assert.match(english.contact.contactLabel, /tell me|problem|improv/i);
-  assert.match(spanish.contact.contactLabel, /contame|problema|mejorar/i);
+  assert.match(english.capabilities.items[0].description, /landing page.*commercial website/i);
+  assert.match(english.contact.text, /website.*business system.*digital product/i);
+  assert.match(spanish.contact.text, /sitio web.*sistema.*producto digital/i);
+  assert.match(english.contact.contactLabel, /tell me what you need/i);
+  assert.match(spanish.contact.contactLabel, /contame qué necesitás/i);
 });
 
 test("Selected work cards retain semantic static fallbacks", async () => {

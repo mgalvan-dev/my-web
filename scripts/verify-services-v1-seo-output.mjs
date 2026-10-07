@@ -10,9 +10,9 @@ const HOME_PAGES = {
   "/": {
     file: "index.html",
     lang: "en",
-    title: "Custom Software, Automation & Integrations | Marco Galván",
+    title: "Websites & Custom Software for Businesses | Marco Galván",
     description:
-      "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
+      "Digital solutions for businesses, from landing pages and commercial websites to custom software and digital products.",
     ogImageAlt: "Marco Galván — Software Developer",
     role: "Software Developer & Product Builder",
     canonical: `${SITE_ORIGIN}/`,
@@ -25,11 +25,11 @@ const HOME_PAGES = {
   "/es/": {
     file: "es/index.html",
     lang: "es",
-    title: "Software a medida, automatizaciones e integraciones | Marco Galván",
+    title: "Sitios web y software a medida para empresas | Marco Galván",
     description:
-      "Desarrollo sistemas internos, automatizo procesos e integro herramientas para empresas que necesitan ordenar su operación y reducir tareas manuales.",
+      "Soluciones digitales para empresas: desde landing pages y sitios web comerciales hasta software a medida y productos digitales.",
     ogImageAlt: "Marco Galván — Desarrollador de software",
-    role: "Desarrollador de Software & Product Builder",
+    role: "Desarrollador de Software y Creador de Productos",
     canonical: `${SITE_ORIGIN}/es/`,
     alternates: {
       en: `${SITE_ORIGIN}/`,

@@ -1,4 +1,4 @@
-export type ServiceId = "automation" | "internal-systems" | "integrations";
+export type ServiceId = "web-presence" | "business-software" | "digital-products";
 
 export interface ServiceItem {
   id: ServiceId;
@@ -44,13 +44,11 @@ export interface ContactFormContent {
   nameLabel: string;
   companyLabel: string;
   contactLabel: string;
-  processLabel: string;
-  currentSolutionLabel: string;
-  toolsLabel: string;
-  contextLabel: string;
+  requestLabel: string;
   submitLabel: string;
   successMessage: string;
   errorMessage: string;
+  validationMessage: string;
 }
 
 export interface ProcessStep {
@@ -139,7 +137,6 @@ export interface Dictionary {
     contactLabel: string;
     whatsappLabel: string;
     whatsappMessage: string;
-    formTitle: string;
     form: ContactFormContent;
     linkedinLabel: string;
     emailSubject: string;
