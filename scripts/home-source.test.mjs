@@ -64,6 +64,26 @@ test("Home routes use the Services V1 section order", async () => {
   }
 });
 
+test("Home sections omit decorative indexes while retaining process step numbers", async () => {
+  const [problem, capabilities, featured, process, experience, fit, contact] =
+    await Promise.all([
+      readSource("src/components/problem/problem.astro"),
+      readSource("src/components/capabilities/capabilities.astro"),
+      readSource("src/components/featured/featured.astro"),
+      readSource("src/components/process/process.astro"),
+      readSource("src/components/experience-summary/experience-summary.astro"),
+      readSource("src/components/fit/fit.astro"),
+      readSource("src/components/contact-cta/contact-cta.astro"),
+    ]);
+
+  for (const source of [problem, capabilities, featured, process, experience, fit, contact]) {
+    assert.doesNotMatch(source, /class={styles\.kicker}>\s*\d{2}\s*<\/p>/);
+  }
+
+  assert.doesNotMatch(capabilities, /class={styles\.number}|padStart\(2, "0"\)/);
+  assert.match(process, /<span class={styles\.number} aria-hidden="true">\{step\.number\}<\/span>/);
+});
+
 test("Home dictionaries contain bilingual Software Developer & Product Builder positioning", async () => {
   const [english, spanish] = await Promise.all([
     readJson("src/dictionaries/en.json"),
@@ -252,23 +272,6 @@ test("Home navigation closes its mobile details menu on internal anchors", async
   assert.match(navbar, /mobileViewport\.matches/);
   assert.match(navbar, /menu\.open\s*=\s*false/);
   assert.doesNotMatch(navbar, /preventDefault/);
-});
-
-test("Home section kickers use one ordered sequence in both locales", async () => {
-  const numberedSections = [
-    ["src/components/problem/problem.astro", "01"],
-    ["src/components/capabilities/capabilities.astro", "02"],
-    ["src/components/featured/featured.astro", "03"],
-    ["src/components/process/process.astro", "04"],
-    ["src/components/experience-summary/experience-summary.astro", "05"],
-    ["src/components/fit/fit.astro", "06"],
-    ["src/components/contact-cta/contact-cta.astro", "07"],
-  ];
-
-  for (const [path, number] of numberedSections) {
-    const source = await readSource(path);
-    assert.match(source, new RegExp("<p\\s+class=\\{styles\\.kicker\\}>" + number + "<\\/p>"), path);
-  }
 });
 
 test("Selected work exposes Marfen as a truthful live own product", async () => {
