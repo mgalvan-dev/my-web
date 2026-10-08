@@ -118,9 +118,9 @@ test("Services V1 dictionaries contain exact Spanish commercial copy", async () 
   const spanish = await readJson("src/dictionaries/es.json");
   const required = [
     ["hero.eyebrow", "Software a medida · Automatizaciones · Integraciones"],
-    ["hero.title", "Construyo software para empresas que necesitan ordenar procesos, automatizar tareas y conectar sus sistemas."],
+    ["hero.title", "Software y soluciones digitales para tu negocio."],
     ["problem.title", "Cuando la operación crece, las herramientas improvisadas empiezan a costar tiempo."],
-    ["capabilities.title", "Qué puedo resolver"],
+    ["capabilities.title", "Qué puedo construir"],
     ["marfenCase.eyebrow", "Producto propio · En producción"],
     ["marfenCase.title", "Convertir una operación comercial real en software"],
     ["professionalCase.eyebrow", "Automatización operativa"],
@@ -135,9 +135,13 @@ test("Services V1 dictionaries contain exact Spanish commercial copy", async () 
     const actual = path.split(".").reduce((object, key) => object?.[key], spanish);
     assert.equal(actual, value, path);
   }
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "automation").cta, "Contame qué tarea se repite");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "internal-systems").cta, "Contame qué necesitás organizar");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "integrations").cta, "Mostrame qué sistemas necesitás conectar");
+  assert.deepEqual(
+    spanish.capabilities.items.map(({ title }) => title),
+    ["Software a medida", "Sitios web", "Automatización e IA"],
+  );
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "custom-software").cta, "Contame qué necesitás construir");
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "website").cta, "Contame sobre tu sitio web");
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "automation-ai").cta, "Contame qué querés automatizar");
 });
 
 test("Services V1 dictionaries have bilingual matching shapes and semantic English entries", async () => {
@@ -147,8 +151,12 @@ test("Services V1 dictionaries have bilingual matching shapes and semantic Engli
     assert.deepEqual(Object.keys(english[key] ?? {}), Object.keys(spanish[key] ?? {}), key);
   }
   assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
-  assert.match(english.hero.title, /businesses.*processes.*automate.*systems/i);
-  assert.match(english.capabilities.title, /what I can solve/i);
+  assert.equal(english.hero.title, "Software and digital solutions for your business.");
+  assert.match(english.capabilities.title, /what I can build/i);
+  assert.deepEqual(
+    english.capabilities.items.map(({ title }) => title),
+    ["Custom software", "Websites", "Automation & AI"],
+  );
   assert.match(english.marfenCase.eyebrow, /own product.*production/i);
   assert.match(english.professionalCase.title, /days.*hours/i);
   assert.match(english.process.title, /problem.*production/i);

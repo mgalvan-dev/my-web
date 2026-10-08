@@ -107,10 +107,18 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
   );
   assert.equal(english.footer.role, "Software Developer & Product Builder");
   assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
-  assert.match(english.hero.title, /businesses.*processes.*automate.*systems/i);
+  assert.equal(english.hero.title, "Software and digital solutions for your business.");
   assert.equal(
     spanish.hero.title,
-    "Construyo software para empresas que necesitan ordenar procesos, automatizar tareas y conectar sus sistemas.",
+    "Software y soluciones digitales para tu negocio.",
+  );
+  assert.equal(
+    english.hero.description,
+    "I build custom apps, websites, and AI-powered automations to help businesses simplify processes, improve operations, and create new digital products.",
+  );
+  assert.equal(
+    spanish.hero.description,
+    "Desarrollo aplicaciones a medida, sitios web y automatizaciones con IA para ayudar a empresas a simplificar procesos, mejorar sus operaciones y crear nuevos productos digitales.",
   );
   for (const key of [
     "navigation",
@@ -391,7 +399,15 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
   assert.equal(spanish.experienceSummary.paragraphs.length, 3);
   assert.match(english.experienceSummary.paragraphs[0], /Marco Galván.*software developer/i);
   assert.match(spanish.experienceSummary.paragraphs[0], /Marco Galván.*desarrollador de software/i);
-  assert.match(english.capabilities.items[0].description, /repetitive work.*manual entry/i);
+  assert.deepEqual(
+    english.capabilities.items.map(({ title }) => title),
+    ["Custom software", "Websites", "Automation & AI"],
+  );
+  assert.deepEqual(
+    spanish.capabilities.items.map(({ title }) => title),
+    ["Software a medida", "Sitios web", "Automatización e IA"],
+  );
+  assert.match(english.capabilities.items[0].description, /apps.*MVPs.*internal systems.*SaaS.*integrations.*software evolution/i);
   assert.match(english.contact.text, /process|problem/i);
   assert.match(spanish.contact.text, /proceso|problema/i);
   assert.match(english.contact.contactLabel, /tell me|problem|improv/i);
