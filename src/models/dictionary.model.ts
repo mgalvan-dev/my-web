@@ -35,7 +35,7 @@ export interface ProfessionalCaseContent {
 export interface FitContent {
   title: string;
   items: string[];
-  note: string;
+  note?: string;
 }
 
 export interface ContactFormContent {

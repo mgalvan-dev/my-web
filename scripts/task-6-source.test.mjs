@@ -56,7 +56,7 @@ test("Task 6 About renders three localized paragraphs without CV content", async
   assert.doesNotMatch(source, /CV_PATHS|cvUrl|resumeLabel|cvData|experienceData/);
 });
 
-test("Task 6 Fit renders seven criteria and the localized note", async () => {
+test("Task 6 Fit renders seven criteria without a price-only note", async () => {
   const [english, spanish, source, styles] = await Promise.all([
     readJson("src/dictionaries/en.json"),
     readJson("src/dictionaries/es.json"),
@@ -66,21 +66,19 @@ test("Task 6 Fit renders seven criteria and the localized note", async () => {
 
   assert.equal(english.fit.items.length, 7);
   assert.equal(spanish.fit.items.length, 7);
-  assert.equal(
-    spanish.fit.note,
-    "Si solamente buscás horas de programación al menor costo posible, probablemente no sea el mejor encaje.",
-  );
-  assert.equal(
-    english.fit.note,
-    "If you are only looking for programming hours at the lowest possible cost, I am probably not the best fit.",
-  );
+  assert.equal(Object.hasOwn(spanish.fit, "note"), false);
+  assert.equal(Object.hasOwn(english.fit, "note"), false);
+  assert.doesNotMatch(JSON.stringify(spanish.fit), /Si solamente buscás horas de programación al menor costo posible, probablemente no sea el mejor encaje\./);
+  assert.doesNotMatch(JSON.stringify(english.fit), /If you are only looking for programming hours at the lowest possible cost, I am probably not the best fit\./);
   assert.match(source, /Dictionary\["fit"\]/);
   assert.match(source, /id=["']fit["']/);
   assert.match(source, /aria-labelledby=["']fit-title["']/);
   assert.match(source, /<h2[^>]*id=["']fit-title["']/);
   assert.match(source, /<ul\b/);
   assert.match(source, /dictionary\.items\.map/);
-  assert.match(source, /dictionary\.note/);
+  assert.match(source, /dictionary\.note\s*&&/);
+  assert.doesNotMatch(source, /Si solamente buscás horas de programación al menor costo posible, probablemente no sea el mejor encaje\.|If you are only looking for programming hours at the lowest possible cost, I am probably not the best fit\./);
+  assert.doesNotMatch(source, /<p[^>]*class=\{styles\.note\}>\s*<\/p>/);
   assert.doesNotMatch(source, /data-analytics-event/);
   assert.match(styles, /@media/);
 });

@@ -18,5 +18,5 @@ const { dictionary } = Astro.props;
         {dictionary.items.map((item) => <li>{item}</li>)}
     </ul>
 
-    <p class={styles.note}>{dictionary.note}</p>
+    {dictionary.note && <p class={styles.note}>{dictionary.note}</p>}
 </section>

@@ -33,6 +33,6 @@ test("Home dictionaries present the same three services and factual timeline in 
   assert.match(spanish.capabilities.items[1].description, /landing pages, sitios corporativos y experiencias web/i);
   assert.match(spanish.capabilities.items[2].description, /automatizaciones, integraciones, asistentes y agentes/i);
 
-  assert.ok(english.experienceSummary.paragraphs.join(" ").includes("I’ve been developing software professionally since 2021"));
-  assert.ok(spanish.experienceSummary.paragraphs.join(" ").includes("Desarrollo software profesionalmente desde 2021"));
+  assert.ok(english.experienceSummary.paragraphs.join(" ").includes("I’ve been developing software professionally since 2021."));
+  assert.ok(spanish.experienceSummary.paragraphs.join(" ").includes("Desarrollo software profesionalmente desde 2021."));
 });
