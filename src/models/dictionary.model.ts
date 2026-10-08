@@ -1,4 +1,4 @@
-export type ServiceId = "automation" | "internal-systems" | "integrations";
+export type ServiceId = "custom-software" | "website" | "automation-ai";
 
 export interface ServiceItem {
   id: ServiceId;
