@@ -3,8 +3,9 @@ import { z } from "astro/zod";
 import { Resend } from "resend";
 
 import { CONTACT_EMAIL_ADDRESS } from "../consts";
+import { addProjectTypeValidation, buildProjectTypeEmailRow, projectTypeField } from "./contact-project-type.mjs";
 
-const contactInput = z
+const contactInput = addProjectTypeValidation(z
   .object({
     name: z.string().trim().min(1).max(120),
     company: z.string().trim().min(1).max(120),
@@ -15,25 +16,9 @@ const contactInput = z
     context: z.string().trim().max(1600).nullable().optional(),
     website: z.string().trim().max(120).nullable().optional(),
     locale: z.enum(["en", "es"]),
-    projectType: z.preprocess(
-      (value) => value === "" || value == null ? undefined : value,
-      z.string().optional(),
-    ),
+    projectType: projectTypeField,
   })
-  .strict()
-  .superRefine((input, context) => {
-    const projectTypeError = input.locale === "es" ? "Seleccioná una opción válida." : "Select a valid option.";
-    if (
-      input.projectType !== undefined &&
-      !["custom-software", "website", "automation-ai", "unsure"].includes(input.projectType)
-    ) {
-      context.addIssue({
-        code: "custom",
-        path: ["projectType"],
-        message: projectTypeError,
-      });
-    }
-  });
+  .strict());
 
 function escapeHtml(value: string | null | undefined): string {
   return (value ?? "").replace(
@@ -50,20 +35,14 @@ function escapeHtml(value: string | null | undefined): string {
 }
 
 function buildContactEmail(input: z.infer<typeof contactInput>) {
-  const projectTypeOptions = {
-    "custom-software": { en: "Custom software or application", es: "Software o aplicación a medida" },
-    website: { en: "Website or landing page", es: "Sitio web o landing page" },
-    "automation-ai": { en: "Automation or AI agent", es: "Automatización o agente de IA" },
-    unsure: { en: "I’m not sure yet", es: "No estoy seguro" },
-  } as const;
-  const projectType = input.projectType as keyof typeof projectTypeOptions | undefined;
+  const projectTypeRow = buildProjectTypeEmailRow(input.projectType, input.locale);
   const rows = [
     ["Name", input.name],
     ["Company", input.company],
     ["Contact", input.contact],
     ["Process", input.process],
     ["Current solution", input.currentSolution],
-    ...(projectType ? [[input.locale === "es" ? "Tipo de proyecto" : "Project type", projectTypeOptions[projectType][input.locale]]] : []),
+    ...(projectTypeRow ? [projectTypeRow] : []),
     ["Tools", input.tools],
     ["Context", input.context],
   ] as const;

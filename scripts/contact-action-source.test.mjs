@@ -27,6 +27,7 @@ const labelFor = (source, name) => {
 
 test("contact Action has the strict Astro form, validation, and Resend boundary", async () => {
   const source = await readSource("src/actions/index.ts");
+  const projectTypeSource = await readSource("src/actions/contact-project-type.mjs");
 
   assert.match(source, /import\s+\{\s*ActionError\s*,\s*defineAction\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(source, /import\s+\{\s*z\s*\}\s+from\s+["']astro\/zod["']/);
@@ -35,13 +36,14 @@ test("contact Action has the strict Astro form, validation, and Resend boundary"
   assert.match(source, /contact\s*:\s*defineAction\s*\(/);
   assert.match(source, /accept\s*:\s*["']form["']/);
   assert.match(source, /\.strict\(\)/);
-  assert.match(source, /projectType:\s*z\.preprocess\([\s\S]*?z\.string\(\)\.optional\(\)/);
-  assert.match(source, /\.superRefine\(/);
+  assert.match(source, /import\s+\{[^}]*addProjectTypeValidation[^}]*buildProjectTypeEmailRow[^}]*projectTypeField[^}]*\}\s+from\s+["']\.\/contact-project-type\.mjs["']/);
+  assert.match(source, /projectType:\s*projectTypeField/);
+  assert.match(source, /addProjectTypeValidation\s*\(/);
   for (const value of ["custom-software", "website", "automation-ai", "unsure"]) {
-    assert.match(source, new RegExp(`\\b${value}\\b`));
+    assert.match(projectTypeSource, new RegExp(`\\b${value}\\b`));
   }
-  assert.match(source, /input\.locale\s*===\s*["']es["']/);
-  assert.match(source, /projectTypeError/);
+  assert.match(projectTypeSource, /input\.locale\s*===\s*["']es["']/);
+  assert.match(projectTypeSource, /projectTypeError/);
 
   for (const [field, limit] of Object.entries({
     name: 120,
@@ -81,10 +83,10 @@ test("contact Action has the strict Astro form, validation, and Resend boundary"
   assert.match(source, /replace\s*\(/);
   const emailBody = source.slice(source.indexOf("const rows"), source.indexOf("export const server"));
   assert.match(emailBody, /escapeHtml\s*\(\s*value\s*\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"]) {
+  assert.match(emailBody, /projectTypeRow/);
+  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
     assert.match(emailBody, new RegExp(`\\b${field}\\b`), `${field} must be represented in email output`);
   }
-  assert.doesNotMatch(emailBody, /website/);
   assert.match(source, /\bhtml\s*:/);
   assert.match(source, /\btext\s*:/);
 });
