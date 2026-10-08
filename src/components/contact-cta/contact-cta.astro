@@ -39,6 +39,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                 data-state="idle"
                 aria-labelledby="contact-form-title"
             >
+                <input type="hidden" name="locale" value={Astro.currentLocale ?? "en"} />
                 <p class={styles.form_intro} data-form-idle>{dictionary.form.intro}</p>
                 <div class={styles.field_grid}>
                     <div class={styles.field}>
@@ -109,6 +110,17 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                     </div>
 
                     <div class={styles.field_full}>
+                        <label class={styles.label} for="projectType">{dictionary.form.projectTypeLabel}</label>
+                        <select class={styles.input} id="projectType" name="projectType">
+                            <option value=""></option>
+                            {dictionary.form.projectTypeOptions.map((option) => (
+                                <option value={option.value}>{option.label}</option>
+                            ))}
+                        </select>
+                        <p id="projectType-error" class={styles.field_error} data-field-error="projectType" aria-live="polite"></p>
+                    </div>
+
+                    <div class={styles.field_full}>
                         <label class={styles.label} for="tools">{dictionary.form.toolsLabel}</label>
                         <textarea
                             class={styles.textarea}
@@ -162,7 +174,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
 
     const form = document.querySelector<HTMLFormElement>("#contact-form");
     const submit = form?.querySelector<HTMLButtonElement>("button[type=submit]");
-    const fieldNames = ["name", "company", "contact", "process", "currentSolution", "tools", "context"];
+    const fieldNames = ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"];
 
     const setState = (state: "idle" | "sending" | "error" | "success") => {
         if (!form) return;
@@ -184,7 +196,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
             const control = currentForm.elements.namedItem(fieldName);
             const fieldError = currentForm.querySelector<HTMLElement>(`[data-field-error="${fieldName}"]`);
 
-            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
+            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement || control instanceof HTMLSelectElement) || !fieldError) continue;
 
             fieldError.textContent = "";
             control.removeAttribute("aria-invalid");
@@ -197,7 +209,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
         const generalError = currentForm.querySelector<HTMLElement>("[data-form-error]");
         if (generalError) generalError.hidden = true;
 
-        let firstInvalid: HTMLInputElement | HTMLTextAreaElement | null = null;
+        let firstInvalid: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null = null;
         let hasRecognizedField = false;
 
         for (const [fieldName, messages] of Object.entries(fields ?? {})) {
@@ -205,7 +217,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
 
             const control = currentForm.elements.namedItem(fieldName);
             const fieldError = currentForm.querySelector<HTMLElement>(`[data-field-error="${fieldName}"]`);
-            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement) || !fieldError) continue;
+            if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement || control instanceof HTMLSelectElement) || !fieldError) continue;
 
             hasRecognizedField = true;
             const message = Array.isArray(messages) ? messages.join(" ") : String(messages ?? "");

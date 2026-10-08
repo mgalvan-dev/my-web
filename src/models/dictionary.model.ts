@@ -46,6 +46,8 @@ export interface ContactFormContent {
   contactLabel: string;
   processLabel: string;
   currentSolutionLabel: string;
+  projectTypeLabel: string;
+  projectTypeOptions: { value: string; label: string }[];
   toolsLabel: string;
   contextLabel: string;
   submitLabel: string;

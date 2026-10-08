@@ -14,7 +14,7 @@ const readSource = async (path) => {
 };
 
 const formControl = (source, name) => {
-  const match = source.match(new RegExp(`<(?:input|textarea)\\b[^>]*\\bname=["']${name}["'][^>]*>`, "i"));
+  const match = source.match(new RegExp(`<(?:input|textarea|select)\\b[^>]*\\bname=["']${name}["'][^>]*>`, "i"));
   assert.ok(match, `${name} must have a form control`);
   return match[0];
 };
@@ -35,6 +35,13 @@ test("contact Action has the strict Astro form, validation, and Resend boundary"
   assert.match(source, /contact\s*:\s*defineAction\s*\(/);
   assert.match(source, /accept\s*:\s*["']form["']/);
   assert.match(source, /\.strict\(\)/);
+  assert.match(source, /projectType:\s*z\.preprocess\([\s\S]*?z\.string\(\)\.optional\(\)/);
+  assert.match(source, /\.superRefine\(/);
+  for (const value of ["custom-software", "website", "automation-ai", "unsure"]) {
+    assert.match(source, new RegExp(`\\b${value}\\b`));
+  }
+  assert.match(source, /input\.locale\s*===\s*["']es["']/);
+  assert.match(source, /projectTypeError/);
 
   for (const [field, limit] of Object.entries({
     name: 120,
@@ -74,7 +81,7 @@ test("contact Action has the strict Astro form, validation, and Resend boundary"
   assert.match(source, /replace\s*\(/);
   const emailBody = source.slice(source.indexOf("const rows"), source.indexOf("export const server"));
   assert.match(emailBody, /escapeHtml\s*\(\s*value\s*\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"]) {
     assert.match(emailBody, new RegExp(`\\b${field}\\b`), `${field} must be represented in email output`);
   }
   assert.doesNotMatch(emailBody, /website/);
@@ -87,7 +94,7 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   assert.match(source, /<form\b[^>]*\bid=["']contact-form["'][^>]*\bdata-analytics-form=["']contact["']/);
   assert.doesNotMatch(source, /\baction\s*=|\bmethod\s*=|CONTACT_FORM_ACTION|\/api\/contact/);
 
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"]) {
     const control = formControl(source, field);
     const controlId = {
       contact: "contact-detail",
@@ -118,6 +125,26 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   for (const field of ["tools", "context"]) {
     assert.doesNotMatch(formControl(source, field), /\brequired\b/);
   }
+  assert.doesNotMatch(formControl(source, "projectType"), /\brequired\b/);
+  assert.match(formControl(source, "projectType"), /\bid=["']projectType["']/);
+  assert.match(source, /data-field-error=["']projectType["']/);
+
+  const [es, en] = await Promise.all([
+    readSource("src/dictionaries/es.json"),
+    readSource("src/dictionaries/en.json"),
+  ]).then(([esSource, enSource]) => [JSON.parse(esSource), JSON.parse(enSource)]);
+  assert.deepEqual(es.contact.form.projectTypeOptions.map(({ value }) => value), [
+    "custom-software", "website", "automation-ai", "unsure",
+  ]);
+  assert.deepEqual(en.contact.form.projectTypeOptions.map(({ value }) => value), [
+    "custom-software", "website", "automation-ai", "unsure",
+  ]);
+  assert.deepEqual(es.contact.form.projectTypeOptions.map(({ label }) => label), [
+    "Software o aplicación a medida", "Sitio web o landing page", "Automatización o agente de IA", "No estoy seguro",
+  ]);
+  assert.deepEqual(en.contact.form.projectTypeOptions.map(({ label }) => label), [
+    "Custom software or application", "Website or landing page", "Automation or AI agent", "I’m not sure yet",
+  ]);
 
   assert.match(formControl(source, "name"), /\btype=["']text["']/);
   assert.match(formControl(source, "company"), /\btype=["']text["']/);
@@ -181,6 +208,14 @@ test("ContactCta submits through the Astro Action with inline accessible states"
   assert.ok(handler.indexOf("checkValidity") < handler.indexOf("preventDefault"));
   assert.ok(handler.indexOf("preventDefault") < handler.indexOf("new FormData"));
   assert.ok(handler.indexOf("actions.contact") < handler.indexOf("form.reset"));
+});
+
+test("ContactCta submits the optional project type and supports localized select errors", async () => {
+  const source = await readSource("src/components/contact-cta/contact-cta.astro");
+  assert.match(source, /fieldNames\s*=\s*\[[^\]]*["']projectType["']/);
+  assert.match(source, /<select\b[^>]*\bname=["']projectType["']/);
+  assert.match(source, /locale["']\s+value=/);
+  assert.match(source, /HTMLSelectElement/);
 });
 
 test("ContactCta falls back to the general status for unrecognized Action fields", async () => {
