@@ -42,14 +42,10 @@ export interface ContactFormContent {
   title: string;
   intro: string;
   nameLabel: string;
-  companyLabel: string;
-  contactLabel: string;
-  processLabel: string;
-  currentSolutionLabel: string;
+  emailLabel: string;
+  messageLabel: string;
   projectTypeLabel: string;
   projectTypeOptions: { value: string; label: string }[];
-  toolsLabel: string;
-  contextLabel: string;
   submitLabel: string;
   successMessage: string;
   errorMessage: string;
@@ -139,6 +135,7 @@ export interface Dictionary {
     title: string;
     text: string;
     contactLabel: string;
+    emailLabel: string;
     whatsappLabel: string;
     whatsappMessage: string;
     formTitle: string;

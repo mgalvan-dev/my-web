@@ -10,6 +10,17 @@ export const projectTypeInput = z.object({
   projectType: projectTypeField,
 });
 
+export const contactInputSchema = addProjectTypeValidation(z
+  .object({
+    name: z.string().trim().min(1).max(120),
+    email: z.string().trim().max(254).pipe(z.email()),
+    message: z.string().trim().min(1).max(4000),
+    website: z.string().trim().max(120).nullable().optional(),
+    locale: z.enum(["en", "es"]),
+    projectType: projectTypeField,
+  })
+  .strict());
+
 export function addProjectTypeValidation(schema) {
   return schema.superRefine((input, context) => {
     const projectTypeError = input.locale === "es"
@@ -41,4 +52,47 @@ export function buildProjectTypeEmailRow(projectType, locale) {
     locale === "es" ? "Tipo de proyecto" : "Project type",
     projectTypeOptions[projectType][locale],
   ];
+}
+
+function escapeHtml(value) {
+  return (value ?? "").replace(
+    /[&<>\"']/g,
+    (character) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      })[character] ?? character,
+  );
+}
+
+export function buildContactEmail(input) {
+  const labels = input.locale === "es"
+    ? { name: "Nombre", email: "Email", message: "Mensaje", subject: "Nueva consulta de proyecto" }
+    : { name: "Name", email: "Email", message: "Message", subject: "New project inquiry" };
+  const projectTypeRow = buildProjectTypeEmailRow(input.projectType, input.locale);
+  const rows = [
+    [labels.name, input.name],
+    [labels.email, input.email],
+    ...(projectTypeRow ? [projectTypeRow] : []),
+    [labels.message, input.message],
+  ];
+  const projectTypeLabel = projectTypeRow?.[1];
+
+  return {
+    subject: projectTypeLabel
+      ? input.locale === "es"
+        ? `Nueva consulta: ${projectTypeLabel}`
+        : `New inquiry: ${projectTypeLabel}`
+      : labels.subject,
+    html: rows
+      .map(
+        ([label, value]) =>
+          `<p><strong>${escapeHtml(label)}</strong><br>${escapeHtml(value)}</p>`,
+      )
+      .join(""),
+    text: rows.map(([label, value]) => `${label}: ${value}`).join("\n\n"),
+  };
 }

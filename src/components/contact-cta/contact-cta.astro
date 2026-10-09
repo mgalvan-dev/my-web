@@ -1,6 +1,6 @@
 ---
 import type { Dictionary } from "../../models/dictionary.model";
-import { getWhatsAppUrl } from "../../consts";
+import { CONTACT_EMAIL, getWhatsAppUrl } from "../../consts";
 import styles from "./contact-cta.module.css";
 
 interface Props {
@@ -18,6 +18,9 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
         <div class={styles.button_group}>
             <a class={styles.primary_button} href="#contact-form" data-analytics-event="contact_cta_clicked">
                 {dictionary.contactLabel}
+            </a>
+            <a class={styles.secondary_button} href={CONTACT_EMAIL} data-analytics-event="email_clicked">
+                {dictionary.emailLabel}
             </a>
             <a
                 class={styles.secondary_button}
@@ -57,56 +60,17 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                     </div>
 
                     <div class={styles.field}>
-                        <label class={styles.label} for="company">{dictionary.form.companyLabel}</label>
+                        <label class={styles.label} for="email">{dictionary.form.emailLabel}</label>
                         <input
                             class={styles.input}
-                            id="company"
-                            name="company"
-                            type="text"
+                            id="email"
+                            name="email"
+                            type="email"
                             required
-                            maxlength="120"
-                            autocomplete="organization"
+                            maxlength="254"
+                            autocomplete="email"
                         />
-                        <p id="company-error" class={styles.field_error} data-field-error="company" aria-live="polite"></p>
-                    </div>
-
-                    <div class={styles.field_full}>
-                        <label class={styles.label} for="contact-detail">{dictionary.form.contactLabel}</label>
-                        <input
-                            class={styles.input}
-                            id="contact-detail"
-                            name="contact"
-                            type="text"
-                            required
-                            maxlength="240"
-                        />
-                        <p id="contact-error" class={styles.field_error} data-field-error="contact" aria-live="polite"></p>
-                    </div>
-
-                    <div class={styles.field_full}>
-                        <label class={styles.label} for="process-detail">{dictionary.form.processLabel}</label>
-                        <textarea
-                            class={styles.textarea}
-                            id="process-detail"
-                            name="process"
-                            required
-                            maxlength="1600"
-                            rows="5"
-                        ></textarea>
-                        <p id="process-error" class={styles.field_error} data-field-error="process" aria-live="polite"></p>
-                    </div>
-
-                    <div class={styles.field_full}>
-                        <label class={styles.label} for="currentSolution">{dictionary.form.currentSolutionLabel}</label>
-                        <textarea
-                            class={styles.textarea}
-                            id="currentSolution"
-                            name="currentSolution"
-                            required
-                            maxlength="1600"
-                            rows="5"
-                        ></textarea>
-                        <p id="currentSolution-error" class={styles.field_error} data-field-error="currentSolution" aria-live="polite"></p>
+                        <p id="email-error" class={styles.field_error} data-field-error="email" aria-live="polite"></p>
                     </div>
 
                     <div class={styles.field_full}>
@@ -121,27 +85,16 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                     </div>
 
                     <div class={styles.field_full}>
-                        <label class={styles.label} for="tools">{dictionary.form.toolsLabel}</label>
+                        <label class={styles.label} for="message">{dictionary.form.messageLabel}</label>
                         <textarea
                             class={styles.textarea}
-                            id="tools"
-                            name="tools"
-                            maxlength="1200"
-                            rows="3"
+                            id="message"
+                            name="message"
+                            required
+                            maxlength="4000"
+                            rows="5"
                         ></textarea>
-                        <p id="tools-error" class={styles.field_error} data-field-error="tools" aria-live="polite"></p>
-                    </div>
-
-                    <div class={styles.field_full}>
-                        <label class={styles.label} for="context">{dictionary.form.contextLabel}</label>
-                        <textarea
-                            class={styles.textarea}
-                            id="context"
-                            name="context"
-                            maxlength="1600"
-                            rows="4"
-                        ></textarea>
-                        <p id="context-error" class={styles.field_error} data-field-error="context" aria-live="polite"></p>
+                        <p id="message-error" class={styles.field_error} data-field-error="message" aria-live="polite"></p>
                     </div>
                 </div>
 
@@ -174,7 +127,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
 
     const form = document.querySelector<HTMLFormElement>("#contact-form");
     const submit = form?.querySelector<HTMLButtonElement>("button[type=submit]");
-    const fieldNames = ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"];
+    const fieldNames = ["name", "email", "message", "projectType"];
 
     const setState = (state: "idle" | "sending" | "error" | "success") => {
         if (!form) return;

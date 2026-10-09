@@ -25,48 +25,28 @@ const labelFor = (source, name) => {
   return match[0];
 };
 
-test("contact Action has the strict Astro form, validation, and Resend boundary", async () => {
+test("contact Action uses the shared strict schema and localized email serializer at the Resend boundary", async () => {
   const source = await readSource("src/actions/index.ts");
   const projectTypeSource = await readSource("src/actions/contact-project-type.mjs");
 
   assert.match(source, /import\s+\{\s*ActionError\s*,\s*defineAction\s*\}\s+from\s+["']astro:actions["']/);
-  assert.match(source, /import\s+\{\s*z\s*\}\s+from\s+["']astro\/zod["']/);
   assert.match(source, /import\s+\{\s*Resend\s*\}\s+from\s+["']resend["']/);
   assert.match(source, /export\s+const\s+server\s*=\s*\{/);
   assert.match(source, /contact\s*:\s*defineAction\s*\(/);
   assert.match(source, /accept\s*:\s*["']form["']/);
-  assert.match(source, /\.strict\(\)/);
-  assert.match(source, /import\s+\{[^}]*addProjectTypeValidation[^}]*buildProjectTypeEmailRow[^}]*projectTypeField[^}]*\}\s+from\s+["']\.\/contact-project-type\.mjs["']/);
-  assert.match(source, /projectType:\s*projectTypeField/);
-  assert.match(source, /addProjectTypeValidation\s*\(/);
+  assert.match(projectTypeSource, /\.strict\(\)/);
+  assert.match(source, /import\s+\{\s*buildContactEmail\s*,\s*contactInputSchema\s*\}\s+from\s+["']\.\/contact-project-type\.mjs["']/);
+  assert.match(source, /input\s*:\s*contactInputSchema/);
+  assert.match(source, /buildContactEmail\s*\(\s*input\s*\)/);
+  assert.match(projectTypeSource, /email:\s*z\.string\(\)\.trim\(\)\.max\(254\)\.pipe\(z\.email\(\)\)/);
+  assert.match(projectTypeSource, /message:\s*z\.string\(\)\.trim\(\)\.min\(1\)/);
+  assert.match(projectTypeSource, /name:\s*z\.string\(\)\.trim\(\)\.min\(1\)/);
   for (const value of ["custom-software", "website", "automation-ai", "unsure"]) {
     assert.match(projectTypeSource, new RegExp(`\\b${value}\\b`));
   }
   assert.match(projectTypeSource, /input\.locale\s*===\s*["']es["']/);
   assert.match(projectTypeSource, /projectTypeError/);
 
-  for (const [field, limit] of Object.entries({
-    name: 120,
-    company: 120,
-    contact: 240,
-    process: 1600,
-    currentSolution: 1600,
-  })) {
-    assert.match(
-      source,
-      new RegExp(`${field}\\s*:\\s*z\\.string\\(\\)\\.trim\\(\\)\\.min\\(1\\)\\.max\\(${limit}\\)`),
-      `${field} must use the approved required limit`,
-    );
-  }
-  for (const [field, limit] of Object.entries({ tools: 1200, context: 1600, website: 120 })) {
-    assert.match(
-      source,
-      new RegExp(`${field}\\s*:\\s*z\\.string\\(\\)\\.trim\\(\\)[^,\\n}]*max\\(${limit}\\)[^,\\n}]*\\.optional\\(\\)`),
-      `${field} must use the approved optional limit`,
-    );
-  }
-
-  assert.match(source, /input\s*:\s*contactInput/);
   assert.match(source, /input\.website/);
   assert.match(source, /code\s*:\s*["']BAD_REQUEST["']/);
   assert.match(source, /code\s*:\s*["']INTERNAL_SERVER_ERROR["']/);
@@ -79,16 +59,16 @@ test("contact Action has the strict Astro form, validation, and Resend boundary"
   assert.doesNotMatch(source, /\breplyTo\b/);
   assert.doesNotMatch(source, /https?:\/\/.*resend\.com|\bfetch\s*\(/i);
 
-  assert.match(source, /function\s+escapeHtml\s*\(/);
-  assert.match(source, /replace\s*\(/);
-  const emailBody = source.slice(source.indexOf("const rows"), source.indexOf("export const server"));
-  assert.match(emailBody, /escapeHtml\s*\(\s*value\s*\)/);
-  assert.match(emailBody, /projectTypeRow/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
-    assert.match(emailBody, new RegExp(`\\b${field}\\b`), `${field} must be represented in email output`);
+  assert.match(projectTypeSource, /function\s+escapeHtml\s*\(/);
+  assert.match(projectTypeSource, /buildContactEmail/);
+  assert.match(projectTypeSource, /escapeHtml\s*\(/);
+  for (const field of ["name", "email", "message"]) {
+    assert.match(projectTypeSource, new RegExp(`input\\.${field}`), `${field} must be represented in email output`);
   }
-  assert.match(source, /\bhtml\s*:/);
-  assert.match(source, /\btext\s*:/);
+  assert.match(projectTypeSource, /projectTypeRow/);
+  assert.match(projectTypeSource, /html\s*:/);
+  assert.match(projectTypeSource, /text\s*:/);
+  assert.match(projectTypeSource, /subject\s*:/);
 });
 
 test("ContactCta keeps the form static and exposes only the approved controls", async () => {
@@ -96,36 +76,17 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   assert.match(source, /<form\b[^>]*\bid=["']contact-form["'][^>]*\bdata-analytics-form=["']contact["']/);
   assert.doesNotMatch(source, /\baction\s*=|\bmethod\s*=|CONTACT_FORM_ACTION|\/api\/contact/);
 
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context", "projectType"]) {
+  for (const field of ["name", "email", "message", "projectType"]) {
     const control = formControl(source, field);
-    const controlId = {
-      contact: "contact-detail",
-      process: "process-detail",
-    }[field] ?? field;
+    const controlId = field;
     const label = labelFor(source, controlId);
     assert.match(control, new RegExp(`\\bid=["']${controlId}["']`));
     assert.match(label, new RegExp(`\\bfor=["']${controlId}["']`));
     assert.match(source, new RegExp(`data-field-error=["']${field}["']`));
   }
 
-  for (const [field, controlId] of Object.entries({
-    contact: "contact-detail",
-    process: "process-detail",
-  })) {
-    const expectedAnchorCount = field === "contact" ? 1 : 0;
-    assert.equal(
-      (source.match(new RegExp(`\\bid=["']${field}["']`, "g")) ?? []).length,
-      expectedAnchorCount,
-    );
-    assert.match(source, new RegExp(`\\bname=["']${field}["']`));
-    assert.match(formControl(source, field), new RegExp(`\\bid=["']${controlId}["']`));
-  }
-
-  for (const field of ["name", "company", "contact", "process", "currentSolution"]) {
+  for (const field of ["name", "email", "message"]) {
     assert.match(formControl(source, field), /\brequired\b/);
-  }
-  for (const field of ["tools", "context"]) {
-    assert.doesNotMatch(formControl(source, field), /\brequired\b/);
   }
   assert.doesNotMatch(formControl(source, "projectType"), /\brequired\b/);
   assert.match(formControl(source, "projectType"), /\bid=["']projectType["']/);
@@ -149,18 +110,18 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   ]);
 
   assert.match(formControl(source, "name"), /\btype=["']text["']/);
-  assert.match(formControl(source, "company"), /\btype=["']text["']/);
-  assert.match(formControl(source, "contact"), /\btype=["']text["']/);
+  assert.match(formControl(source, "email"), /\btype=["']email["']/);
+  assert.match(formControl(source, "message"), /<textarea\b/);
   assert.match(formControl(source, "name"), /\bmaxlength=["']120["']/);
-  assert.match(formControl(source, "company"), /\bmaxlength=["']120["']/);
-  assert.match(formControl(source, "contact"), /\bmaxlength=["']240["']/);
-  assert.match(formControl(source, "process"), /\bmaxlength=["']1600["']/);
-  assert.match(formControl(source, "currentSolution"), /\bmaxlength=["']1600["']/);
-  assert.match(formControl(source, "tools"), /\bmaxlength=["']1200["']/);
-  assert.match(formControl(source, "context"), /\bmaxlength=["']1600["']/);
+  assert.match(formControl(source, "email"), /\bmaxlength=["']254["']/);
+  assert.match(formControl(source, "message"), /\bmaxlength=["']4000["']/);
   assert.match(formControl(source, "name"), /\bautocomplete=["']name["']/);
-  assert.match(formControl(source, "company"), /\bautocomplete=["']organization["']/);
-  assert.doesNotMatch(formControl(source, "contact"), /\bautocomplete=["']email["']/);
+
+  for (const removedField of ["company", "contact", "process", "currentSolution", "tools", "context"]) {
+    assert.doesNotMatch(source, new RegExp(`name=["']${removedField}["']|data-field-error=["']${removedField}["']`));
+  }
+  assert.match(source, /href=\{CONTACT_EMAIL\}/);
+  assert.match(source, /getWhatsAppUrl\(dictionary\.whatsappMessage\)/);
 
   const honeypot = formControl(source, "website");
   assert.match(honeypot, /\btabindex=["']-1["']/);
@@ -175,6 +136,17 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   assert.match(source, /data-form-error/);
   assert.match(source, /data-form-success[^>]*aria-live=["']polite["']/);
   assert.match(source, /data-form-error[^>]*aria-live=["']assertive["']/);
+
+  assert.equal(es.contact.title, "¿Tenés un proyecto en mente?");
+  assert.equal(es.contact.text, "Ya sea una aplicación, un sitio web o una automatización, contame qué necesitás y vemos cómo puedo ayudarte.");
+  assert.equal(es.contact.emailLabel, "Enviar un email");
+  assert.equal(en.contact.title, "Have a project in mind?");
+  assert.equal(en.contact.text, "Whether you need an app, a website, or an AI automation, tell me what you need and we'll see how I can help.");
+  assert.equal(en.contact.emailLabel, "Send an email");
+  assert.equal(es.contact.form.messageLabel, "Contame brevemente qué necesitás");
+  assert.equal(en.contact.form.messageLabel, "Briefly tell me what you need");
+  assert.equal(es.contact.whatsappMessage, "Hola Marco, tengo un proyecto en mente y me gustaría contarte qué necesito.");
+  assert.equal(en.contact.whatsappMessage, "Hi Marco, I have a project in mind and would like to tell you what I need.");
 });
 
 test("ContactCta submits through the Astro Action with inline accessible states", async () => {
