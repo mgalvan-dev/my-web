@@ -86,7 +86,7 @@ Home dictionaries have explicit `navigation`, `hero`, `problem`, `capabilities`,
 - `@astrojs/vercel` is present only to expose Astro's server-backed Action boundary while `output: "static"` remains enabled. Vercel receives static HTML for `/`, `/es/`, `/cv/en/`, and `/cv/es/`; the adapter emits one internal `_render.func` for Actions and framework fallback handling.
 - Vercel deployment uses the static build; `vercel.json` contains PDF cache headers.
 
-The Home and CV layouts use the shared 1200 × 630 `public/og-image.png` for Open Graph and Twitter previews, sourced from the editable `public/og-image.svg`.
+The shared Home layout provides canonical URLs, reciprocal hreflang links, Open Graph/Twitter metadata, and `Person`/`ProfilePage` JSON-LD. The Home and CV layouts use the shared 1200 × 630 `public/og-image.png` for Open Graph and Twitter previews, sourced from the editable `public/og-image.svg`.
 
 ## Contact runtime
 
