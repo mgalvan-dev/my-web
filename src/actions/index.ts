@@ -3,17 +3,15 @@ import { Resend } from "resend";
 
 import { CONTACT_EMAIL_ADDRESS } from "../consts";
 import { buildContactEmail, contactInputSchema } from "./contact-project-type.mjs";
+import { isHoneypotSubmission } from "./contact-project-type.mjs";
 
 export const server = {
   contact: defineAction({
     accept: "form",
     input: contactInputSchema,
     handler: async (input) => {
-      if (input.website) {
-        throw new ActionError({
-          code: "BAD_REQUEST",
-          message: "Unable to submit this form.",
-        });
+      if (isHoneypotSubmission(input)) {
+        return { ok: true };
       }
 
       const apiKey = import.meta.env.RESEND_API_KEY;

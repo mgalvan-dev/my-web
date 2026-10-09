@@ -7,12 +7,24 @@ import {
   addProjectTypeValidation,
   buildContactEmail,
   buildProjectTypeEmailRow,
+  isHoneypotSubmission,
 } from "../src/actions/contact-project-type.mjs";
 
 const validate = (locale, projectType) =>
   addProjectTypeValidation(projectTypeInput).safeParse({ locale, projectType });
 
 const supportedTypes = ["custom-software", "website", "automation-ai", "unsure"];
+
+test("honeypot treats blank or whitespace values as empty", () => {
+  assert.equal(isHoneypotSubmission({ website: "" }), false);
+  assert.equal(isHoneypotSubmission({ website: "   " }), false);
+  assert.equal(isHoneypotSubmission({ website: undefined }), false);
+});
+
+test("honeypot detects populated values", () => {
+  assert.equal(isHoneypotSubmission({ website: "bot-value" }), true);
+  assert.equal(isHoneypotSubmission({ website: "  bot-value  " }), true);
+});
 
 test("project type accepts omitted and empty selections", () => {
   assert.equal(validate("en").success, true);

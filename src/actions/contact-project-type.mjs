@@ -1,5 +1,9 @@
 import { z } from "astro/zod";
 
+export function isHoneypotSubmission(input) {
+  return typeof input?.website === "string" && input.website.trim().length > 0;
+}
+
 export const projectTypeField = z.preprocess(
   (value) => value === "" || value == null ? undefined : value,
   z.string().optional(),

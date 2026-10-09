@@ -1,5 +1,12 @@
 # build output
 dist/
+.vercel/output/
+
+# local browser QA artifacts
+.playwright-mcp/
+
+# local skill registry cache
+.atl/.skill-registry.cache.json
 
 .vscode
 

@@ -47,8 +47,14 @@ test("contact Action uses the shared strict schema and localized email serialize
   assert.match(projectTypeSource, /input\.locale\s*===\s*["']es["']/);
   assert.match(projectTypeSource, /projectTypeError/);
 
-  assert.match(source, /input\.website/);
-  assert.match(source, /code\s*:\s*["']BAD_REQUEST["']/);
+  assert.match(source, /import\s+\{[^}]*isHoneypotSubmission[^}]*\}\s+from\s+["']\.\/contact-project-type\.mjs["']/);
+  assert.match(projectTypeSource, /export\s+function\s+isHoneypotSubmission\s*\(/);
+  const honeypotGuard = source.indexOf("if (isHoneypotSubmission(input))");
+  const resendConfig = source.indexOf("import.meta.env.RESEND_API_KEY");
+  const resendClient = source.indexOf("new Resend(");
+  assert.ok(honeypotGuard >= 0 && honeypotGuard < resendConfig && honeypotGuard < resendClient, "honeypot must short-circuit before Resend configuration and construction");
+  assert.match(source.slice(honeypotGuard, resendConfig), /return\s+\{\s*ok:\s*true\s*\}/);
+  assert.doesNotMatch(source, /code\s*:\s*["']BAD_REQUEST["']/);
   assert.match(source, /code\s*:\s*["']INTERNAL_SERVER_ERROR["']/);
   assert.match(source, /import\.meta\.env\.RESEND_API_KEY/);
   assert.match(source, /import\.meta\.env\.RESEND_FROM_EMAIL/);

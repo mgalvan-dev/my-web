@@ -352,19 +352,19 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
   assert.equal(spanishMarfen.name, "Marfen");
   assert.equal(
     englishMarfen.description,
-    "Marfen is a management system for kiosks, convenience stores and small retailers. I designed and built it from scratch to centralize sales, inventory, cash management, purchases, suppliers, store credit and profitability. It is currently live and being used in a real retail operation while I continue iterating from direct user feedback.",
+    "Marfen is a commerce management and point-of-sale system for businesses. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product to support day-to-day commerce management.",
   );
   assert.equal(
     spanishMarfen.description,
-    "Marfen es un sistema de gestión para kioscos, despensas y pequeños comercios. Lo diseñé y construí desde cero para centralizar ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Actualmente está en producción y se utiliza en una operación comercial real, mientras sigo iterándolo a partir del feedback directo de usuarios.",
+    "Marfen es un sistema de gestión y punto de venta para comercios. Lo diseñé y construí para reunir ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Sigo evolucionando el producto para acompañar la gestión diaria del comercio.",
   );
   assert.equal(
     englishMarfen.role,
-    "Product strategy, product discovery, product design, architecture, full-stack development, and ongoing product evolution.",
+    "Product strategy, discovery, design, architecture, full-stack development, and ongoing product evolution.",
   );
   assert.equal(
     spanishMarfen.role,
-    "Estrategia y descubrimiento de producto, diseño de producto, arquitectura, desarrollo full-stack y evolución continua del producto.",
+    "Estrategia y descubrimiento de producto, diseño, arquitectura, desarrollo full-stack y evolución continua.",
   );
 
   for (const dictionary of [english, spanish]) {

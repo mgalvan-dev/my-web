@@ -116,7 +116,7 @@ test("Services V1 dictionaries contain exact Spanish commercial copy", async () 
     ["problem.title", "Cuando la operación crece, las herramientas improvisadas empiezan a costar tiempo."],
     ["capabilities.title", "Qué puedo construir"],
     ["marfenCase.eyebrow", "Producto propio · En producción"],
-    ["marfenCase.title", "Convertir una operación comercial real en software"],
+    ["marfenCase.title", "Gestión comercial y punto de venta para comercios"],
     ["professionalCase.eyebrow", "Automatización operativa"],
     ["professionalCase.title", "De un proceso de varios días a ejecutarlo en horas"],
     ["process.title", "Del problema a producción"],
