@@ -408,10 +408,8 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
     ["Software a medida", "Sitios web", "Automatización e IA"],
   );
   assert.match(english.capabilities.items[0].description, /apps.*MVPs.*internal systems.*SaaS.*integrations.*software evolution/i);
-  assert.match(english.contact.text, /process|problem/i);
-  assert.match(spanish.contact.text, /proceso|problema/i);
-  assert.match(english.contact.contactLabel, /tell me|problem|improv/i);
-  assert.match(spanish.contact.contactLabel, /contame|problema|mejorar/i);
+  assert.match(english.contact.text, /app.*website.*AI automation/i);
+  assert.match(spanish.contact.text, /aplicación.*sitio web.*automatización/i);
 });
 
 test("Selected work cards retain semantic static fallbacks", async () => {

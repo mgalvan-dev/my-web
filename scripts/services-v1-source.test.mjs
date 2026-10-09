@@ -74,12 +74,6 @@ const actionHandler = (definition) => {
   assert.ok(handler, "contact Action handler must be inline");
   return blockBody(definition, handler.index + handler[0].lastIndexOf("{"));
 };
-const functionBody = (source, name) => {
-  const escapedName = name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-  const definition = new RegExp(`(?:function\\s+${escapedName}\\s*\\([^)]*\\)|(?:const|let)\\s+${escapedName}\\s*=\\s*(?:async\\s*)?\\([^)]*\\)\\s*=>)\\s*\\{`).exec(source);
-  assert.ok(definition, `${name} must be an HTML builder with a body`);
-  return blockBody(source, definition.index + definition[0].lastIndexOf("{"));
-};
 const submitHandler = (source) => {
   const listener = /addEventListener\s*\(\s*["']submit["']\s*,/.exec(source);
   assert.ok(listener, "ContactCta must register a submit handler");
@@ -127,8 +121,8 @@ test("Services V1 dictionaries contain exact Spanish commercial copy", async () 
     ["professionalCase.title", "De un proceso de varios días a ejecutarlo en horas"],
     ["process.title", "Del problema a producción"],
     ["fit.title", "Probablemente pueda ayudarte si…"],
-    ["contact.title", "¿Qué parte de tu operación te está haciendo perder tiempo?"],
-    ["contact.formTitle", "Contame qué querés mejorar"],
+    ["contact.title", "¿Tenés un proyecto en mente?"],
+    ["contact.form.title", "Contame sobre tu proyecto"],
     ["contact.whatsappLabel", "Escribirme por WhatsApp"],
   ];
   for (const [path, value] of required) {
@@ -161,7 +155,7 @@ test("Services V1 dictionaries have bilingual matching shapes and semantic Engli
   assert.match(english.professionalCase.title, /days.*hours/i);
   assert.match(english.process.title, /problem.*production/i);
   assert.match(english.fit.title, /probably.*help/i);
-  assert.match(english.contact.formTitle, /tell me.*improve/i);
+  assert.match(english.contact.form.title, /tell me about your project/i);
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
     ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
@@ -277,7 +271,7 @@ test("Services V1 analytics maps conversion events to owning components", async 
 
   assert.equal(eventCount(navbar, "contact_cta_clicked"), 1, "header CTA must emit contact_cta_clicked");
   assert.equal(eventCount(hero, "contact_cta_clicked"), 1, "hero CTA must emit contact_cta_clicked");
-  assert.equal(eventCount(contact, "contact_cta_clicked"), 1, "final CTA must emit contact_cta_clicked");
+  assert.equal(eventCount(contact, "email_clicked"), 1, "contact email CTA must emit email_clicked");
   assert.equal(eventCount(capabilities, "services_cta_clicked"), 1, "the mapped service CTA template must emit services_cta_clicked");
   assert.match(capabilities, /dictionary\.items\.map[\s\S]*data-analytics-event=["']services_cta_clicked["']/);
   assert.equal(eventCount(professional, "case_clicked"), 1, "ProfessionalCase must emit case_clicked");
@@ -340,15 +334,16 @@ test("Services V1 contact form exposes only the approved fields and requiredness
   };
   const attribute = (tag, name) => new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`).exec(tag)?.[1];
   assert.match(contact, /<form\b/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution"]) assert.match(controlFor(field), /\brequired\b/);
-  for (const field of ["tools", "context"]) assert.doesNotMatch(controlFor(field), /\brequired\b/);
+  for (const field of ["name", "email", "message"]) assert.match(controlFor(field), /\brequired\b/);
+  assert.doesNotMatch(contact.match(/<select\b[^>]*\bname=["']projectType["'][^>]*>/)?.[0] ?? "", /\brequired\b/);
+  assert.match(contact, /<select\b[^>]*\bname=["']projectType["']/);
   for (const field of ["budget", "employees", "deadline", "requirements", "brief"]) assert.doesNotMatch(contact, new RegExp(`name=["']${field}["']`));
   assert.doesNotMatch(contact, /action=\{actions\.contact\}|CONTACT_FORM_ACTION|\/api\/contact/);
   assert.match(contact, /import\s+\{\s*actions\s*,\s*isInputError\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(contact, /new FormData\(form\)/);
   assert.match(contact, /actions\.contact\(formData\)/);
   assert.match(contact, /isInputError\(error\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "email", "message"]) {
     const controlId = {
       contact: "contact-detail",
       process: "process-detail",
@@ -373,7 +368,7 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(definition, /\baccept\s*:\s*["']form["']/);
   assert.match(definition, /\binput\s*:/);
   assert.match(definition, /\bhandler\s*:/);
-  assert.match(action, /import \{ z \} from ["']astro\/zod["']/);
+  assert.match(action, /import\s+\{\s*buildContactEmail\s*,\s*contactInputSchema\s*\}\s+from\s+["']\.\/contact-project-type\.mjs["']/);
   assert.match(action, /import\s+\{\s*ActionError\s*,\s*defineAction\s*\}\s+from\s+["']astro:actions["']/);
   assert.match(action, /import \{ Resend \} from ["']resend["']/);
   assert.match(action, /RESEND_API_KEY/);
@@ -393,9 +388,9 @@ test("Services V1 contact action uses the approved Astro Action and Resend contr
   assert.match(email, /\bfrom(?:\s*:\s*(?:from|RESEND_FROM_EMAIL))?\s*[,}]/);
   assert.match(email, /\bto\s*:\s*\[?\s*CONTACT_EMAIL_ADDRESS\b/);
   assert.match(email, /\.\.\.buildContactEmail\(input\)/);
-  const html = functionBody(action, "buildContactEmail");
+  const html = await readSource("src/actions/contact-project-type.mjs");
   assert.match(html, /escapeHtml\s*\(\s*value\s*\)/);
-  for (const field of ["name", "company", "contact", "process", "currentSolution", "tools", "context"]) {
+  for (const field of ["name", "email", "message", "projectType"]) {
     assert.match(html, new RegExp(`\\b${field}\\b`), field);
   }
   assert.match(html, /\bhtml\s*:/);

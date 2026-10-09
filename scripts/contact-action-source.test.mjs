@@ -73,6 +73,11 @@ test("contact Action uses the shared strict schema and localized email serialize
 
 test("ContactCta keeps the form static and exposes only the approved controls", async () => {
   const source = await readSource("src/components/contact-cta/contact-cta.astro");
+  const ctaGroup = /<div class=\{styles\.button_group\}>([\s\S]*?)<\/div>/.exec(source)?.[1] ?? "";
+  assert.equal((ctaGroup.match(/<a\b/g) ?? []).length, 2, "the contact CTA group must contain exactly two visible links");
+  assert.match(ctaGroup, /href=\{CONTACT_EMAIL\}/);
+  assert.match(ctaGroup, /href=\{whatsappHref\}/);
+  assert.doesNotMatch(ctaGroup, /#contact-form/);
   assert.match(source, /<form\b[^>]*\bid=["']contact-form["'][^>]*\bdata-analytics-form=["']contact["']/);
   assert.doesNotMatch(source, /\baction\s*=|\bmethod\s*=|CONTACT_FORM_ACTION|\/api\/contact/);
 

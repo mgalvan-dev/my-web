@@ -16,9 +16,6 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
         <h2 id="contact-title" class={styles.title}>{dictionary.title}</h2>
         <p class={styles.text}>{dictionary.text}</p>
         <div class={styles.button_group}>
-            <a class={styles.primary_button} href="#contact-form" data-analytics-event="contact_cta_clicked">
-                {dictionary.contactLabel}
-            </a>
             <a class={styles.secondary_button} href={CONTACT_EMAIL} data-analytics-event="email_clicked">
                 {dictionary.emailLabel}
             </a>
