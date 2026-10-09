@@ -31,3 +31,17 @@ test("collects JSON-LD types declared as strings or string arrays", () => {
   assert.match(visit, /Array\.isArray\(value\["@type"\]\)/);
   assert.match(visit, /typeof type === "string"/);
 });
+
+test("checks the shared PNG image and Open Graph dimensions", () => {
+  assert.match(source, /const OG_IMAGE = `\$\{SITE_ORIGIN\}\/og-image\.png`;/);
+  assert.match(
+    source,
+    /getMeta\(html, "property", "og:image:width"\)\s*===\s*"1200"/,
+  );
+  assert.match(
+    source,
+    /getMeta\(html, "property", "og:image:height"\)\s*===\s*"630"/,
+  );
+  assert.match(source, /readUInt32BE\(16\)/);
+  assert.match(source, /readUInt32BE\(20\)/);
+});
