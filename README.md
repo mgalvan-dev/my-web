@@ -27,7 +27,8 @@ Header/navigation and footer remain shared framing. The Home navigation keeps th
 ├── public/
 │   ├── favicon.ico and favicon-*.png
 │   ├── profile.jpg
-│   ├── og-image.svg
+│   ├── og-image.svg      # editable social card source
+│   ├── og-image.png      # published social card
 │   ├── robots.txt
 │   ├── Marco-Galvan-CV-EN.pdf
 │   ├── Marco-Galvan-CV-ES.pdf
@@ -85,7 +86,7 @@ Home dictionaries have explicit `navigation`, `hero`, `problem`, `capabilities`,
 - `@astrojs/vercel` is present only to expose Astro's server-backed Action boundary while `output: "static"` remains enabled. Vercel receives static HTML for `/`, `/es/`, `/cv/en/`, and `/cv/es/`; the adapter emits one internal `_render.func` for Actions and framework fallback handling.
 - Vercel deployment uses the static build; `vercel.json` contains PDF cache headers.
 
-The shared Home layout provides canonical URLs, reciprocal hreflang links, Open Graph/Twitter metadata, and `Person`/`ProfilePage` JSON-LD. The Open Graph image is the existing `public/og-image.svg`; there is no reference to a missing PNG or Apple Touch Icon.
+The shared Home layout provides canonical URLs, reciprocal hreflang links, Open Graph/Twitter metadata, and `Person`/`ProfilePage` JSON-LD. The Home and CV layouts use the shared 1200 × 630 `public/og-image.png` for Open Graph and Twitter previews, sourced from the editable `public/og-image.svg`.
 
 ## Contact runtime
 
@@ -134,7 +135,7 @@ Before publishing, configure `RESEND_API_KEY` and `RESEND_FROM_EMAIL`, confirm t
 
 ## Assets
 
-Use the assets that exist in `public/`: `profile.jpg`, `og-image.svg`, favicons, social logos, and the two linked CV PDFs. Marfen is the featured own product and links to its public landing page at https://marfen.com.ar. The site does not publish metrics, customer counts, revenue, or screenshots for the product.
+Use the assets that exist in `public/`: `profile.jpg`, `og-image.svg`, `og-image.png`, favicons, social logos, and the two linked CV PDFs. Marfen is the featured own product and links to its public landing page at https://marfen.com.ar. The site does not publish metrics, customer counts, revenue, or screenshots for the product.
 
 ## License
 

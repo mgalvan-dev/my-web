@@ -1,10 +1,11 @@
 import { readFile, readdir, stat } from "node:fs/promises";
-import { join, relative, sep } from "node:path";
+import { join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = fileURLToPath(new URL("..", import.meta.url));
 const SITE_ORIGIN = "https://mgalvan.dev";
-const OG_IMAGE = `${SITE_ORIGIN}/og-image.svg`;
+const OG_IMAGE = `${SITE_ORIGIN}/og-image.png`;
+const PNG_SIGNATURE = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 const HOME_PAGES = {
   "/": {
@@ -212,17 +213,12 @@ async function verifyPage(staticRoot, route, page, { home = false } = {}) {
   );
   check(getMeta(html, "property", "og:type") === "profile", `${route}: og:type is not profile`);
   check(getMeta(html, "property", "og:url") === page.canonical, `${route}: og:url is incorrect`);
-  check(getMeta(html, "property", "og:image") === OG_IMAGE, `${route}: og:image is incorrect`);
-  check(
-    getMeta(html, "name", "twitter:card") === "summary_large_image",
-    `${route}: Twitter card is missing or incorrect`,
-  );
+  failures.push(...socialMetadataFailures(html, route));
   check(getMeta(html, "name", "twitter:title") === page.title, `${route}: twitter:title is incorrect`);
   check(
     getMeta(html, "name", "twitter:description") === page.description,
     `${route}: twitter:description is incorrect`,
   );
-  check(getMeta(html, "name", "twitter:image") === OG_IMAGE, `${route}: twitter:image is incorrect`);
 
   const canonicalTag = getTags(html, "link").find(
     (tag) => getAttribute(tag, "rel") === "canonical",
@@ -309,6 +305,46 @@ async function verifyPage(staticRoot, route, page, { home = false } = {}) {
   for (const forbiddenType of ["Service", "Offer", "Review", "FAQPage"]) {
     check(!jsonLdTypes.has(forbiddenType), `${route}: out-of-scope ${forbiddenType} JSON-LD found`);
   }
+}
+
+async function verifySocialImage(staticRoot) {
+  const imagePath = join(staticRoot, "og-image.png");
+  let image;
+  try {
+    image = await readFile(imagePath);
+  } catch (error) {
+    check(false, `${relative(ROOT, staticRoot)}: unable to read og-image.png (${error.code ?? error.message})`);
+    return;
+  }
+
+  failures.push(...socialImageFailures(image, relative(ROOT, staticRoot)));
+}
+
+export function socialMetadataFailures(html, route) {
+  const expected = [
+    ["property", "og:image", OG_IMAGE, "og:image is incorrect"],
+    ["property", "og:image:width", "1200", "og:image:width must be 1200"],
+    ["property", "og:image:height", "630", "og:image:height must be 630"],
+    ["name", "twitter:card", "summary_large_image", "Twitter card is missing or incorrect"],
+    ["name", "twitter:image", OG_IMAGE, "twitter:image is incorrect"],
+  ];
+  return expected
+    .filter(([attribute, name, value]) => getMeta(html, attribute, name) !== value)
+    .map(([, , , message]) => `${route}: ${message}`);
+}
+
+export function socialImageFailures(image, label) {
+  const result = [];
+  if (!image.subarray(0, 8).equals(PNG_SIGNATURE)) {
+    result.push(`${label}: og-image.png is not a PNG`);
+  }
+  if (image.length < 24 || image.readUInt32BE(16) !== 1200) {
+    result.push(`${label}: og-image.png width is not 1200`);
+  }
+  if (image.length < 24 || image.readUInt32BE(20) !== 630) {
+    result.push(`${label}: og-image.png height is not 630`);
+  }
+  return result;
 }
 
 async function verifySitemapAndRobots(staticRoot) {
@@ -524,7 +560,10 @@ async function main() {
     for (const [route, page] of Object.entries(CV_PAGES)) {
       await verifyPage(primaryRoot, route, page);
     }
-    for (const staticRoot of staticRoots) await verifySitemapAndRobots(staticRoot);
+    for (const staticRoot of staticRoots) {
+      await verifySitemapAndRobots(staticRoot);
+      await verifySocialImage(staticRoot);
+    }
     await verifyStaticRouteBoundary(staticRoots);
   }
 
@@ -541,11 +580,14 @@ async function main() {
   console.log("Services V1 SEO verification passed.");
   console.log(`- static page roots: ${staticRoots.map((path) => relative(ROOT, path)).join(", ")}`);
   console.log("- verified Home/CV metadata, canonical, hreflang, JSON-LD, sitemap, and robots");
+  console.log("- verified shared PNG social image and 1200 × 630 dimensions");
   console.log("- verified /en redirect and static /es/ without page server fallback");
   console.log("- verified Vercel adapter boundary: static filesystem pages plus internal Actions runtime");
 }
 
-main().catch((error) => {
-  console.error(`Services V1 SEO verification could not run: ${error.stack ?? error.message}`);
-  process.exitCode = 1;
-});
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`Services V1 SEO verification could not run: ${error.stack ?? error.message}`);
+    process.exitCode = 1;
+  });
+}
