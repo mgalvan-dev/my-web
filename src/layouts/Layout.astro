@@ -45,7 +45,8 @@ const { title, description, ogImageAlt } = metadata;
 const canonicalURL = new URL(canonicalPath, SITE_URL).href;
 const ogImageURL = new URL(ogImage, SITE_URL).href;
 const alternateLanguages = alternates.filter(
-    (alternate) => alternate.lang !== lang && ["en", "es"].includes(alternate.lang),
+    (alternate) =>
+        alternate.lang !== lang && ["en", "es"].includes(alternate.lang),
 );
 
 const defaultAlternate = alternates.find(
@@ -61,7 +62,7 @@ const structuredData = {
     "@id": profilePageId,
     url: canonicalURL,
     name: title,
-    headline: "Marco Galván — " + role,
+    headline: "Marco Galván - " + role,
     description,
     inLanguage: lang,
     isPartOf: {
@@ -119,33 +120,27 @@ const structuredData = {
         <meta name="author" content="Marco Galván" />
         <meta
             name="robots"
-            content={noindex
-                ? "noindex, follow"
-                : "index, follow, max-image-preview:large"}
+            content={
+                noindex
+                    ? "noindex, follow"
+                    : "index, follow, max-image-preview:large"
+            }
         />
         <meta name="theme-color" content="#0a0a0a" />
 
         <link rel="canonical" href={canonicalURL} />
 
-        {
-            alternates.map(({ lang: alternateLang, href }) => (
-                <link
-                    rel="alternate"
-                    hreflang={alternateLang}
-                    href={new URL(href, SITE_URL).href}
-                />
-            ))
-        }
+        {alternates.map(({ lang: alternateLang, href }) => (
+            <link
+                rel="alternate"
+                hreflang={alternateLang}
+                href={new URL(href, SITE_URL).href}
+            />
+        ))}
 
-        {
-            !defaultAlternate && alternates.length > 0 && (
-                <link
-                    rel="alternate"
-                    hreflang="x-default"
-                    href={canonicalURL}
-                />
-            )
-        }
+        {!defaultAlternate && alternates.length > 0 && (
+            <link rel="alternate" hreflang="x-default" href={canonicalURL} />
+        )}
 
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
@@ -157,30 +152,22 @@ const structuredData = {
             content={lang === "en" ? "en_US" : "es_AR"}
         />
         <meta property="og:image" content={ogImageURL} />
-        <meta
-            property="og:image:alt"
-            content={ogImageAlt}
-        />
+        <meta property="og:image:alt" content={ogImageAlt} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
-        {
-            alternateLanguages.map(({ lang: alternateLang }) => (
-                    <meta
-                        property="og:locale:alternate"
-                        content={alternateLang === "en" ? "en_US" : "es_AR"}
-                    />
-                ))
-        }
+        {alternateLanguages.map(({ lang: alternateLang }) => (
+            <meta
+                property="og:locale:alternate"
+                content={alternateLang === "en" ? "en_US" : "es_AR"}
+            />
+        ))}
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta name="twitter:image" content={ogImageURL} />
-        <meta
-            name="twitter:image:alt"
-            content={ogImageAlt}
-        />
+        <meta name="twitter:image:alt" content={ogImageAlt} />
         <meta name="twitter:site" content="@MarcoGal4" />
         <meta name="twitter:creator" content="@MarcoGal4" />
 
@@ -197,7 +184,6 @@ const structuredData = {
             is:inline
             set:html={JSON.stringify(structuredData)}
         />
-
         <Analytics />
         <SpeedInsights />
         <AnalyticsEvents />
