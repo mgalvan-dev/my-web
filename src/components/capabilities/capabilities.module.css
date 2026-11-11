@@ -82,6 +82,11 @@
     font-weight: 700;
     line-height: 1.35;
     text-decoration: none;
+    transition: color 150ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cta { transition: none; }
 }
 
 .cta:hover {

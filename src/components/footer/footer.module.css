@@ -54,6 +54,12 @@
     color: var(--site-text-muted);
     font-size: 0.82rem;
     text-decoration: none;
+    transition: color 150ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .navigation a,
+    .links a { transition: none; }
 }
 
 .navigation a:hover,

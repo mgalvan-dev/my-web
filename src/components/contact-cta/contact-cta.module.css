@@ -66,13 +66,19 @@
     border: 1px solid var(--site-border-strong);
 }
 
-.primary_button:hover,
-.secondary_button:hover {
-    transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .primary_button:hover:not(:disabled),
+    .secondary_button:hover {
+        transform: translateY(-2px);
+    }
+
+    .secondary_button:hover {
+        border-color: var(--site-accent);
+    }
 }
 
-.secondary_button:hover {
-    border-color: var(--site-accent);
+@media (prefers-reduced-motion: reduce) {
+    .primary_button, .secondary_button { transform: none; transition: none; }
 }
 
 .form_shell {

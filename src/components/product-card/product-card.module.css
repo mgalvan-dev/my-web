@@ -7,9 +7,16 @@
     transition: transform 160ms ease, border-color 160ms ease;
 }
 
-.card.linked:hover {
-    transform: translateY(-4px);
-    border-color: var(--site-border-strong);
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+    .card.linked:hover,
+    .card.linked:focus-within {
+        transform: translateY(-2px);
+        border-color: var(--site-border-strong);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .card { transform: none; transition: none; }
 }
 
 .media {
