@@ -1,0 +1,26 @@
+---
+import type { Dictionary } from "../../models/dictionary.model";
+import ProductCard from "../product-card/product-card.astro";
+import styles from "../featured/featured.module.css";
+
+interface Props {
+    dictionary: Dictionary["professionalWork"];
+}
+
+const { dictionary } = Astro.props;
+---
+
+<section class={styles.main_container} aria-labelledby="professional-work-title">
+    <div class={styles.heading}>
+        <h2 id="professional-work-title" class={styles.title}>{dictionary.title}</h2>
+    </div>
+    <div class={styles.secondary_work}>
+        {dictionary.items.map((item) => (
+            <ProductCard
+                dictionary={item}
+                contextLabel={dictionary.labels.contexts[item.context]}
+                statusLabel={item.status ? dictionary.labels.statuses[item.status] : undefined}
+            />
+        ))}
+    </div>
+</section>

@@ -94,6 +94,7 @@ const homeComponents = [
   "src/components/featured/featured.astro",
   "src/components/process/process.astro",
   "src/components/experience-summary/experience-summary.astro",
+  "src/components/professional-work/professional-work.astro",
   "src/components/contact-cta/contact-cta.astro",
   "src/components/footer/footer.astro",
   "src/components/problem/problem.astro",
@@ -111,18 +112,18 @@ const homeSourcePaths = [
 test("Services V1 dictionaries contain exact Spanish commercial copy", async () => {
   const spanish = await readJson("src/dictionaries/es.json");
   const required = [
-    ["hero.eyebrow", "Software a medida · Automatizaciones · Integraciones"],
-    ["hero.title", "Software y soluciones digitales para tu negocio."],
-    ["problem.title", "Cuando la operación crece, las herramientas improvisadas empiezan a costar tiempo."],
-    ["capabilities.title", "Qué puedo construir"],
+    ["hero.eyebrow", "Desarrollo independiente · Productos propios"],
+    ["hero.title", "Soy Marco. Construyo software y productos digitales."],
+    ["problem.title", "¿Necesitás software para tu operación?"],
+    ["capabilities.title", "Cómo puedo colaborar"],
     ["marfenCase.eyebrow", "Producto propio · En producción"],
-    ["marfenCase.title", "Gestión comercial y punto de venta para comercios"],
+    ["marfenCase.title", "Ventas y gestión para comercios"],
     ["professionalCase.eyebrow", "Automatización operativa"],
     ["professionalCase.title", "De un proceso de varios días a ejecutarlo en horas"],
-    ["process.title", "Del problema a producción"],
-    ["fit.title", "Probablemente pueda ayudarte si…"],
-    ["contact.title", "¿Tenés un proyecto en mente?"],
-    ["contact.form.title", "Contame sobre tu proyecto"],
+    ["process.title", "Cómo trabajo"],
+    ["fit.title", "Podemos trabajar juntos si…"],
+    ["contact.title", "Hablemos"],
+    ["contact.form.title", "Dejame un mensaje"],
     ["contact.whatsappLabel", "Escribirme por WhatsApp"],
   ];
   for (const [path, value] of required) {
@@ -131,39 +132,41 @@ test("Services V1 dictionaries contain exact Spanish commercial copy", async () 
   }
   assert.deepEqual(
     spanish.capabilities.items.map(({ title }) => title),
-    ["Software a medida", "Sitios web", "Automatización e IA"],
+    ["Software a medida", "Sitios web", "Automatizaciones e integraciones"],
   );
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "custom-software").cta, "Contame qué necesitás construir");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "website").cta, "Contame sobre tu sitio web");
-  assert.equal(spanish.capabilities.items.find((item) => item.id === "automation-ai").cta, "Contame qué querés automatizar");
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "custom-software").cta, "Contame qué necesitás desarrollar");
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "website").cta, "Contame sobre tu sitio");
+  assert.equal(spanish.capabilities.items.find((item) => item.id === "automation-ai").cta, "Contame sobre el proceso");
 });
 
 test("Services V1 dictionaries have bilingual matching shapes and semantic English entries", async () => {
   const [english, spanish] = await Promise.all([readJson("src/dictionaries/en.json"), readJson("src/dictionaries/es.json")]);
   assert.deepEqual(Object.keys(english), Object.keys(spanish));
-  for (const key of ["navigation", "hero", "capabilities", "problem", "process", "selectedWork", "marfenCase", "professionalCase", "experienceSummary", "fit", "contact"]) {
+  for (const key of ["navigation", "hero", "capabilities", "problem", "process", "selectedWork", "professionalWork", "marfenCase", "professionalCase", "experienceSummary", "fit", "contact"]) {
     assert.deepEqual(Object.keys(english[key] ?? {}), Object.keys(spanish[key] ?? {}), key);
   }
-  assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
-  assert.equal(english.hero.title, "Software and digital solutions for your business.");
-  assert.match(english.capabilities.title, /what I can build/i);
+  assert.match(english.hero.eyebrow, /independent developer.*own products/i);
+  assert.equal(english.hero.title, "I'm Marco. I build software and digital products.");
+  assert.match(english.capabilities.title, /how I can help/i);
   assert.deepEqual(
     english.capabilities.items.map(({ title }) => title),
-    ["Custom software", "Websites", "Automation & AI"],
+    ["Custom software", "Websites", "Automation and integrations"],
   );
-  assert.match(english.marfenCase.eyebrow, /own product.*production/i);
+  assert.match(english.marfenCase.eyebrow, /own product.*live/i);
   assert.match(english.professionalCase.title, /days.*hours/i);
-  assert.match(english.process.title, /problem.*production/i);
-  assert.match(english.fit.title, /probably.*help/i);
-  assert.match(english.contact.form.title, /tell me about your project/i);
+  assert.equal(english.process.title, "How I work");
+  assert.match(english.fit.title, /work together/i);
+  assert.equal(english.contact.form.title, "Send me a message");
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
+    ["Marfen", "Practice management"],
   );
   assert.deepEqual(
     spanish.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Gestión de consultorios"],
   );
+  assert.deepEqual(english.professionalWork.items.map(({ name }) => name), ["Insurance operations ecosystem", "Helmcode Cloud Products"]);
+  assert.deepEqual(spanish.professionalWork.items.map(({ name }) => name), ["Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"]);
 });
 
 test("Services V1 Home routes expose the required anchors and semantic future components", async () => {
@@ -171,7 +174,7 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   for (const routePath of homeRoutes) {
     const route = await readSource(routePath);
     assert.match(route, /<Layout\b/);
-    for (const component of ["Header", "Hero", "ProblemSection", "Capabilities", "Featured", "ProfessionalCase", "Process", "ExperienceSummary", "Fit", "ContactCta", "Footer"]) assert.match(route, new RegExp(`<${component}\\b`));
+    for (const component of ["Header", "Hero", "Featured", "ExperienceSummary", "ProfessionalWork", "ProblemSection", "Capabilities", "Process", "Fit", "ContactCta", "Footer"]) assert.match(route, new RegExp(`<${component}\\b`));
     const source = [route, ...sharedSources].join("\n");
     for (const id of ["services", "work", "process", "about", "fit", "contact"]) assert.match(source, new RegExp(`id=["']${id}["']`));
     assert.doesNotMatch(route, /\/servicios\/|\/blog\/|\/sector\/|\/diagnostico\//);
@@ -196,6 +199,7 @@ test("Services V1 Home routes expose the required anchors and semantic future co
   const featured = await readSource("src/components/featured/featured.astro");
   assert.match(featured, /import\s+MarfenCase\s+from\s+["'][^"']*marfen-case[^"']*["']/);
   assert.match(featured, /<MarfenCase\b/);
+  for (const routePath of homeRoutes) assert.doesNotMatch(await readSource(routePath), /<ProfessionalCase\b/);
 });
 
 test("Services V1 professional case is anonymized and uses the non-numeric result fallback", async () => {
@@ -270,7 +274,7 @@ test("Services V1 analytics maps conversion events to owning components", async 
     (source.match(new RegExp(`data-analytics-event\\s*=\\s*["']${eventName}["']`, "g")) ?? []).length;
 
   assert.equal(eventCount(navbar, "contact_cta_clicked"), 1, "header CTA must emit contact_cta_clicked");
-  assert.equal(eventCount(hero, "contact_cta_clicked"), 1, "hero CTA must emit contact_cta_clicked");
+  assert.equal(eventCount(hero, "contact_cta_clicked"), 1, "the contact CTA must emit contact_cta_clicked");
   assert.equal(eventCount(contact, "email_clicked"), 1, "contact email CTA must emit email_clicked");
   assert.equal(eventCount(capabilities, "services_cta_clicked"), 1, "the mapped service CTA template must emit services_cta_clicked");
   assert.match(capabilities, /dictionary\.items\.map[\s\S]*data-analytics-event=["']services_cta_clicked["']/);

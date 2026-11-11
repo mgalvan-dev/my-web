@@ -10,7 +10,7 @@ const readJson = async (path) =>
 
 const readSource = async (path) => readFile(file(path), "utf8");
 
-test("Home routes use the Services V1 section order", async () => {
+test("Home routes use the approved product-first section order", async () => {
   const routes = await Promise.all([
     readSource("src/pages/index.astro"),
     readSource("src/pages/es/index.astro"),
@@ -21,12 +21,12 @@ test("Home routes use the Services V1 section order", async () => {
     for (const component of [
       "Header",
       "Hero",
+      "Featured",
+      "ExperienceSummary",
+      "ProfessionalWork",
       "ProblemSection",
       "Capabilities",
-      "Featured",
-      "ProfessionalCase",
       "Process",
-      "ExperienceSummary",
       "Fit",
       "ContactCta",
       "Footer",
@@ -37,12 +37,12 @@ test("Home routes use the Services V1 section order", async () => {
     const order = [
       "<Header",
       "<Hero",
+      "<Featured",
+      "<ExperienceSummary",
+      "<ProfessionalWork",
       "<ProblemSection",
       "<Capabilities",
-      "<Featured",
-      "<ProfessionalCase",
       "<Process",
-      "<ExperienceSummary",
       "<Fit",
       "<ContactCta",
       "<Footer",
@@ -56,10 +56,7 @@ test("Home routes use the Services V1 section order", async () => {
       route,
       /<Featured\s+dictionary=\{dictionary\.selectedWork\}\s+marfenCase=\{dictionary\.marfenCase\}\s*\/>/,
     );
-    assert.match(
-      route,
-      /<ProfessionalCase\s+dictionary=\{dictionary\.professionalCase\}\s+locale=\{config\.lang\}\s*\/>/,
-    );
+    assert.match(route, /<ProfessionalWork\s+dictionary=\{dictionary\.professionalWork\}\s*\/>/);
     assert.doesNotMatch(route, /<Journal\b|<Projects\b|<Experience\b|<StandaloneExperience\b/);
   }
 });
@@ -100,25 +97,25 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
     Object.keys(spanish.experienceSummary),
   );
 
-  assert.match(english.hero.eyebrow, /custom software.*automations.*integrations/i);
+  assert.match(english.hero.eyebrow, /independent developer.*own products/i);
   assert.equal(
     spanish.hero.eyebrow,
-    "Software a medida · Automatizaciones · Integraciones",
+    "Desarrollo independiente · Productos propios",
   );
-  assert.equal(english.footer.role, "Software Developer & Product Builder");
-  assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
-  assert.equal(english.hero.title, "Software and digital solutions for your business.");
+  assert.equal(english.footer.role, "Software developer & product builder");
+  assert.equal(spanish.footer.role, "Desarrollador de software y creador de productos");
+  assert.equal(english.hero.title, "I'm Marco. I build software and digital products.");
   assert.equal(
     spanish.hero.title,
-    "Software y soluciones digitales para tu negocio.",
+    "Soy Marco. Construyo software y productos digitales.",
   );
   assert.equal(
     english.hero.description,
-    "I build custom apps, websites, and AI-powered automations to help businesses simplify processes, improve operations, and create new digital products.",
+    "I'm a software developer and the creator of Marfen, a management system for retail businesses with real users. I'm also developing new products of my own and work with companies on software projects.",
   );
   assert.equal(
     spanish.hero.description,
-    "Desarrollo aplicaciones a medida, sitios web y automatizaciones con IA para ayudar a empresas a simplificar procesos, mejorar sus operaciones y crear nuevos productos digitales.",
+    "Soy desarrollador de software y creador de Marfen, un sistema de gestión para comercios con usuarios reales. También desarrollo nuevos productos propios y colaboro con empresas en proyectos de software.",
   );
   for (const key of [
     "navigation",
@@ -127,6 +124,7 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
     "problem",
     "process",
     "selectedWork",
+    "professionalWork",
     "marfenCase",
     "professionalCase",
     "experienceSummary",
@@ -145,11 +143,11 @@ test("Home dictionaries contain bilingual Software Developer & Product Builder p
 
   assert.deepEqual(
     english.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Insurance operations ecosystem", "Helmcode Cloud Products"],
+    ["Marfen", "Practice management"],
   );
   assert.deepEqual(
     spanish.selectedWork.items.map(({ name }) => name),
-    ["Marfen", "Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"],
+    ["Marfen", "Gestión de consultorios"],
   );
   for (const dictionary of [english, spanish]) {
     assert.doesNotMatch(JSON.stringify(dictionary.selectedWork), /Amparo Seguros/i);
@@ -212,16 +210,10 @@ test("Home routes consume localized commercial SEO metadata", async () => {
 
   assert.match(englishRoute, /metadata: dictionary\.metadata/);
   assert.match(spanishRoute, /metadata: dictionary\.metadata/);
-  assert.equal(english.metadata.title, "Custom Software, Automation & Integrations | Marco Galván");
-  assert.equal(spanish.metadata.title, "Software a medida, automatizaciones e integraciones | Marco Galván");
-  assert.equal(
-    english.metadata.description,
-    "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
-  );
-  assert.equal(
-    spanish.metadata.description,
-    "Desarrollo sistemas internos, automatizo procesos e integro herramientas para empresas que necesitan ordenar su operación y reducir tareas manuales.",
-  );
+  assert.equal(english.metadata.title, "Marco Galván — Software Developer & Product Builder");
+  assert.equal(spanish.metadata.title, "Marco Galván — Desarrollador y creador de productos");
+  assert.match(english.metadata.description, /build Marfen.*new products of my own/i);
+  assert.match(spanish.metadata.description, /Desarrollo Marfen.*nuevos productos propios/i);
   assert.equal(
     english.metadata.ogImageAlt,
     "Marco Galván — Software Developer",
@@ -288,8 +280,8 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
     readJson("src/dictionaries/es.json"),
   ]);
 
-  assert.equal(english.selectedWork.title, "Selected products & professional work");
-  assert.equal(spanish.selectedWork.title, "Productos y experiencia seleccionada");
+  assert.equal(english.selectedWork.title, "My products");
+  assert.equal(spanish.selectedWork.title, "Productos propios");
   assert.deepEqual(
     english.selectedWork.items.map(({ context, status, url, linkLabel }) => ({
       context,
@@ -298,19 +290,8 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
       linkLabel,
     })),
     [
-      {
-        context: "own-product",
-        status: "live",
-        url: "https://marfen.com.ar",
-        linkLabel: "Visit Marfen",
-      },
-      { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
-      {
-        context: "professional-experience",
-        status: undefined,
-        url: undefined,
-        linkLabel: undefined,
-      },
+      { context: "own-product", status: "live", url: "https://marfen.com.ar", linkLabel: "Explore Marfen" },
+      { context: "own-product", status: "in-development", url: undefined, linkLabel: undefined },
     ],
   );
   assert.deepEqual(
@@ -321,19 +302,8 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
       linkLabel,
     })),
     [
-      {
-        context: "own-product",
-        status: "live",
-        url: "https://marfen.com.ar",
-        linkLabel: "Ver Marfen",
-      },
-      { context: "dam-squad", status: undefined, url: undefined, linkLabel: undefined },
-      {
-        context: "professional-experience",
-        status: undefined,
-        url: undefined,
-        linkLabel: undefined,
-      },
+      { context: "own-product", status: "live", url: "https://marfen.com.ar", linkLabel: "Conocer Marfen" },
+      { context: "own-product", status: "in-development", url: undefined, linkLabel: undefined },
     ],
   );
   assert.deepEqual(Object.keys(english.selectedWork.labels.contexts).sort(), [
@@ -343,6 +313,10 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
   ]);
   assert.equal(english.selectedWork.labels.statuses.live, "Live");
   assert.equal(spanish.selectedWork.labels.statuses.live, "En producción");
+  assert.equal(english.selectedWork.labels.statuses["in-development"], "In development");
+  assert.equal(spanish.selectedWork.labels.statuses["in-development"], "En desarrollo");
+  assert.deepEqual(english.professionalWork.items.map(({ name }) => name), ["Insurance operations ecosystem", "Helmcode Cloud Products"]);
+  assert.deepEqual(spanish.professionalWork.items.map(({ name }) => name), ["Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"]);
 
   const [englishMarfen, spanishMarfen] = [
     english.selectedWork.items[0],
@@ -352,19 +326,19 @@ test("Selected work exposes Marfen as a truthful live own product", async () => 
   assert.equal(spanishMarfen.name, "Marfen");
   assert.equal(
     englishMarfen.description,
-    "Marfen is a commerce management and point-of-sale system for businesses. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product to support day-to-day commerce management.",
+    "Marfen is the sales and management system I develop for retail businesses. It is live and has real users. It brings together sales, inventory, cash management, purchasing, suppliers, customer credit and profitability. I handle its design, architecture, development and ongoing improvements informed by everyday use.",
   );
   assert.equal(
     spanishMarfen.description,
-    "Marfen es un sistema de gestión y punto de venta para comercios. Lo diseñé y construí para reunir ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Sigo evolucionando el producto para acompañar la gestión diaria del comercio.",
+    "Marfen es el sistema de ventas y gestión que desarrollo para comercios. Está en producción y tiene usuarios reales. Reúne ventas, stock, caja, compras, proveedores, fiados y rentabilidad. Me ocupo del diseño, la arquitectura, el desarrollo y su evolución a partir del uso cotidiano.",
   );
   assert.equal(
     englishMarfen.role,
-    "Product strategy, discovery, design, architecture, full-stack development, and ongoing product evolution.",
+    "Product design · Architecture and development · Maintenance · Iteration with users",
   );
   assert.equal(
     spanishMarfen.role,
-    "Estrategia y descubrimiento de producto, diseño, arquitectura, desarrollo full-stack y evolución continua.",
+    "Diseño de producto · Arquitectura y desarrollo · Mantenimiento · Iteración con usuarios",
   );
 
   for (const dictionary of [english, spanish]) {
@@ -382,17 +356,14 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
     readJson("src/dictionaries/es.json"),
   ]);
 
-  assert.equal(
-    english.metadata.title,
-    "Custom Software, Automation & Integrations | Marco Galván",
-  );
+  assert.equal(english.metadata.title, "Marco Galván — Software Developer & Product Builder");
   assert.equal(
     spanish.metadata.title,
-    "Software a medida, automatizaciones e integraciones | Marco Galván",
+    "Marco Galván — Desarrollador y creador de productos",
   );
-  assert.match(english.metadata.description, /internal systems.*automate processes.*integrate tools/i);
-  assert.match(spanish.metadata.description, /sistemas internos.*automatizo procesos.*integro herramientas/i);
-  assert.match(english.hero.description, /custom software|automations|integrations/i);
+  assert.match(english.metadata.description, /build Marfen.*new products of my own/i);
+  assert.match(spanish.metadata.description, /Desarrollo Marfen.*nuevos productos propios/i);
+  assert.match(english.hero.description, /creator of Marfen.*real users/i);
   assert.deepEqual(english.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
   assert.deepEqual(spanish.process.steps.map(({ number }) => number), ["01", "02", "03", "04"]);
   assert.equal(english.experienceSummary.paragraphs.length, 3);
@@ -401,15 +372,15 @@ test("Home dictionaries contain the approved localized metadata and CTA copy", a
   assert.match(spanish.experienceSummary.paragraphs[0], /Marco Galván.*desarrollador de software/i);
   assert.deepEqual(
     english.capabilities.items.map(({ title }) => title),
-    ["Custom software", "Websites", "Automation & AI"],
+    ["Custom software", "Websites", "Automation and integrations"],
   );
   assert.deepEqual(
     spanish.capabilities.items.map(({ title }) => title),
-    ["Software a medida", "Sitios web", "Automatización e IA"],
+    ["Software a medida", "Sitios web", "Automatizaciones e integraciones"],
   );
-  assert.match(english.capabilities.items[0].description, /apps.*MVPs.*internal systems.*SaaS.*integrations.*software evolution/i);
-  assert.match(english.contact.text, /app.*website.*AI automation/i);
-  assert.match(spanish.contact.text, /aplicación.*sitio web.*automatización/i);
+  assert.match(english.capabilities.items[0].description, /Applications, internal tools and integrations/i);
+  assert.match(english.contact.text, /learn more about my products.*software project/i);
+  assert.match(spanish.contact.text, /saber más sobre mis productos.*proyecto de software/i);
 });
 
 test("Selected work cards retain semantic static fallbacks", async () => {

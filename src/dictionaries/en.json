@@ -1,12 +1,12 @@
 {
   "metadata": {
-    "title": "Custom Software, Automation & Integrations | Marco Galván",
-    "description": "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
+    "title": "Marco Galván — Software Developer & Product Builder",
+    "description": "I'm Marco Galván. I build Marfen, a management system for retail businesses, and develop new products of my own. I also work with companies on software projects.",
     "ogImageAlt": "Marco Galván — Software Developer"
   },
   "navigation": {
     "services": "Services",
-    "work": "Cases",
+    "work": "Products",
     "about": "About",
     "contact": "Contact",
     "cta": "Let's talk",
@@ -14,152 +14,123 @@
     "menuLabel": "Menu"
   },
   "hero": {
-    "eyebrow": "Custom software · Automations · Integrations",
-    "title": "Software and digital solutions for your business.",
-    "description": "I build custom apps, websites, and AI-powered automations to help businesses simplify processes, improve operations, and create new digital products.",
-    "primaryCta": "Tell me which process you want to improve",
-    "secondaryCta": "See cases",
-    "proof": "I work directly with you · A product of my own in production · Experience building real systems"
+    "eyebrow": "Independent developer · Own products",
+    "title": "I'm Marco. I build software and digital products.",
+    "description": "I'm a software developer and the creator of Marfen, a management system for retail businesses with real users. I'm also developing new products of my own and work with companies on software projects.",
+    "primaryCta": "Explore my products",
+    "secondaryCta": "Let's talk",
+    "proof": "Marfen is live · A new product in development"
   },
   "problem": {
-    "title": "As operations grow, improvised tools start costing time.",
-    "body": "Spreadsheets, WhatsApp, and off-the-shelf tools can work perfectly well for a long time. The problem appears when the team begins compensating for their limits with manual work, duplicated information, and processes that are difficult to control.",
+    "title": "Need software for your business?",
+    "body": "I also work with companies that need to build a tool, connect systems or improve existing software.",
     "items": [
-      "The same information is entered more than once.",
-      "A process depends on messages and reminders.",
-      "Reports are prepared manually.",
-      "Different people work with different information.",
-      "A simple task passes through too many hands.",
-      "Important information depends on one person.",
-      "Two necessary tools do not communicate."
+      "Duplicate information",
+      "Disconnected tools",
+      "Repetitive manual tasks"
     ],
-    "closing": "When that happens, working more is often not the answer. Designing a better system is."
+    "closing": "We can review the problem and decide what makes sense to build."
   },
   "capabilities": {
-    "title": "What I can build",
-    "intro": "I help businesses improve their operations with software, websites, and automation shaped around their needs.",
+    "title": "How I can help",
+    "intro": "Alongside my products, I offer software development services for companies. I work directly with you to define the scope and build in stages.",
     "items": [
       {
         "id": "custom-software",
         "title": "Custom software",
-        "description": "Apps, MVPs, internal systems, SaaS, integrations, and software evolution shaped around your product needs.",
+        "description": "Applications, internal tools and integrations. I can also help improve an existing product.",
         "cta": "Tell me what you need to build"
       },
       {
         "id": "website",
         "title": "Websites",
-        "description": "Landing pages, corporate websites, and web experiences designed around your business goals.",
+        "description": "Landing pages and websites to introduce your business, explain an offering or present a product.",
         "cta": "Tell me about your website"
       },
       {
         "id": "automation-ai",
-        "title": "Automation & AI",
-        "description": "Automations, integrations, assistants, and agents that simplify workflows and reduce manual work.",
-        "cta": "Tell me what you want to automate"
+        "title": "Automation and integrations",
+        "description": "Connecting tools and automating tasks. I consider AI when it fits the problem.",
+        "cta": "Tell me about the process"
       }
     ],
-    "iaNote": "I use AI when it truly improves a process: information extraction, classification, assistance, analysis, or reducing costly tasks. If traditional automation is simpler, more reliable, and more affordable, I prefer that solution."
+    "iaNote": "I choose tools based on the problem, their complexity and the maintenance they require."
   },
   "process": {
-    "title": "From problem to production",
+    "title": "How I work",
     "steps": [
       {
         "number": "01",
         "title": "Understand",
-        "description": "First I learn how the operation works today, who is involved, what information they use, and where friction appears."
+        "description": "We discuss the problem, the people using the system and the tools already in place."
       },
       {
         "number": "02",
         "title": "Define",
-        "description": "We prioritize the right problem and decide whether to automate, integrate existing tools, or build something new."
+        "description": "We agree on a scope and the decisions we need to validate first."
       },
       {
         "number": "03",
         "title": "Build",
-        "description": "I develop the solution in stages, validating important decisions before adding complexity."
+        "description": "I build in stages and share progress so we can review how it works."
       },
       {
         "number": "04",
-        "title": "Put into production",
-        "description": "The solution has to work outside a demo: real data, real users, permissions, errors, and maintenance."
+        "title": "Support",
+        "description": "We review the release and the maintenance and improvements it will need."
       }
     ]
   },
   "selectedWork": {
-    "title": "Selected products & professional work",
+    "title": "My products",
     "labels": {
       "contexts": {
         "own-product": "Own product",
-        "dam-squad": "Work at Dam Squad",
+        "dam-squad": "Work as part of the Dam Squad team",
         "professional-experience": "Professional experience"
       },
       "statuses": {
-        "live": "Live"
+        "live": "Live",
+        "in-development": "In development"
       }
     },
     "items": [
       {
         "name": "Marfen",
-        "category": "Commerce management & point of sale",
+        "category": "Sales and management for retail businesses",
         "context": "own-product",
         "status": "live",
-        "title": "A commerce management and point-of-sale system for businesses.",
-        "description": "Marfen is a commerce management and point-of-sale system for businesses. I designed and built it to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability. I continue evolving the product to support day-to-day commerce management.",
-        "role": "Product strategy, discovery, design, architecture, full-stack development, and ongoing product evolution.",
+        "title": "Sales and management for retail businesses",
+        "description": "Marfen is the sales and management system I develop for retail businesses. It is live and has real users. It brings together sales, inventory, cash management, purchasing, suppliers, customer credit and profitability. I handle its design, architecture, development and ongoing improvements informed by everyday use.",
+        "role": "Product design · Architecture and development · Maintenance · Iteration with users",
         "url": "https://marfen.com.ar",
-        "linkLabel": "Visit Marfen",
+        "linkLabel": "Explore Marfen",
         "tags": []
       },
       {
-        "name": "Insurance operations ecosystem",
-        "category": "Product, automation & integrations",
-        "context": "dam-squad",
-        "title": "Evolving a digital ecosystem connected to real insurance operations.",
-        "description": "As part of the Dam Squad team, I contribute to digital products and systems that support insurance operations, working across mobile applications, backend services, internal tools, integrations, and automations.",
-        "role": "Contribution within the Dam Squad team across product decisions, architecture, development, and systems integration.",
-        "tags": [
-          "React Native",
-          "Next.js",
-          "Payload CMS"
-        ]
-      },
-      {
-        "name": "Helmcode Cloud Products",
-        "category": "SaaS & product evolution",
-        "context": "professional-experience",
-        "title": "Cloud products designed to simplify infrastructure and developer productivity.",
-        "description": "I contributed to Andulia, HelmCloud, and Coderun: products and services for managing infrastructure, deploying containerized services, and improving developer productivity.",
-        "role": "Architecture, full-stack development, and product evolution.",
-        "tags": [
-          "React",
-          "Next.js",
-          "AI",
-          "AWS",
-          "Kubernetes",
-          "SaaS"
-        ]
+        "name": "Practice management",
+        "category": "Software for healthcare practices",
+        "context": "own-product",
+        "status": "in-development",
+        "title": "A new product in progress",
+        "description": "I'm developing a practice management system. It has not launched commercially yet.",
+        "role": "Product design, architecture and development.",
+        "tags": []
       }
     ]
   },
   "marfenCase": {
-    "eyebrow": "Own product · In production",
-    "title": "Commerce management and point of sale for businesses",
+    "eyebrow": "Own product · Live",
+    "title": "Sales and management for retail businesses",
     "body": [
-      "Marfen is a commerce management and point-of-sale system for businesses.",
-      "I designed and built the product to bring together sales, inventory, cash management, purchases, suppliers, store credit, and profitability in one system."
+      "Marfen is the sales and management system I develop for retail businesses. It is live and has real users.",
+      "It brings together sales, inventory, cash management, purchasing, suppliers, customer credit and profitability. I handle its design, architecture, development and ongoing improvements informed by everyday use."
     ],
     "proof": [
-      "Domain analysis",
       "Product design",
-      "Architecture",
-      "UX",
-      "Full-stack development",
-      "Transactional logic",
-      "Roles and permissions",
-      "Module integration",
-      "Deployment",
+      "Architecture and development",
       "Maintenance",
-      "Iteration with real users"
+      "Iteration with users"
     ],
     "cta": "Explore Marfen"
   },
@@ -175,36 +146,32 @@
   "experienceSummary": {
     "title": "About me",
     "paragraphs": [
-      "I'm Marco Galván, a software developer. I build systems, automations, and integrations around real operational problems. I’ve been developing software professionally since 2021.",
-      "I'm especially interested in the work that happens before code: understanding how a business works, finding where time is lost, and deciding what is worth building.",
-      "I work directly with the person who knows the problem and can be involved from analysis through production."
+      "I'm Marco Galván, a software developer focused on building and growing my own products. My long-term goal is to develop and sell a portfolio of SaaS products.",
+      "My professional experience includes working with teams on digital products, architecture, integrations and software development. That experience also shapes how I build my own products.",
+      "I also work with companies that need to build or improve software. I care about understanding the problem, making product decisions and supporting what I build after it goes live."
     ],
     "linkedinLabel": "View LinkedIn"
   },
   "fit": {
-    "title": "I can probably help if…",
+    "title": "We can work together if…",
     "items": [
-      "There is a process taking too much time.",
-      "The team repeats manual tasks.",
-      "Information is distributed across places.",
-      "You need to connect tools.",
-      "An existing system is no longer enough.",
-      "You need an internal tool.",
-      "You know the problem even if you do not yet know the solution."
+      "You need to build a tool",
+      "You want to connect systems",
+      "You need to improve an existing product"
     ]
   },
   "contact": {
-    "title": "Have a project in mind?",
-    "text": "Whether you need an app, a website, or an AI automation, tell me what you need and we'll see how I can help.",
-    "contactLabel": "Send a message",
+    "title": "Let's talk",
+    "text": "Get in touch to learn more about my products or discuss a software project.",
+    "contactLabel": "Get in touch",
     "whatsappLabel": "Message me on WhatsApp",
-    "whatsappMessage": "Hi Marco, I have a project in mind and would like to tell you what I need.",
-    "formTitle": "Tell me about your project",
+    "whatsappMessage": "Hi Marco, I'd like to talk about your products or a software project.",
+    "formTitle": "Send me a message",
     "form": {
-      "title": "Tell me about your project",
-      "intro": "Leave your name, email, and a brief message about what you need.",
+      "title": "Send me a message",
+      "intro": "Tell me about your inquiry. If it concerns one of my products, you can mention it in your message.",
       "nameLabel": "Name",
-      "projectTypeLabel": "What kind of project do you have in mind?",
+      "projectTypeLabel": "If this is a project, what type? (optional)",
       "projectTypeOptions": [
         {
           "value": "custom-software",
@@ -220,23 +187,69 @@
         },
         {
           "value": "unsure",
-          "label": "I’m not sure yet"
+          "label": "I'm not sure yet"
         }
       ],
       "submitLabel": "Send message",
-      "successMessage": "Thanks for reaching out. I will reply soon.",
-      "errorMessage": "Your message could not be sent. Try again or email or WhatsApp me.",
+      "successMessage": "Thanks for reaching out. I've received your message.",
+      "errorMessage": "Your message couldn't be sent. Try again or contact me by email or WhatsApp.",
       "emailLabel": "Email",
-      "messageLabel": "Briefly tell me what you need"
+      "messageLabel": "Message",
+      "sendingLabel": "Sending message…"
     },
-    "linkedinLabel": "Connect on LinkedIn",
-    "emailSubject": "New project inquiry",
+    "linkedinLabel": "View LinkedIn",
+    "emailSubject": "Inquiry from mgalvan.dev",
     "emailLabel": "Send an email"
   },
   "footer": {
     "title": "Marco Galván",
-    "role": "Software Developer & Product Builder",
+    "role": "Software developer & product builder",
     "emailLabel": "Email",
     "copyright": "All rights reserved."
+  },
+  "professionalWork": {
+    "title": "Professional experience",
+    "labels": {
+      "contexts": {
+        "own-product": "Own product",
+        "dam-squad": "Work as part of the Dam Squad team",
+        "professional-experience": "Professional experience"
+      },
+      "statuses": {
+        "live": "Live",
+        "in-development": "In development"
+      }
+    },
+    "items": [
+      {
+        "name": "Insurance operations ecosystem",
+        "category": "Product development and integrations",
+        "context": "dam-squad",
+        "title": "Building software as part of a team",
+        "description": "As part of the Dam Squad team, I contribute to mobile applications, backend services, internal tools, integrations and automations for insurance operations.",
+        "role": "Contributions to product decisions, architecture, development and systems integration within the team.",
+        "tags": [
+          "React Native",
+          "Next.js",
+          "Payload CMS"
+        ]
+      },
+      {
+        "name": "Helmcode Cloud Products",
+        "category": "Cloud products",
+        "context": "professional-experience",
+        "title": "Infrastructure and tools for development",
+        "description": "At Helmcode, I contributed to Andulia, HelmCloud and Coderun, products and services related to infrastructure, container deployment and tools for development teams.",
+        "role": "Contributions to architecture, full-stack development and product improvements as a team member.",
+        "tags": [
+          "React",
+          "Next.js",
+          "AI",
+          "AWS",
+          "Kubernetes",
+          "SaaS"
+        ]
+      }
+    ]
   }
 }

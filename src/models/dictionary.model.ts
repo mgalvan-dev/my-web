@@ -47,6 +47,7 @@ export interface ContactFormContent {
   projectTypeLabel: string;
   projectTypeOptions: { value: string; label: string }[];
   submitLabel: string;
+  sendingLabel: string;
   successMessage: string;
   errorMessage: string;
 }
@@ -62,7 +63,7 @@ export type ProjectContext =
   | "dam-squad"
   | "professional-experience";
 
-export type ProjectStatus = "live";
+export type ProjectStatus = "live" | "in-development";
 
 export interface SelectedWorkLabels {
   contexts: Record<ProjectContext, string>;
@@ -119,6 +120,11 @@ export interface Dictionary {
     steps: ProcessStep[];
   };
   selectedWork: {
+    title: string;
+    labels: SelectedWorkLabels;
+    items: SelectedWorkItem[];
+  };
+  professionalWork: {
     title: string;
     labels: SelectedWorkLabels;
     items: SelectedWorkItem[];

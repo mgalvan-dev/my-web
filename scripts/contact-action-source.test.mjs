@@ -117,7 +117,7 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
     "Software o aplicación a medida", "Sitio web o landing page", "Automatización o agente de IA", "No estoy seguro",
   ]);
   assert.deepEqual(en.contact.form.projectTypeOptions.map(({ label }) => label), [
-    "Custom software or application", "Website or landing page", "Automation or AI agent", "I’m not sure yet",
+    "Custom software or application", "Website or landing page", "Automation or AI agent", "I'm not sure yet",
   ]);
 
   assert.match(formControl(source, "name"), /\btype=["']text["']/);
@@ -148,16 +148,16 @@ test("ContactCta keeps the form static and exposes only the approved controls", 
   assert.match(source, /data-form-success[^>]*aria-live=["']polite["']/);
   assert.match(source, /data-form-error[^>]*aria-live=["']assertive["']/);
 
-  assert.equal(es.contact.title, "¿Tenés un proyecto en mente?");
-  assert.equal(es.contact.text, "Ya sea una aplicación, un sitio web o una automatización, contame qué necesitás y vemos cómo puedo ayudarte.");
+  assert.equal(es.contact.title, "Hablemos");
+  assert.equal(es.contact.text, "Si querés saber más sobre mis productos o conversar sobre un proyecto de software, escribime.");
   assert.equal(es.contact.emailLabel, "Enviar un email");
-  assert.equal(en.contact.title, "Have a project in mind?");
-  assert.equal(en.contact.text, "Whether you need an app, a website, or an AI automation, tell me what you need and we'll see how I can help.");
+  assert.equal(en.contact.title, "Let's talk");
+  assert.equal(en.contact.text, "Get in touch to learn more about my products or discuss a software project.");
   assert.equal(en.contact.emailLabel, "Send an email");
-  assert.equal(es.contact.form.messageLabel, "Contame brevemente qué necesitás");
-  assert.equal(en.contact.form.messageLabel, "Briefly tell me what you need");
-  assert.equal(es.contact.whatsappMessage, "Hola Marco, tengo un proyecto en mente y me gustaría contarte qué necesito.");
-  assert.equal(en.contact.whatsappMessage, "Hi Marco, I have a project in mind and would like to tell you what I need.");
+  assert.equal(es.contact.form.messageLabel, "Mensaje");
+  assert.equal(en.contact.form.messageLabel, "Message");
+  assert.equal(es.contact.whatsappMessage, "Hola Marco, me gustaría conversar sobre tus productos o un proyecto de software.");
+  assert.equal(en.contact.whatsappMessage, "Hi Marco, I'd like to talk about your products or a software project.");
 });
 
 test("ContactCta submits through the Astro Action with inline accessible states", async () => {

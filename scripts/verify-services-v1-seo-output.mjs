@@ -11,11 +11,11 @@ const HOME_PAGES = {
   "/": {
     file: "index.html",
     lang: "en",
-    title: "Custom Software, Automation & Integrations | Marco Galván",
+    title: "Marco Galván — Software Developer & Product Builder",
     description:
-      "I build internal systems, automate processes, and integrate tools for businesses that need to bring order to their operations and reduce manual work.",
+      "I'm Marco Galván. I build Marfen, a management system for retail businesses, and develop new products of my own. I also work with companies on software projects.",
     ogImageAlt: "Marco Galván — Software Developer",
-    role: "Software Developer & Product Builder",
+    role: "Software developer & product builder",
     canonical: `${SITE_ORIGIN}/`,
     alternates: {
       en: `${SITE_ORIGIN}/`,
@@ -26,11 +26,11 @@ const HOME_PAGES = {
   "/es/": {
     file: "es/index.html",
     lang: "es",
-    title: "Software a medida, automatizaciones e integraciones | Marco Galván",
+    title: "Marco Galván — Desarrollador y creador de productos",
     description:
-      "Desarrollo sistemas internos, automatizo procesos e integro herramientas para empresas que necesitan ordenar su operación y reducir tareas manuales.",
+      "Soy Marco Galván. Desarrollo Marfen, un sistema para comercios, y construyo nuevos productos propios. También colaboro con empresas en proyectos de software.",
     ogImageAlt: "Marco Galván — Desarrollador de software",
-    role: "Desarrollador de Software & Product Builder",
+    role: "Desarrollador de software y creador de productos",
     canonical: `${SITE_ORIGIN}/es/`,
     alternates: {
       en: `${SITE_ORIGIN}/`,
@@ -100,9 +100,9 @@ function getTags(html, name) {
 
 function getAttribute(tag, name) {
   const match = tag.match(
-    new RegExp(`\\b${escapeRegExp(name)}\\s*=\\s*["']([^"']*)["']`, "i"),
+    new RegExp(`\\b${escapeRegExp(name)}\\s*=\\s*(?:"([^"]*)"|'([^']*)')`, "i"),
   );
-  return match ? decodeHtml(match[1]) : undefined;
+  return match ? decodeHtml(match[1] ?? match[2]) : undefined;
 }
 
 function getMeta(html, attribute, value) {

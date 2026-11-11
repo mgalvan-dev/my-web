@@ -17,16 +17,14 @@ test("Task 6 process renders four localized production steps", async () => {
 
   assert.deepEqual(
     english.process.steps.map(({ title }) => title),
-    ["Understand", "Define", "Build", "Put into production"],
+    ["Understand", "Define", "Build", "Support"],
   );
   assert.deepEqual(
     spanish.process.steps.map(({ title }) => title),
-    ["Entender", "Definir", "Construir", "Poner en producción"],
+    ["Entender", "Definir", "Construir", "Acompañar"],
   );
   assert.equal(english.process.steps.length, 4);
   assert.equal(spanish.process.steps.length, 4);
-  assert.doesNotMatch(JSON.stringify(english.process), /Design|Evolve/i);
-  assert.doesNotMatch(JSON.stringify(spanish.process), /Diseñ|Evoluc/i);
   assert.match(source, /id=["']process["']/);
   assert.match(source, /aria-labelledby=["']process-title["']/);
   assert.match(source, /<ol\b/);
@@ -56,7 +54,7 @@ test("Task 6 About renders three localized paragraphs without CV content", async
   assert.doesNotMatch(source, /CV_PATHS|cvUrl|resumeLabel|cvData|experienceData/);
 });
 
-test("Task 6 Fit renders seven criteria without a price-only note", async () => {
+test("Fit renders the three approved criteria without a price-only note", async () => {
   const [english, spanish, source, styles] = await Promise.all([
     readJson("src/dictionaries/en.json"),
     readJson("src/dictionaries/es.json"),
@@ -64,8 +62,8 @@ test("Task 6 Fit renders seven criteria without a price-only note", async () => 
     readSource("src/components/fit/fit.module.css"),
   ]);
 
-  assert.equal(english.fit.items.length, 7);
-  assert.equal(spanish.fit.items.length, 7);
+  assert.equal(english.fit.items.length, 3);
+  assert.equal(spanish.fit.items.length, 3);
   assert.equal(Object.hasOwn(spanish.fit, "note"), false);
   assert.equal(Object.hasOwn(english.fit, "note"), false);
   assert.doesNotMatch(JSON.stringify(spanish.fit), /Si solamente buscás horas de programación al menor costo posible, probablemente no sea el mejor encaje\./);

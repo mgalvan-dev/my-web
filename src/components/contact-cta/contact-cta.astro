@@ -5,9 +5,10 @@ import styles from "./contact-cta.module.css";
 
 interface Props {
     dictionary: Dictionary["contact"];
+    lang: "en" | "es";
 }
 
-const { dictionary } = Astro.props;
+const { dictionary, lang } = Astro.props;
 const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
 ---
 
@@ -39,7 +40,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                 data-state="idle"
                 aria-labelledby="contact-form-title"
             >
-                <input type="hidden" name="locale" value={Astro.currentLocale ?? "en"} />
+                <input type="hidden" name="locale" value={lang} />
                 <p class={styles.form_intro} data-form-idle>{dictionary.form.intro}</p>
                 <div class={styles.field_grid}>
                     <div class={styles.field}>
@@ -73,7 +74,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                     <div class={styles.field_full}>
                         <label class={styles.label} for="projectType">{dictionary.form.projectTypeLabel}</label>
                         <select class={styles.input} id="projectType" name="projectType">
-                            <option value=""></option>
+                            <option value="">{lang === "es" ? "Sin especificar" : "Not specified"}</option>
                             {dictionary.form.projectTypeOptions.map((option) => (
                                 <option value={option.value}>{option.label}</option>
                             ))}
@@ -111,7 +112,7 @@ const whatsappHref = getWhatsAppUrl(dictionary.whatsappMessage);
                     </button>
                 </div>
 
-                <p class={styles.form_status} data-form-sending aria-live="polite" hidden>{dictionary.form.submitLabel}…</p>
+                <p class={styles.form_status} data-form-sending aria-live="polite" hidden>{dictionary.form.sendingLabel}</p>
                 <p class={styles.form_status} data-form-success aria-live="polite" tabindex="-1" hidden>{dictionary.form.successMessage}</p>
                 <p class={styles.form_status} data-form-error aria-live="assertive" role="alert" tabindex="-1" hidden>{dictionary.form.errorMessage}</p>
             </form>

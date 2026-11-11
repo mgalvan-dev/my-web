@@ -18,11 +18,11 @@ test("home positioning is bilingual and spans websites through digital products"
     const copy = JSON.stringify({ hero: dictionary.hero, capabilities: dictionary.capabilities }).toLocaleLowerCase();
     assert.match(copy, isSpanish ? /software a medida/ : /custom software/);
     assert.match(copy, isSpanish ? /sitios web/ : /websites/);
-    assert.match(copy, isSpanish ? /automatizaci[oó]n e ia/ : /automation & ai/);
+    assert.match(copy, isSpanish ? /automatizaciones e integraciones/ : /automation and integrations/);
     assert.equal(dictionary.capabilities.items.length, 3);
   }
-  assert.match(english.hero.primaryCta, /tell me|describe/i);
-  assert.match(spanish.hero.primaryCta, /contame|contar/i);
+  assert.match(english.hero.primaryCta, /products/i);
+  assert.match(spanish.hero.primaryCta, /productos/i);
 });
 
 test("capability categories cover web presence, business software, and products", () => {
@@ -36,17 +36,17 @@ test("capability descriptions name the requested offerings in both locales", () 
     {
       dictionary: english,
       offerings: [
-        [/apps/i, /MVPs/i, /internal systems/i, /SaaS/i, /integrations/i],
-        [/landing pages/i, /corporate websites/i, /web experiences/i],
-        [/automations/i, /integrations/i, /assistants/i, /agents/i],
+        [/Applications/i, /internal tools/i, /integrations/i],
+        [/Landing pages/i, /websites/i, /present a product/i],
+        [/Connecting tools/i, /automating tasks/i, /AI/i],
       ],
     },
     {
       dictionary: spanish,
       offerings: [
-        [/aplicaciones/i, /MVPs/i, /sistemas internos/i, /SaaS/i, /integraciones/i],
-        [/landing pages/i, /sitios corporativos/i, /experiencias web/i],
-        [/automatizaciones/i, /integraciones/i, /asistentes/i, /agentes/i],
+        [/aplicaciones/i, /herramientas internas/i, /integraciones/i],
+        [/landing pages/i, /sitios/i, /dar a conocer un producto/i],
+        [/conexión de herramientas/i, /automatización de tareas/i, /IA/i],
       ],
     },
   ];
@@ -66,8 +66,7 @@ test("Marfen is described as commerce management and point of sale without unsup
       item: dictionary.selectedWork.items[0],
       case: dictionary.marfenCase,
     }).toLocaleLowerCase();
-    assert.match(marfen, /point.of.sale|punto de venta/);
-    assert.match(marfen, /commerce management|gesti[oó]n comercial/);
+    assert.match(marfen, /sales and management|ventas y gesti[oó]n/);
     assert.match(marfen, /sales|ventas/);
     assert.match(marfen, /inventory|stock/);
     assert.doesNotMatch(marfen, /arca|e.invoicing|facturaci[oó]n electr[oó]nica|customers|clientes/);
@@ -75,19 +74,19 @@ test("Marfen is described as commerce management and point of sale without unsup
     assert.doesNotMatch(marfen, /kiosks?|convenience stores?|small retailers?|kioscos?|despensas?|pequeños comercios?/i);
     assert.equal(dictionary.selectedWork.items[0].url, "https://marfen.com.ar");
     assert.equal(dictionary.selectedWork.items[0].status, "live");
-    assert.match(dictionary.marfenCase.eyebrow, /own product.*in production|producto propio.*en producción/i);
-    assert.match(JSON.stringify(dictionary.marfenCase.proof), /real users|usuarios reales/i);
+    assert.match(dictionary.marfenCase.eyebrow, /own product.*live|producto propio.*en producción/i);
+    assert.match(dictionary.selectedWork.items[0].description, /real users|usuarios reales/i);
   }
-  assert.equal(spanish.marfenCase.body[0], "Marfen es un sistema de gestión y punto de venta para comercios.");
-  assert.ok(spanish.selectedWork.items[0].description.startsWith("Marfen es un sistema de gestión y punto de venta para comercios."));
-  assert.match(english.marfenCase.body[0], /commerce management and point.of.sale system for businesses/i);
-  assert.equal(english.selectedWork.items[0].linkLabel, "Visit Marfen");
-  assert.equal(spanish.selectedWork.items[0].linkLabel, "Ver Marfen");
+  assert.match(spanish.marfenCase.body[0], /ventas y gesti[oó]n.*usuarios reales/i);
+  assert.match(spanish.selectedWork.items[0].description, /ventas y gesti[oó]n.*usuarios reales/i);
+  assert.match(english.marfenCase.body[0], /sales and management.*real users/i);
+  assert.equal(english.selectedWork.items[0].linkLabel, "Explore Marfen");
+  assert.equal(spanish.selectedWork.items[0].linkLabel, "Conocer Marfen");
 });
 
 test("Spanish footer role is localized without changing its English equivalent", () => {
-  assert.equal(spanish.footer.role, "Desarrollador de Software & Product Builder");
-  assert.equal(english.footer.role, "Software Developer & Product Builder");
+  assert.equal(spanish.footer.role, "Desarrollador de software y creador de productos");
+  assert.equal(english.footer.role, "Software developer & product builder");
 });
 
 test("direct WhatsApp contact and the anonymized case stay within existing scope", async () => {
@@ -99,7 +98,7 @@ test("direct WhatsApp contact and the anonymized case stay within existing scope
   assert.match(contact, /getWhatsAppUrl\(dictionary\.whatsappMessage\)/);
   assert.match(english.contact.whatsappLabel, /WhatsApp/i);
   assert.match(spanish.contact.whatsappLabel, /WhatsApp/i);
-  assert.match(english.professionalCase.title, /days.*hours/i);
-  assert.match(spanish.professionalCase.title, /d[ií]as.*horas/i);
+  assert.deepEqual(english.professionalWork.items.map(({ name }) => name), ["Insurance operations ecosystem", "Helmcode Cloud Products"]);
+  assert.deepEqual(spanish.professionalWork.items.map(({ name }) => name), ["Ecosistema digital para operaciones de seguros", "Helmcode Cloud Products"]);
   assert.doesNotMatch(JSON.stringify([english, spanish]), /Amparo Seguros/i);
 });
